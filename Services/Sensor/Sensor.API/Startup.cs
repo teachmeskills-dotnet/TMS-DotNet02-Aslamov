@@ -40,7 +40,6 @@ namespace Sensor.API
         /// <param name="services">Application services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
             services.AddMvc();
 
             services.AddDbContext<SensorContext>(options =>

@@ -1,28 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Sensor.API.Common.Interfaces;
 using Sensor.API.Infrastructure.EntityConfigurations;
 using Sensor.API.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Sensor.API.Infrastructure
 {
     /// <summary>
-    /// Sensor domain context.
+    /// Sensor application context.
     /// </summary>
-    public class SensorContext : DbContext
+    public class SensorContext : DbContext, ISensorContext
     {
-        /// <summary>
-        /// Table for sensor devices;
-        /// </summary>
+        /// <inheritdoc/>
         public DbSet<SensorDevice> Sensors { get; set; }
 
-        /// <summary>
-        /// Table for sensor records.
-        /// </summary>
+        /// <inheritdoc/>
         public DbSet<SensorRecord> Records { get; set; }
 
-        /// <summary>
-        /// Table for sensor/data types.
-        /// </summary>
+        /// <inheritdoc/>
         public DbSet<SensorType> Types { get; set; }
 
         /// <summary>
@@ -43,6 +40,24 @@ namespace Sensor.API.Infrastructure
             builder.ApplyConfiguration(new SensorDeviceEntityTypeConfiguration());
             builder.ApplyConfiguration(new SensorTypeEntityTypeConfiguration());
             builder.ApplyConfiguration(new SensorRecordEntityTypeConfiguration());
+        }
+
+        /// <inheritdoc/>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public override EntityEntry Update(object entity)
+        {
+            return base.Update(entity);
+        }
+
+        /// <inheritdoc/>
+        public override EntityEntry Remove(object entity)
+        {
+            return base.Remove(entity);
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.DTO;
-using Sensor.API.Infrastructure;
+using Sensor.API.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sensor.API.Services
@@ -15,7 +17,7 @@ namespace Sensor.API.Services
     /// </summary>
     public class SensorService : ISensorService
     {
-        private readonly SensorContext _sensorContext;
+        private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -23,7 +25,7 @@ namespace Sensor.API.Services
         /// </summary>
         /// <param name="sensorContext">Sensor context.</param>
         /// <param name="mapper">Automapper.</param>
-        public SensorService(SensorContext sensorContext,
+        public SensorService(ISensorContext sensorContext,
                              IMapper mapper)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
@@ -31,33 +33,84 @@ namespace Sensor.API.Services
         }
 
         /// <inheritdoc/>
-        public Task<(int id, bool success)> RegisterNewSensorAsync(SensorDTO sensor)
+        public async Task<(int id, bool success)> RegisterNewSensorAsync(SensorDTO sensorDTO)
         {
-            throw new NotImplementedException();
+            var sensor = _mapper.Map<SensorDTO, SensorDevice>(sensorDTO);
+            var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Serial == sensorDTO.Serial);
+
+            if (sensorFound == null)
+            {
+                Log.Error(SensorsConstansts.SENSOR_ALREADY_EXIST);
+                return (0, false);
+            }
+
+            await _sensorContext.Sensors.AddAsync(sensor);
+            await _sensorContext.SaveChangesAsync(new CancellationToken());
+
+            var id = sensor.Id;
+
+            return (id, true);
         }
 
         /// <inheritdoc/>
-        public Task<SensorDTO> GetSensorByIdAsync(int id)
+        public async Task<SensorDTO> GetSensorByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var sensor = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
+            var sensorDTO = _mapper.Map<SensorDevice, SensorDTO>(sensor);
+
+            return sensorDTO;
         }
 
         /// <inheritdoc/>
-        public Task<ICollection<SensorDTO>> GetAllSensorsAsync()
+        public async Task<ICollection<SensorDTO>> GetAllSensorsAsync()
         {
-            throw new NotImplementedException();
+            var sensors = await _sensorContext.Sensors.ToListAsync();
+            var collectionOfSensorDTO = _mapper.Map<ICollection<SensorDevice>, ICollection<SensorDTO>>(sensors);
+
+            return collectionOfSensorDTO;
         }
 
         /// <inheritdoc/>
-        public Task<bool> UpdateSensorAsync(SensorDTO sensor)
+        public async Task<bool> UpdateSensorAsync(SensorDTO sensorDTO)
         {
-            throw new NotImplementedException();
+            var sensor = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == sensorDTO.Id);
+
+            if (sensor == null)
+            {
+                return false;
+            }
+
+            sensor.Serial = sensorDTO.Serial;
+            if (sensor.Type.Type != sensorDTO.Type)
+            {
+                var newType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.Type);
+                if (newType == null)
+                {
+                    Log.Error(SensorsConstansts.UNKNOWN_SENSOR_TYPE);
+                    return false;
+                }
+            }
+
+            _sensorContext.Update(sensor);
+            await _sensorContext.SaveChangesAsync(new CancellationToken());
+
+            return true;
         }
 
         /// <inheritdoc/>
-        public Task<bool> DeleteSensorAsync(int id)
+        public async Task<bool> DeleteSensorAsync(int id)
         {
-            throw new NotImplementedException();
+            var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
+            if (sensorFound == null)
+            {
+                Log.Error(SensorsConstansts.SENSOR_NOT_FOUND);
+                return false;
+            }
+
+            _sensorContext.Remove(sensorFound);
+            await _sensorContext.SaveChangesAsync(new CancellationToken());
+
+            return true;
         }
     }
 }

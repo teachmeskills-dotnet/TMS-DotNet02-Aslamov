@@ -26,7 +26,8 @@ namespace Sensor.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutomapper();
-
+            services.AddScopedServices();
+            
 
             services.AddHealthChecks();
         }
@@ -38,9 +39,10 @@ namespace Sensor.API
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthentication();
+
+            //app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

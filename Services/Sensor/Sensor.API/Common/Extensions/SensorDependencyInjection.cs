@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Sensor.API.Common.Interfaces;
 using Sensor.API.Common.Mapping;
+using Sensor.API.Infrastructure;
+using Sensor.API.Services;
 
 namespace Sensor.API.Common.Extensions
 {
     /// <summary>
     /// Extenstion to add services.
     /// </summary>
-    public static class ServiceExtensions
+    public static class SensorDependencyInjection
     {
         /// <summary>
         /// Add Automapper service.
@@ -25,6 +28,18 @@ namespace Sensor.API.Common.Extensions
             var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            return services;
+        }
+
+        /// <summary>
+        /// Add scoped services.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        /// <returns>Services.</returns>
+        public static IServiceCollection AddScopedServices(this IServiceCollection services)
+        {
+            services.AddScoped<ISensorService, SensorService>();
+            services.AddScoped<ISensorContext, SensorContext>();
             return services;
         }
     }

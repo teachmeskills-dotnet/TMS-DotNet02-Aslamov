@@ -26,9 +26,5 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\Constants\" />
-  </ItemGroup>
-
 
 </Project>

@@ -1,18 +1,18 @@
 ﻿namespace Sensor.API.Models
 {
     /// <summary>
-    /// Sensor entity.
+    /// Sensor type entity.
     /// </summary>
-    public class Sensor
+    public class SensorType
     {
         /// <summary>
-        /// Sensor Identifier.
+        /// Sensor type identifier.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Sensor serial number.
+        /// Sensor type.
         /// </summary>
-        public string Serial { get; set; }
+        public string Type { get; set; }
     }
 }

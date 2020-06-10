@@ -5,7 +5,7 @@ namespace Sensor.API.Models
     /// <summary>
     /// Sensor data entity.
     /// </summary>
-    public class Data
+    public class SensorRecord
     {
         /// <summary>
         /// Data identifier.
@@ -31,11 +31,11 @@ namespace Sensor.API.Models
         /// <summary>
         /// Sensor identifier.
         /// </summary>
-        public int SensorId { get; set; }
+        public int SensorDeviceId { get; set; }
 
         /// <summary>
         /// Sensor.
         /// </summary>
-        public Sensor Sensor { get; set; }
+        public SensorDevice SensorDevice { get; set; }
     }
 }

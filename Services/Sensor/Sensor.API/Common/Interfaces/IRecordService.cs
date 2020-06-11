@@ -7,17 +7,17 @@ namespace Sensor.API.Common.Interfaces
     /// <summary>
     /// Interface to manage sensor records.
     /// </summary>
-    interface IRecordService
+    public interface IRecordService
     {
         /// <summary>
         /// Create new sensor record.
         /// </summary>
         /// <param name="record">Sensor record object.</param>
         /// <returns>Record Identifier and operation status.</returns>
-        Task<(int id, bool success)> CreateNewRecordAsync(RecordDTO record);
+        Task<(int id, bool success)> RegisterNewRecordAsync(RecordDTO recordDTO);
 
         /// <summary>
-        /// Get sensor record by identifier.
+        /// Get sensor record by Identifier.
         /// </summary>
         /// <param name="id">Sensor record identifier.</param>
         /// <returns>Sensor record object.</returns>
@@ -27,24 +27,24 @@ namespace Sensor.API.Common.Interfaces
         /// Get all records.
         /// </summary>
         /// <returns>Records collection.</returns>
-        Task<ICollection<RecordDTO>> GetAllRecordsAsync();
+        Task<ICollection<RecordDTO>> GetAllRecordsAsync(int? sensorId);
 
         /// <summary>
         /// Update record.
         /// </summary>
         /// <param name="record">Sensor record object.</param>
         /// <returns>Operation status.</returns>
-        Task<bool> UpdateRecordAsync(SensorDTO record);
+        Task<bool> UpdateRecordAsync(RecordDTO recordDTO);
 
         /// <summary>
-        /// Delete sensor record application.
+        /// Delete sensor record by Identifier.
         /// </summary>
         /// <param name="id">Record identifier.</param>
         /// <returns>Operation status.</returns>
-        Task<bool> DeleteRecordAsync(int id);
+        Task<bool> DeleteRecordByIdAsync(int id);
 
         /// <summary>
-        /// Delete all records application.
+        /// Delete all records.
         /// </summary>
         /// <returns>Operation status.</returns>
         Task<bool> DeleteAllRecordsAsync();

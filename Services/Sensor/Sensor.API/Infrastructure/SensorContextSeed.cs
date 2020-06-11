@@ -134,7 +134,16 @@ namespace Sensor.API.Infrastructure
                     Date = DateTime.Parse("01-01-2018"),
                     SensorDeviceId = sensorDevices.ElementAt(0).Id,
                     SensorDevice = sensorDevices.ElementAt(0),
-                    Value = new byte[] { 255, 254, 253, 242},
+                    Value = new byte[]{ 255, 254, 253, 252 },
+                },
+
+                new SensorRecord()
+                {
+                    IsDeleted = false,
+                    Date = DateTime.Parse("02-01-2018"),
+                    SensorDeviceId = sensorDevices.ElementAt(0).Id,
+                    SensorDevice = sensorDevices.ElementAt(0),
+                    Value = new byte[] { 0, 1, 2, 3},
                 },
 
                 new SensorRecord()
@@ -143,7 +152,7 @@ namespace Sensor.API.Infrastructure
                     Date = DateTime.Parse("01-01-2019"),
                     SensorDeviceId = sensorDevices.ElementAt(1).Id,
                     SensorDevice = sensorDevices.ElementAt(1),
-                    Value = new byte[] { 0, 1, 2, 3},
+                    Value = new byte[] { 255, 255, 255, 255, 254, 254, 254, 254, 254},
                 },
             };
         }

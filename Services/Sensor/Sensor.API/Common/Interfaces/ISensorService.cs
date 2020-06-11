@@ -44,6 +44,6 @@ namespace Sensor.API.Common.Interfaces
         /// </summary>
         /// <param name="id">Sensor identifier.</param>
         /// <returns>Operation status.</returns>
-        Task<bool> DeleteSensorAsync(int id);
+        Task<bool> DeleteSensorByIdAsync(int id);
     }
 }

@@ -38,16 +38,16 @@ namespace Sensor.API.Services
             var sensor = _mapper.Map<SensorDTO, SensorDevice>(sensorDTO);
             var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Serial == sensorDTO.Serial);
 
-            if (sensorFound == null)
+            if (sensorFound != null)
             {
-                Log.Error(SensorsConstansts.SENSOR_ALREADY_EXIST);
+                Log.Error(SensorsConstants.SENSOR_ALREADY_EXIST);
                 return (0, false);
             }
 
             var typeFound = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.SensorType);
             if (typeFound == null)
             {
-                Log.Error($"{sensorDTO.SensorType} {SensorsConstansts.UNKNOWN_SENSOR_TYPE}");
+                Log.Error($"{sensorDTO.SensorType} {SensorsConstants.UNKNOWN_SENSOR_TYPE}");
                 return (0, false);
             }
 
@@ -108,7 +108,7 @@ namespace Sensor.API.Services
                 var newType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.SensorType);
                 if (newType == null)
                 {
-                    Log.Error(SensorsConstansts.UNKNOWN_SENSOR_TYPE);
+                    Log.Error(SensorsConstants.UNKNOWN_SENSOR_TYPE);
                     return false;
                 }
                 else
@@ -125,12 +125,12 @@ namespace Sensor.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<bool> DeleteSensorAsync(int id)
+        public async Task<bool> DeleteSensorByIdAsync(int id)
         {
             var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
             if (sensorFound == null)
             {
-                Log.Error(SensorsConstansts.SENSOR_NOT_FOUND);
+                Log.Error(SensorsConstants.SENSOR_NOT_FOUND);
                 return false;
             }
 

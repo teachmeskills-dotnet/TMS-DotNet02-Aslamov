@@ -17,7 +17,7 @@ namespace Sensor.API.Controllers
         private readonly ISensorService _sensorService;
 
         /// <summary>
-        /// Constructor of sensor controller.
+        /// Constructor of sensors controller.
         /// </summary>
         /// <param name="sensorService">Service to manage sensors.</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -30,7 +30,7 @@ namespace Sensor.API.Controllers
             var sensors = await _sensorService.GetAllSensorsAsync();
             var count = sensors.ToList().Count;
 
-            Log.Error($"{count} {SensorsConstansts.GET_SENSORS}");
+            Log.Information($"{count} {SensorsConstants.GET_SENSORS}");
 
             return sensors;
         }
@@ -47,11 +47,11 @@ namespace Sensor.API.Controllers
             var sensor = await _sensorService.GetSensorByIdAsync(id);
             if (sensor == null)
             {
-                Log.Warning($"{id} {SensorsConstansts.SENSOR_NOT_FOUND}");
+                Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
                 return NotFound();
             }
 
-            Log.Information($"{sensor.Id} {SensorsConstansts.GET_FOUND_SENSOR}");
+            Log.Information($"{sensor.Id} {SensorsConstants.GET_FOUND_SENSOR}");
             return Ok(sensor);
         }
 
@@ -67,13 +67,13 @@ namespace Sensor.API.Controllers
             var (id, success) = await _sensorService.RegisterNewSensorAsync(sensor);
             if (!success)
             {
-                Log.Warning($"{id} {SensorsConstansts.ADD_SENSOR_CONFLICT}");
+                Log.Warning($"{id} {SensorsConstants.ADD_SENSOR_CONFLICT}");
                 return Conflict(id);
             }
 
             sensor.Id = id;
 
-            Log.Information($"{sensor.Id} {SensorsConstansts.ADD_PROFILE_SUCCESS}");
+            Log.Information($"{sensor.Id} {SensorsConstants.ADD_SENSOR_SUCCESS}");
             return CreatedAtAction(nameof(RegisterNewSensor), sensor);
         }
 
@@ -86,21 +86,26 @@ namespace Sensor.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (sensor.Id <=0 )
+            {
+                return BadRequest(sensor.Id);
+            }
+
             var sensorFound = await _sensorService.GetSensorByIdAsync(sensor.Id);
             if (sensorFound == null)
             {
-                Log.Warning($"{sensor.Id} {SensorsConstansts.SENSOR_NOT_FOUND}");
+                Log.Warning($"{sensor.Id} {SensorsConstants.SENSOR_NOT_FOUND}");
                 return NotFound();
             }
 
             var success = await _sensorService.UpdateSensorAsync(sensor);
             if (!success)
             {
-                Log.Warning($"{sensor.Id} {SensorsConstansts.UPDATE_SENSOR_CONFLICT}");
+                Log.Warning($"{sensor.Id} {SensorsConstants.UPDATE_SENSOR_CONFLICT}");
                 return Conflict();
             }
 
-            Log.Information($"{sensor.Id} {SensorsConstansts.UPDATE_PROFILE_SUCCESS}");
+            Log.Information($"{sensor.Id} {SensorsConstants.UPDATE_SENSOR_SUCCESS}");
             return Ok(sensor);
         }
 
@@ -116,18 +121,18 @@ namespace Sensor.API.Controllers
             var sensorFound = await _sensorService.GetSensorByIdAsync(id);
             if (sensorFound == null)
             {
-                Log.Warning($"{id} {SensorsConstansts.SENSOR_NOT_FOUND}");
+                Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
                 return NotFound();
             }
 
-            var success = await _sensorService.DeleteSensorAsync(id);
+            var success = await _sensorService.DeleteSensorByIdAsync(id);
             if (!success)
             {
-                Log.Warning($"{id} {SensorsConstansts.DELETE_SENSOR_CONFLICT}");
+                Log.Warning($"{id} {SensorsConstants.DELETE_SENSOR_CONFLICT}");
                 return Conflict();
             }
 
-            Log.Information($"{id} {SensorsConstansts.UPDATE_PROFILE_SUCCESS}");
+            Log.Information($"{id} {SensorsConstants.DELETE_SENSOR_SUCCESS}");
             return Ok(id);
         }
     }

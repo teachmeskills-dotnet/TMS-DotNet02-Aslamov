@@ -37,8 +37,9 @@ namespace Sensor.API.Common.Extensions
         /// <returns>Services.</returns>
         public static IServiceCollection AddScopedServices(this IServiceCollection services)
         {
-            services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<ISensorContext, SensorContext>();
+            services.AddScoped<ISensorService, SensorService>();
+            services.AddScoped<IRecordService, RecordService>();
 
             return services;
         }

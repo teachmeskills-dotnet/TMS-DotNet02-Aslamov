@@ -31,5 +31,10 @@ namespace Sensor.API.DTO
         /// Sensor identifier.
         /// </summary>
         public int SensorDeviceId { get; set; }
+
+        /// <summary>
+        /// Serial of sensor device.
+        /// </summary>
+        public string SensorDeviceSerial { get; set; }
     }
 }

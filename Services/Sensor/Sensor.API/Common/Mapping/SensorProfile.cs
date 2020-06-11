@@ -10,12 +10,19 @@ namespace Sensor.API.Common.Mapping
     public class SensorProfile : Profile
     {
         /// <summary>
-        /// Automapper profile constructor.
+        /// Constructor of Automapper profile .
         /// </summary>
         public SensorProfile()
         {
-            CreateMap<SensorDevice, SensorDTO>().ReverseMap();
-            CreateMap<SensorRecord, RecordDTO>().ReverseMap();
+            CreateMap<SensorDevice, SensorDTO>()
+                .ForMember(dto => dto.SensorType, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(s => s.SensorType, opt => opt.Ignore());
+
+            CreateMap<SensorRecord, RecordDTO>()
+                .ForMember(dto => dto.SensorDeviceSerial, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(r => r.SensorDevice, opt => opt.Ignore());
         }
     }
 }

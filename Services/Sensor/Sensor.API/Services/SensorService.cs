@@ -44,6 +44,16 @@ namespace Sensor.API.Services
                 return (0, false);
             }
 
+            var typeFound = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.SensorType);
+            if (typeFound == null)
+            {
+                Log.Error($"{sensorDTO.SensorType} {SensorsConstansts.UNKNOWN_SENSOR_TYPE}");
+                return (0, false);
+            }
+
+            sensor.SensorTypeId = typeFound.Id;
+            sensor.SensorType = typeFound;
+
             await _sensorContext.Sensors.AddAsync(sensor);
             await _sensorContext.SaveChangesAsync(new CancellationToken());
 
@@ -58,6 +68,12 @@ namespace Sensor.API.Services
             var sensor = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
             var sensorDTO = _mapper.Map<SensorDevice, SensorDTO>(sensor);
 
+            var type = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensor.SensorTypeId);
+            if (type != null)
+            {
+                sensorDTO.SensorType = type.Type;
+            }
+
             return sensorDTO;
         }
 
@@ -66,6 +82,12 @@ namespace Sensor.API.Services
         {
             var sensors = await _sensorContext.Sensors.ToListAsync();
             var collectionOfSensorDTO = _mapper.Map<ICollection<SensorDevice>, ICollection<SensorDTO>>(sensors);
+
+            foreach(var sensor in collectionOfSensorDTO)
+            {
+                var type = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensor.SensorTypeId);
+                sensor.SensorType = type.Type;
+            }
 
             return collectionOfSensorDTO;
         }
@@ -81,13 +103,18 @@ namespace Sensor.API.Services
             }
 
             sensor.Serial = sensorDTO.Serial;
-            if (sensor.Type.Type != sensorDTO.Type)
+            if (sensor.SensorType.Type != sensorDTO.SensorType)
             {
-                var newType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.Type);
+                var newType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.SensorType);
                 if (newType == null)
                 {
                     Log.Error(SensorsConstansts.UNKNOWN_SENSOR_TYPE);
                     return false;
+                }
+                else
+                {
+                    sensor.SensorTypeId = newType.Id;
+                    sensor.SensorType = newType;
                 }
             }
 

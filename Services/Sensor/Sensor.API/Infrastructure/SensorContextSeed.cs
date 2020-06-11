@@ -84,13 +84,13 @@ namespace Sensor.API.Infrastructure
                 {
                     Serial = "123456789",
                     SensorTypeId = sensorTypes.ElementAt(0).Id,
-                    Type = sensorTypes.ElementAt(0),
+                    SensorType = sensorTypes.ElementAt(0),
                 },
                 new SensorDevice()
                 {
                     Serial = "987654321",
                     SensorTypeId = sensorTypes.ElementAt(1).Id,
-                    Type = sensorTypes.ElementAt(1),
+                    SensorType = sensorTypes.ElementAt(1),
                 },
             };
         }

@@ -16,8 +16,13 @@
         public string Serial { get; set; }
 
         /// <summary>
+        /// Sensor type identifier.
+        /// </summary>
+        public int SensorTypeId { get; set; }
+
+        /// <summary>
         /// Sensor type.
         /// </summary>
-        public string Type { get; set; }
+        public string SensorType { get; set; }
     }
 }

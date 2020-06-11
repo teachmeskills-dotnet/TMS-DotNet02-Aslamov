@@ -87,7 +87,7 @@ namespace Sensor.API.Infrastructure.Migrations
 
             modelBuilder.Entity("Sensor.API.Models.SensorDevice", b =>
                 {
-                    b.HasOne("Sensor.API.Models.SensorType", "Type")
+                    b.HasOne("Sensor.API.Models.SensorType", "SensorType")
                         .WithMany()
                         .HasForeignKey("SensorTypeId")
                         .OnDelete(DeleteBehavior.Cascade)

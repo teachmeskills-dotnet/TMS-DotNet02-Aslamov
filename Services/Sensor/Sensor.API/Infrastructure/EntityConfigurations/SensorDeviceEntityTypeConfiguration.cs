@@ -21,7 +21,7 @@ namespace Sensor.API.Infrastructure.EntityConfigurations
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasOne(sd => sd.Type)
+            builder.HasOne(sd => sd.SensorType)
                 .WithMany()
                 .HasForeignKey(sd => sd.SensorTypeId);
         }

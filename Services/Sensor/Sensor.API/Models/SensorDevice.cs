@@ -23,6 +23,6 @@
         /// <summary>
         /// Sensor type.
         /// </summary>
-        public SensorType Type { get; set; }
+        public SensorType SensorType { get; set; }
     }
 }

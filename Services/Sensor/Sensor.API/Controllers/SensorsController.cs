@@ -48,7 +48,7 @@ namespace Sensor.API.Controllers
             if (sensor == null)
             {
                 Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
-                return NotFound();
+                return NotFound(id);
             }
 
             Log.Information($"{sensor.Id} {SensorsConstants.GET_FOUND_SENSOR}");
@@ -95,7 +95,7 @@ namespace Sensor.API.Controllers
             if (sensorFound == null)
             {
                 Log.Warning($"{sensor.Id} {SensorsConstants.SENSOR_NOT_FOUND}");
-                return NotFound();
+                return NotFound(sensor.Id);
             }
 
             var success = await _sensorService.UpdateSensorAsync(sensor);
@@ -118,18 +118,11 @@ namespace Sensor.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var sensorFound = await _sensorService.GetSensorByIdAsync(id);
-            if (sensorFound == null)
-            {
-                Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
-                return NotFound();
-            }
-
             var success = await _sensorService.DeleteSensorByIdAsync(id);
             if (!success)
             {
-                Log.Warning($"{id} {SensorsConstants.DELETE_SENSOR_CONFLICT}");
-                return Conflict();
+                Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
+                return NotFound(id);
             }
 
             Log.Information($"{id} {SensorsConstants.DELETE_SENSOR_SUCCESS}");

@@ -4,6 +4,10 @@ using Sensor.API.Common.Interfaces;
 using Sensor.API.Common.Mapping;
 using Sensor.API.Infrastructure;
 using Sensor.API.Services;
+using System.Collections.Generic;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Sensor.API.Common.Extensions
 {
@@ -42,6 +46,23 @@ namespace Sensor.API.Common.Extensions
             services.AddScoped<IRecordService, RecordService>();
 
             return services;
+        }
+
+        /// <summary>
+        /// Add Swagger Service.
+        /// </summary>
+        /// <param name="services">DI container</param>
+        public static void AddSwaggerService(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "iCare Sensor API", 
+                    Version = "v1",
+                    Description = "The Sensor Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                });
+            });
         }
     }
 }

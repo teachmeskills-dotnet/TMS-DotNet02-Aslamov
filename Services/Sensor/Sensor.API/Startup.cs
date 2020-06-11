@@ -27,8 +27,8 @@ namespace Sensor.API
 
             services.AddAutomapper();
             services.AddScopedServices();
+            services.AddSwaggerService();
             
-
             services.AddHealthChecks();
         }
 
@@ -41,6 +41,9 @@ namespace Sensor.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Sensor API version 1"));
 
             //app.UseAuthentication();
 

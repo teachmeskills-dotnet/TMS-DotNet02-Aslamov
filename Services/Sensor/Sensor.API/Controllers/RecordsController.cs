@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.DTO;
@@ -48,7 +48,7 @@ namespace Sensor.API.Controllers
             if (record == null)
             {
                 Log.Warning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
-                return NotFound();
+                return NotFound(id);
             }
 
             Log.Information($"{record.Id} {RecordsConstants.GET_FOUND_RECORD}");
@@ -95,7 +95,7 @@ namespace Sensor.API.Controllers
             if (sensorFound == null)
             {
                 Log.Warning($"{record.Id} {RecordsConstants.RECORD_NOT_FOUND}");
-                return NotFound();
+                return NotFound(record.Id);
             }
 
             var success = await _recordService.UpdateRecordAsync(record);
@@ -118,18 +118,11 @@ namespace Sensor.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var recordFound = await _recordService.GetRecordByIdAsync(id);
-            if (recordFound == null)
-            {
-                Log.Warning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
-                return NotFound();
-            }
-
             var success = await _recordService.DeleteRecordByIdAsync(id);
             if (!success)
             {
-                Log.Warning($"{id} {RecordsConstants.DELETE_RECORD_CONFLICT}");
-                return Conflict();
+                Log.Warning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
+                return NotFound(id);
             }
 
             Log.Information($"{id} {RecordsConstants.DELETE_RECORD_SUCCESS}");
@@ -140,12 +133,7 @@ namespace Sensor.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteRecords()
         {
-            var success = await _recordService.DeleteAllRecordsAsync();
-            if (!success)
-            {
-                Log.Warning($"{RecordsConstants.DELETE_RECORD_CONFLICT}");
-                return Conflict();
-            }
+            await _recordService.DeleteAllRecordsAsync();
 
             Log.Information($"{RecordsConstants.DELETE_RECORD_SUCCESS}");
             return Ok();

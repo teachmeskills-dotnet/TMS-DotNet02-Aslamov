@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Controllers;
 using Sensor.API.DTO;
 using Serilog;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -29,7 +26,6 @@ namespace Sensor.UnitTests.Controllers
 
             var controller = new SensorsController(sensorServiceMock.Object);
 
-
             // Act
             var result = controller.GetSensors().GetAwaiter().GetResult();
 
@@ -38,7 +34,7 @@ namespace Sensor.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetSensorPost_WithInvalidModel_Returns_BadRequestResult()
+        public void GetSensor_WithInvalidModel_Returns_BadRequestResult()
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();
@@ -59,7 +55,7 @@ namespace Sensor.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetSensorPost_WithValidModelAndValidId_Returns_SensorDTO()
+        public void GetSensor_WithValidModelAndValidId_Returns_SensorDTO()
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();
@@ -82,7 +78,7 @@ namespace Sensor.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetSensorPost_WithValidModelAndInvalidId_Returns_NotFoundResult()
+        public void GetSensor_WithValidModelAndInvalidId_Returns_NotFoundResult()
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();

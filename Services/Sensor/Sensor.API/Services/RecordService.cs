@@ -173,7 +173,6 @@ namespace Sensor.API.Services
             }
             
             await _sensorContext.SaveChangesAsync(new CancellationToken());
-
             return true;
         }
     }

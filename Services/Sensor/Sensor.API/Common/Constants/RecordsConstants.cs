@@ -51,11 +51,6 @@
         public static string UPDATE_RECORD_SUCCESS { get; set; } = "Record update success!";
 
         /// <summary>
-        /// Record deletion conflict.
-        /// </summary>
-        public static string DELETE_RECORD_CONFLICT { get; set; } = "Record deletion conflict!";
-
-        /// <summary>
         /// Record deletion success.
         /// </summary>
         public static string DELETE_RECORD_SUCCESS { get; set; } = "Record deletion success!";

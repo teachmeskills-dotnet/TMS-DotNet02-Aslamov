@@ -56,11 +56,6 @@
         public static string UPDATE_SENSOR_SUCCESS { get; set; } = "Sensor update success!";
 
         /// <summary>
-        /// Sensor deletion conflict.
-        /// </summary>
-        public static string DELETE_SENSOR_CONFLICT { get; set; } = "Sensor deletion conflict!";
-
-        /// <summary>
         /// Sensor deletion success.
         /// </summary>
         public static string DELETE_SENSOR_SUCCESS { get; set; } = "Sensor deletion success!";

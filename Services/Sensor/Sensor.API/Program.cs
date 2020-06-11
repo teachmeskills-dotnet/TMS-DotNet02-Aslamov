@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Sensor.API.Common.Extensions;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Services;
 using Serilog;
@@ -25,7 +26,11 @@ namespace Sensor.API
             try
             {
                 Log.Information($"Server is loaded successfully.");
-                CreateHostBuilder(args).Build().Run();
+                var host = CreateHostBuilder(args).Build();
+
+                InitialServicesScopeFactory.Build(host);
+
+                host.Run();
             }
             catch (Exception ex)
             {

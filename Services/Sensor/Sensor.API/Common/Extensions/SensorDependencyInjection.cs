@@ -16,7 +16,6 @@ namespace Sensor.API.Common.Extensions
         /// Add Automapper service.
         /// </summary>
         /// <param name="services">DI container/</param>
-        /// <param name="configuration">Configuration</param>
         /// <returns>Services.</returns>
         public static IServiceCollection AddAutomapper(this IServiceCollection services)
         {
@@ -40,6 +39,7 @@ namespace Sensor.API.Common.Extensions
         {
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<ISensorContext, SensorContext>();
+
             return services;
         }
     }

@@ -28,7 +28,8 @@ namespace Sensor.API.Infrastructure
         /// <param name="options"></param>
         public SensorContext(DbContextOptions<SensorContext> options) : base(options) 
         {
-            Database.Migrate();
+            // Commented due to runtime migrations enable.
+            //Database.Migrate();
         }
 
         /// <summary>

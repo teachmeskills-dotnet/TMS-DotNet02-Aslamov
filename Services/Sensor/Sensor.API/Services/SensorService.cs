@@ -66,6 +66,11 @@ namespace Sensor.API.Services
         public async Task<SensorDTO> GetSensorByIdAsync(int id)
         {
             var sensor = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
+            if(sensor == null)
+            {
+                return null;
+            }
+
             var sensorDTO = _mapper.Map<SensorDevice, SensorDTO>(sensor);
 
             var type = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensor.SensorTypeId);

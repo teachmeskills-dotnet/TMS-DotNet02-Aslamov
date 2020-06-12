@@ -28,7 +28,10 @@ namespace Sensor.API
             services.AddAutomapper();
             services.AddScopedServices();
             services.AddSwaggerService();
-            
+
+            services.AddSerilogService();
+
+
             services.AddHealthChecks();
         }
 

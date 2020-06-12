@@ -15,13 +15,19 @@ namespace Sensor.API.Controllers
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensorService;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Constructor of sensors controller.
         /// </summary>
         /// <param name="sensorService">Service to manage sensors.</param>
+        /// <param name="logger">Logging service.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public SensorsController(ISensorService sensorService) => _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
+        public SensorsController(ISensorService sensorService, ILogger logger)
+        {
+            _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         // GET: api/sensors
         [HttpGet]
@@ -30,7 +36,7 @@ namespace Sensor.API.Controllers
             var sensors = await _sensorService.GetAllSensorsAsync();
             var count = sensors.ToList().Count;
 
-            Log.Information($"{count} {SensorsConstants.GET_SENSORS}");
+            _logger.Information($"{count} {SensorsConstants.GET_SENSORS}");
 
             return sensors;
         }
@@ -47,11 +53,11 @@ namespace Sensor.API.Controllers
             var sensor = await _sensorService.GetSensorByIdAsync(id);
             if (sensor == null)
             {
-                Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
+                _logger.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
                 return NotFound(id);
             }
 
-            Log.Information($"{sensor.Id} {SensorsConstants.GET_FOUND_SENSOR}");
+            _logger.Information($"{sensor.Id} {SensorsConstants.GET_FOUND_SENSOR}");
             return Ok(sensor);
         }
 
@@ -67,13 +73,13 @@ namespace Sensor.API.Controllers
             var (id, success) = await _sensorService.RegisterNewSensorAsync(sensor);
             if (!success)
             {
-                Log.Warning($"{id} {SensorsConstants.ADD_SENSOR_CONFLICT}");
+                _logger.Warning($"{id} {SensorsConstants.ADD_SENSOR_CONFLICT}");
                 return Conflict(id);
             }
 
             sensor.Id = id;
 
-            Log.Information($"{sensor.Id} {SensorsConstants.ADD_SENSOR_SUCCESS}");
+            _logger.Information($"{sensor.Id} {SensorsConstants.ADD_SENSOR_SUCCESS}");
             return CreatedAtAction(nameof(RegisterNewSensor), sensor);
         }
 
@@ -94,18 +100,18 @@ namespace Sensor.API.Controllers
             var sensorFound = await _sensorService.GetSensorByIdAsync(sensor.Id);
             if (sensorFound == null)
             {
-                Log.Warning($"{sensor.Id} {SensorsConstants.SENSOR_NOT_FOUND}");
+                _logger.Warning($"{sensor.Id} {SensorsConstants.SENSOR_NOT_FOUND}");
                 return NotFound(sensor.Id);
             }
 
             var success = await _sensorService.UpdateSensorAsync(sensor);
             if (!success)
             {
-                Log.Warning($"{sensor.Id} {SensorsConstants.UPDATE_SENSOR_CONFLICT}");
+                _logger.Warning($"{sensor.Id} {SensorsConstants.UPDATE_SENSOR_CONFLICT}");
                 return Conflict();
             }
 
-            Log.Information($"{sensor.Id} {SensorsConstants.UPDATE_SENSOR_SUCCESS}");
+            _logger.Information($"{sensor.Id} {SensorsConstants.UPDATE_SENSOR_SUCCESS}");
             return Ok(sensor);
         }
 
@@ -121,11 +127,11 @@ namespace Sensor.API.Controllers
             var success = await _sensorService.DeleteSensorByIdAsync(id);
             if (!success)
             {
-                Log.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
+                _logger.Warning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
                 return NotFound(id);
             }
 
-            Log.Information($"{id} {SensorsConstants.DELETE_SENSOR_SUCCESS}");
+            _logger.Information($"{id} {SensorsConstants.DELETE_SENSOR_SUCCESS}");
             return Ok(id);
         }
     }

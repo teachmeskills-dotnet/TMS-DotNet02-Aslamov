@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using System;
 
 namespace Sensor.API.Common.Extensions
 {
@@ -51,7 +53,7 @@ namespace Sensor.API.Common.Extensions
         /// <summary>
         /// Add Swagger Service.
         /// </summary>
-        /// <param name="services">DI container</param>
+        /// <param name="services">DI container.</param>
         public static void AddSwaggerService(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
@@ -63,6 +65,20 @@ namespace Sensor.API.Common.Extensions
                     Description = "The Sensor Microservice HHTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
+        }
+
+        /// <summary>
+        /// Add Serilog Service.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        public static IServiceCollection AddSerilogService(this IServiceCollection services)
+        {
+            ISerilogService serilogConfiguration = new SerilogService();
+            Log.Logger = serilogConfiguration.SerilogConfiguration();
+
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => Log.CloseAndFlush();
+
+            return services.AddSingleton(Log.Logger);
         }
     }
 }

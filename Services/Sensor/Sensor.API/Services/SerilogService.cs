@@ -4,7 +4,6 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer.Sinks.MSSqlServer.Options;
-using System.IO;
 
 namespace Sensor.API.Services
 {
@@ -17,7 +16,6 @@ namespace Sensor.API.Services
         public Logger SerilogConfiguration()
         {
             var configuration = new ConfigurationBuilder()
-                //.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 

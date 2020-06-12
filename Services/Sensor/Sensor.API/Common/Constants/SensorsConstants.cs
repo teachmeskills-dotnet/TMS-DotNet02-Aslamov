@@ -3,61 +3,61 @@
     /// <summary>
     /// Sensor common constants.
     /// </summary>
-    public static class SensorsConstants
+    public class SensorsConstants
     {
         /// <summary>
         /// Sensor already exists.
         /// </summary>
-        public static string SENSOR_ALREADY_EXIST { get; set; } = "Sensor already exists!";
+        public const string SENSOR_ALREADY_EXIST= "Sensor already exists!";
 
         /// <summary>
         /// Unknown sensor type.
         /// </summary>
-        public static string UNKNOWN_SENSOR_TYPE { get; set; } = "Unknown sensor type!";
+        public const string UNKNOWN_SENSOR_TYPE = "Unknown sensor type!";
 
         /// <summary>
         /// Unknown sensor serial number.
         /// </summary>
-        public static string UNKNOWN_SENSOR_SERIAL { get; set; } = "Unknown sensor serial number!";
+        public const string UNKNOWN_SENSOR_SERIAL = "Unknown sensor serial number!";
 
         /// <summary>
         /// Sensor not found.
         /// </summary>
-        public static string SENSOR_NOT_FOUND { get; set; } = "Sensor not found!";
+        public const string SENSOR_NOT_FOUND = "Sensor not found!";
 
         /// <summary>
         /// Sensor not found.
         /// </summary>
-        public static string GET_FOUND_SENSOR { get; set; } = "Sensor found.";
+        public const string GET_FOUND_SENSOR = "Sensor found.";
 
         /// <summary>
         /// Sensor recieved.
         /// </summary>
-        public static string GET_SENSORS { get; set; } = "Sensors recieved.";
+        public const string GET_SENSORS = "Sensors recieved.";
 
         /// <summary>
         /// Sensor registration conflict.
         /// </summary>
-        public static string ADD_SENSOR_CONFLICT { get; set; } = "New sensor registration conflict!";
+        public const string ADD_SENSOR_CONFLICT = "New sensor registration conflict!";
 
         /// <summary>
         /// New sensor was successfully registered.
         /// </summary>
-        public static string ADD_SENSOR_SUCCESS { get; set; } = "New sensor was successfullty registered!";
+        public const string ADD_SENSOR_SUCCESS = "New sensor was successfullty registered!";
 
         /// <summary>
         /// Sensor update conflict.
         /// </summary>
-        public static string UPDATE_SENSOR_CONFLICT { get; set; } = "Sensor update conflict!";
+        public const string UPDATE_SENSOR_CONFLICT = "Sensor update conflict!";
 
         /// <summary>
         /// Sensor update success.
         /// </summary>
-        public static string UPDATE_SENSOR_SUCCESS { get; set; } = "Sensor update success!";
+        public const string UPDATE_SENSOR_SUCCESS = "Sensor update success!";
 
         /// <summary>
         /// Sensor deletion success.
         /// </summary>
-        public static string DELETE_SENSOR_SUCCESS { get; set; } = "Sensor deletion success!";
+        public const string DELETE_SENSOR_SUCCESS = "Sensor deletion success!";
     }
 }

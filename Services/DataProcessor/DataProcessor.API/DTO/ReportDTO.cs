@@ -7,11 +7,6 @@ namespace DataProcessor.API.DTO
     public class ReportDTO
     {
         /// <summary>
-        /// Report Identifier.
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// Data acquisition  date.
         /// </summary>
         public DateTime Date { get; set; }

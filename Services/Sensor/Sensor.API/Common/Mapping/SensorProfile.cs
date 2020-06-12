@@ -5,12 +5,12 @@ using Sensor.API.Models;
 namespace Sensor.API.Common.Mapping
 {
     /// <summary>
-    /// Define Automapper profile for sensor.API entities.
+    /// Define Automapper profile for Sensor.API entities.
     /// </summary>
     public class SensorProfile : Profile
     {
         /// <summary>
-        /// Constructor of Automapper profile .
+        /// Constructor of Automapper profile for Sensor.API.
         /// </summary>
         public SensorProfile()
         {

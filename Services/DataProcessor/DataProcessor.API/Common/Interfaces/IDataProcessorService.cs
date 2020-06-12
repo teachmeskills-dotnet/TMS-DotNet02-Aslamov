@@ -14,7 +14,7 @@ namespace DataProcessor.API.Common.Interfaces
         /// </summary>
         /// <param name="dataDTO">Sensor data.</param>
         /// <returns>Processing report.</returns>
-        Task<ReportDTO> ProcessData(DataDTO dataDTO);
+        Task<(ReportDTO report, bool success)> ProcessData(DataDTO dataDTO);
 
         /// <summary>
         /// Add data processing report to cache.

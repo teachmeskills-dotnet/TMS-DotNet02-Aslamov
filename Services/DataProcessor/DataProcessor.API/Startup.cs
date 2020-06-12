@@ -1,3 +1,6 @@
+using DataProcessor.API.Common.Extensions;
+using DataProcessor.API.Common.Interfaces;
+using DataProcessor.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +21,8 @@ namespace DataProcessor.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScopedServices();
+            services.AddAutomapper();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -28,10 +33,9 @@ namespace DataProcessor.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

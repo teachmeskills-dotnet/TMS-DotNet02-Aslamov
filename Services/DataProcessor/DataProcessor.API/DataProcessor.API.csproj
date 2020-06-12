@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
   </ItemGroup>
 
 
@@ -17,5 +18,8 @@
     <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="DTO\" />
+    <Folder Include="Common\Enums\" />
+    <Folder Include="Common\Mapping\" />
+    <Folder Include="Common\Extensions\" />
   </ItemGroup>
 </Project>

@@ -8,11 +8,6 @@ namespace DataProcessor.API.DTO
     public class DataDTO
     {
         /// <summary>
-        /// Data identifier.
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// Data value.
         /// </summary>
         public byte[] Value { get; set; }

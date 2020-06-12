@@ -72,7 +72,7 @@ namespace DataProcessor.API.Services
             var status = Enum.GetName(typeof(HealthStatus), statusGenerator.Next(0, 3));
 
             // Imitation of processing time. 
-            Thread.Sleep(5000); 
+            //Thread.Sleep(5000); 
 
             return Task.FromResult(status);
         }

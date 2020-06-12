@@ -23,6 +23,8 @@ namespace DataProcessor.API
             services.AddControllers();
             services.AddScopedServices();
             services.AddAutomapper();
+
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

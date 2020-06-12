@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DataProcessor.API.Common.Interfaces;
+using DataProcessor.API.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataProcessor.API.Controllers
@@ -17,6 +19,45 @@ namespace DataProcessor.API.Controllers
         public DataProcessorController(IDataProcessorService dataProcessorService)
         {
             _dataProcessorService = dataProcessorService ?? throw new ArgumentNullException();
+        }
+
+        // Post: api/dataprocessor
+        [HttpPost]
+        public async Task<IActionResult> ProcessData([FromBody] DataDTO data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var (report, success) = await _dataProcessorService.ProcessData(data);
+            if (!success)
+            {
+                return Conflict();
+            }
+
+            return Ok(report);
+        }
+
+        // Get: api/dataprocessor
+        [HttpGet("{id}")]
+        public IActionResult GetReportExample([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var report = new ReportDTO
+            {
+                Date = DateTime.Now,
+                SensorDeviceId = 1,
+                SensorDeviceSerial = "123456789",
+                SensorDeviceType = "Temperature",
+                HealthStatus = "Healthy"
+            };
+
+            return Ok(report);
         }
     }
 }

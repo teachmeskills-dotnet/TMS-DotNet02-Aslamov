@@ -3,6 +3,7 @@ using Sensor.API.Common.Interfaces;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
+using Serilog.Sinks.MSSqlServer.Sinks.MSSqlServer.Options;
 using System.IO;
 
 namespace Sensor.API.Services
@@ -21,8 +22,6 @@ namespace Sensor.API.Services
                 .Build();
 
             var connectionString = configuration["ConnectionStrings:DefaultConnection"];
-            var tableName = "Serilog";
-
 
             var serilogConfig =
                  new LoggerConfiguration()
@@ -31,8 +30,11 @@ namespace Sensor.API.Services
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .WriteTo.MSSqlServer(connectionString,
-                                     tableName,
-                                     autoCreateSqlTable: true)
+                                    sinkOptions: new SinkOptions
+                                    {
+                                        TableName = "Serilog",
+                                        AutoCreateSqlTable = true
+                                    })
                 .CreateLogger();
 
             return serilogConfig;

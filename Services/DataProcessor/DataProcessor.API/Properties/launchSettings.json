@@ -11,7 +11,6 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -25,6 +24,7 @@
     },
     "Docker": {
       "commandName": "Docker",
+      "environmentVariables": {},
       "publishAllPorts": true,
       "useSSL": true
     }

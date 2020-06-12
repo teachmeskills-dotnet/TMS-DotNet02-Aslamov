@@ -2,6 +2,7 @@ using DataProcessor.API.Common.Extensions;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ namespace DataProcessor.API
             services.AddControllers();
             services.AddScopedServices();
             services.AddAutomapper();
+            services.AddSwaggerService();
 
             services.AddHealthChecks();
         }
@@ -39,9 +41,15 @@ namespace DataProcessor.API
 
             //app.UseAuthorization();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare DataProcessor API version 1"));
+
+            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/hc");
             });
         }
     }

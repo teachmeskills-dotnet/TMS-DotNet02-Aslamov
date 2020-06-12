@@ -38,26 +38,5 @@ namespace DataProcessor.API.Controllers
 
             return Ok(report);
         }
-
-        // Get: api/dataprocessor
-        [HttpGet("{id}")]
-        public IActionResult GetReportExample([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var report = new ReportDTO
-            {
-                Date = DateTime.Now,
-                SensorDeviceId = 1,
-                SensorDeviceSerial = "123456789",
-                SensorDeviceType = "Temperature",
-                HealthStatus = "Healthy"
-            };
-
-            return Ok(report);
-        }
     }
 }

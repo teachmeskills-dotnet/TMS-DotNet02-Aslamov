@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DataProcessor.API.Common.Mapping;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.Services;
+using Microsoft.OpenApi.Models;
 
 namespace DataProcessor.API.Common.Extensions
 {
@@ -39,6 +40,23 @@ namespace DataProcessor.API.Common.Extensions
             services.AddScoped<IDataProcessorService, DataProcessorService>();
 
             return services;
+        }
+
+        /// <summary>
+        /// Add Swagger Service.
+        /// </summary>
+        /// <param name="services">DI container</param>
+        public static void AddSwaggerService(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "iCare DataProcessor API",
+                    Version = "v1",
+                    Description = "The Sensor Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                });
+            });
         }
     }
 }

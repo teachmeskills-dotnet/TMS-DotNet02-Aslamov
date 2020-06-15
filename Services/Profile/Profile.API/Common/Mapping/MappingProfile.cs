@@ -11,11 +11,6 @@ namespace Profile.API.Common.Mapping
         /// <summary>
         /// Constructor of Automapper profile for Profile.API.
         /// </summary>
-        public MappingProfile()
-        {
-            CreateMap<ProfileModel, ProfileDTO>()
-                .ReverseMap()
-                .ForMember(s => s.Id, opt => opt.Ignore());
-        }
+        public MappingProfile() => CreateMap<ProfileModel, ProfileDTO>().ReverseMap();
     }
 }

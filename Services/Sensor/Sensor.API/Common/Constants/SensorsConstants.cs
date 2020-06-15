@@ -26,7 +26,7 @@
         public const string SENSOR_NOT_FOUND = "Sensor not found!";
 
         /// <summary>
-        /// Sensor not found.
+        /// Get found sensor.
         /// </summary>
         public const string GET_FOUND_SENSOR = "Sensor found.";
 

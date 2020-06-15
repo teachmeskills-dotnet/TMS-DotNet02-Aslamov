@@ -8,6 +8,11 @@ namespace Profile.API.DTO
     public class ProfileDTO
     {
         /// <summary>
+        /// Profile Identifier.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// First name.
         /// </summary>
         public string FirstName { get; set; }
@@ -21,6 +26,11 @@ namespace Profile.API.DTO
         /// Middle name.
         /// </summary>
         public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Passport serial.
+        /// </summary>
+        public string Passport { get; set; }
 
         /// <summary>
         /// Birth data.

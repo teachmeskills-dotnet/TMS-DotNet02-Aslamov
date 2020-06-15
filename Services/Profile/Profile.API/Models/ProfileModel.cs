@@ -28,6 +28,11 @@ namespace Profile.API.Models
         public string MiddleName { get; set; }
 
         /// <summary>
+        /// Passport serial.
+        /// </summary>
+        public string Passport { get; set; }
+
+        /// <summary>
         /// Birth data.
         /// </summary>
         public DateTime BirthDate { get; set; }

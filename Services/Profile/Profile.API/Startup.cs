@@ -27,6 +27,7 @@ namespace Profile.API
             services.AddDbContext<ProfileContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScopedServices();
             services.AddAutomapper();
             services.AddSerilogService();
 

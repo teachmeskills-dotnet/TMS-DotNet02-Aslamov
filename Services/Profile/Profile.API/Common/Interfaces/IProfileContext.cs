@@ -9,7 +9,7 @@ namespace Profile.API.Common.Interfaces
     /// <summary>
     /// Interface for profile context.
     /// </summary>
-    interface IProfileContext
+    public interface IProfileContext
     {
         /// <summary>
         /// Table of profiles.

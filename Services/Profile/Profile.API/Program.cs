@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Profile.API.Common.Extensions;
 using Profile.API.Common.Interfaces;
 using Profile.API.Services;
 using Serilog;
@@ -19,7 +20,7 @@ namespace Profile.API
                 Log.Information($"Server is loaded successfully.");
                 var host = CreateHostBuilder(args).Build();
 
-                //InitialServicesScopeFactory.Build(host);
+                InitialServicesScopeFactory.Build(host);
 
                 host.Run();
             }

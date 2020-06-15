@@ -23,7 +23,7 @@ namespace Profile.API.Infrastructure
         public ProfileContext(DbContextOptions<ProfileContext> options) : base(options)
         {
             // Commented due to the runtime migrations enable.
-            Database.Migrate();
+            //Database.Migrate();
         }
 
         /// <summary>

@@ -1,9 +1,11 @@
+using Identity.API.Common.Extensions;
+using Identity.API.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sensor.API.Common.Extensions;
 
 namespace Identity.API
 {
@@ -20,6 +22,10 @@ namespace Identity.API
         {
             services.AddControllers();
 
+            services.AddDbContext<IdentityContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScopedServices();
             services.AddSerilogService();
         }
 
@@ -34,7 +40,7 @@ namespace Identity.API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

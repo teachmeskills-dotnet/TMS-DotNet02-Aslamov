@@ -3,7 +3,7 @@
     /// <summary>
     /// Entity for login .
     /// </summary>
-    public class Login
+    public class LoginModel
     {
         /// <summary>
         /// User email.

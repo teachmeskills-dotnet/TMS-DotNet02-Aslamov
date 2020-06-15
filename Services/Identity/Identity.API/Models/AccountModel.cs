@@ -4,7 +4,7 @@ namespace Identity.API.Models
     /// <summary>
     /// User account entity.
     /// </summary>
-    public class Account
+    public class AccountModel
     {
         /// <summary>
         /// GUID Identifier.

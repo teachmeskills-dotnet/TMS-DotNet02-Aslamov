@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Sensor.API.Common.Constants
+﻿namespace Sensor.API.Common.Constants
 {
     /// <summary>
     /// Constants for application services initialization.

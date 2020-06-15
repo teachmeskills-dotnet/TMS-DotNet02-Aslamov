@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Profile.API.Common.Interfaces;
+using Profile.API.Services;
+using Serilog;
 
 namespace Profile.API
 {
@@ -13,11 +11,32 @@ namespace Profile.API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            ISerilogService serilogConfiguration = new SerilogService();
+            Log.Logger = serilogConfiguration.SerilogConfiguration();
+
+            try
+            {
+                Log.Information($"Server is loaded successfully.");
+                var host = CreateHostBuilder(args).Build();
+
+                //InitialServicesScopeFactory.Build(host);
+
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly.");
+            }
+            finally
+            {
+                Log.Information($"Server is stopped successfully.");
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

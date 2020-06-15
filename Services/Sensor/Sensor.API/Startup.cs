@@ -20,7 +20,7 @@ namespace Sensor.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
 
             services.AddDbContext<SensorContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -28,9 +28,7 @@ namespace Sensor.API
             services.AddAutomapper();
             services.AddScopedServices();
             services.AddSwaggerService();
-
             services.AddSerilogService();
-
 
             services.AddHealthChecks();
         }

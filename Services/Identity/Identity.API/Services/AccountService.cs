@@ -6,6 +6,7 @@ using Identity.API.Common.Settings;
 using Identity.API.DTO;
 using Identity.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -36,11 +37,11 @@ namespace Identity.API.Services
         /// <exception cref="ArgumentNullException"></exception>
         public AccountService( IIdentityContext identityContext,
                                IMapper mapper,
-                               AppSettings appSettings)
+                               IOptions<AppSettings> appSettings)
         {
             _identityContext = identityContext ?? throw new ArgumentNullException(nameof(identityContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
+            _appSettings = appSettings.Value ?? throw new ArgumentNullException(nameof(appSettings));
         }
 
         /// <inheritdoc/>

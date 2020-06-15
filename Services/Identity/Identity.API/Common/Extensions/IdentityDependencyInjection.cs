@@ -23,6 +23,7 @@ namespace Identity.API.Common.Extensions
         public static IServiceCollection AddScopedServices(this IServiceCollection services)
         {
             services.AddScoped<IIdentityContext, IdentityContext>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }

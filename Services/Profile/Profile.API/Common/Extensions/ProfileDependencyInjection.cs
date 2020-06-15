@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Profile.API.Common.Interfaces;
 using Profile.API.Common.Mapping;
 using Profile.API.Infrastructure;
@@ -43,6 +44,23 @@ namespace Profile.API.Common.Extensions
             services.AddSingleton(mapper);
 
             return services;
+        }
+
+        /// <summary>
+        /// Add Swagger Service.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        public static void AddSwaggerService(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "iCare Profile API",
+                    Version = "v1",
+                    Description = "The Profile Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                });
+            });
         }
 
         /// <summary>

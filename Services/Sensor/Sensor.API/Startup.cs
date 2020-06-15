@@ -46,7 +46,7 @@ namespace Sensor.API
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Sensor API version 1"));
 
-            //app.UseAuthentication();
+            //app.UseAuthentication(); //TODO: Uncomment after implementing the identity service!
 
             app.UseEndpoints(endpoints =>
             {

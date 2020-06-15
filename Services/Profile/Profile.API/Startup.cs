@@ -30,6 +30,7 @@ namespace Profile.API
             services.AddScopedServices();
             services.AddAutomapper();
             services.AddSerilogService();
+            services.AddSwaggerService();
 
             services.AddHealthChecks();
         }
@@ -45,7 +46,10 @@ namespace Profile.API
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Profile API version 1"));
+
+            //app.UseAuthorization(); //TODO: Uncomment after implementing the identity service!
 
             app.UseEndpoints(endpoints =>
             {

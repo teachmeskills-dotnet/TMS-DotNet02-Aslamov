@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Identity.API.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
@@ -19,6 +20,9 @@ namespace Identity.API.Common.Extensions
 
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
+
+            //RuntimeMigrations.Initialize(services);
+            //IdentityContextSeed.Initialize(services);
         }
     }
 }

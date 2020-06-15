@@ -1,16 +1,28 @@
 ﻿using Identity.API.Common.Interfaces;
+using Identity.API.Infrastructure;
 using Identity.API.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
 
-namespace Sensor.API.Common.Extensions
+namespace Identity.API.Common.Extensions
 {
     /// <summary>
     /// Extenstion to add services.
     /// </summary>
     public static class IdentityDependencyInjection
     {
+        /// <summary>
+        /// Add scoped services.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        /// <returns>Services.</returns>
+        public static IServiceCollection AddScopedServices(this IServiceCollection services)
+        {
+            services.AddScoped<IIdentityContext, IdentityContext>();
+
+            return services;
+        }
 
         /// <summary>
         /// Add Serilog Service.

@@ -9,7 +9,7 @@ namespace Identity.API.Services
     /// <summary>
     /// Interface for service to manage user accounts.
     /// </summary>
-    interface IAccountService
+    public interface IAccountService
     {
         /// <summary>
         /// User authentication.

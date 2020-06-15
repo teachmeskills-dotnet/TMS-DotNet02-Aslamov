@@ -1,3 +1,4 @@
+using AutoMapper;
 using Identity.API.Common.Extensions;
 using Identity.API.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,9 @@ namespace Identity.API
 
             services.AddScopedServices();
             services.AddSerilogService();
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

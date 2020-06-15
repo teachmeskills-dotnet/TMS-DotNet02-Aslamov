@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
@@ -26,9 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Mapping\" />
     <Folder Include="Controllers\" />
-    <Folder Include="DTO\" />
   </ItemGroup>
 
 

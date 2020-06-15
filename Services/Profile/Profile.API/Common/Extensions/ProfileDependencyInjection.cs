@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Profile.API.Common.Interfaces;
+using Profile.API.Common.Mapping;
 using Profile.API.Infrastructure;
 using Profile.API.Services;
 using Serilog;
@@ -20,6 +22,24 @@ namespace Profile.API.Common.Extensions
         public static IServiceCollection AddScopedServices(this IServiceCollection services)
         {
             services.AddScoped<IProfileContext, ProfileContext>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Add Automapper service.
+        /// </summary>
+        /// <param name="services">DI container/</param>
+        /// <returns>Services.</returns>
+        public static IServiceCollection AddAutomapper(this IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             return services;
         }

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Profile.API.Common.Constants;
 using Profile.API.Common.Extensions;
 using Profile.API.Common.Interfaces;
 using Profile.API.Services;
@@ -17,7 +18,7 @@ namespace Profile.API
 
             try
             {
-                Log.Information($"Server is loaded successfully.");
+                Log.Information(InitializationConstants.WEB_HOST_STARTING);
                 var host = CreateHostBuilder(args).Build();
 
                 InitialServicesScopeFactory.Build(host);
@@ -26,11 +27,11 @@ namespace Profile.API
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly.");
+                Log.Fatal(ex, InitializationConstants.WEB_HOST_TERMINATED);
             }
             finally
             {
-                Log.Information($"Server is stopped successfully.");
+                Log.Information(InitializationConstants.WEB_HOST_STOPPED);
                 Log.CloseAndFlush();
             }
         }

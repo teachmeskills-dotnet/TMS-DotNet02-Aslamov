@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Sensor.API.Common.Constants;
 using Sensor.API.Common.Extensions;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Services;
@@ -17,7 +18,7 @@ namespace Sensor.API
 
             try
             {
-                Log.Information($"Server is loaded successfully.");
+                Log.Information(InitializationConstants.WEB_HOST_STARTING);
                 var host = CreateHostBuilder(args).Build();
 
                 InitialServicesScopeFactory.Build(host);
@@ -26,11 +27,11 @@ namespace Sensor.API
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly.");
+                Log.Fatal(ex, InitializationConstants.WEB_HOST_TERMINATED);
             }
             finally
             {
-                Log.Information($"Server is stopped successfully.");
+                Log.Information(InitializationConstants.WEB_HOST_STOPPED);
                 Log.CloseAndFlush();
             }
         }

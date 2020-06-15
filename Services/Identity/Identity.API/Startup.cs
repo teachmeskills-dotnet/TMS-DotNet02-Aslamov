@@ -1,5 +1,6 @@
 using AutoMapper;
 using Identity.API.Common.Extensions;
+using Identity.API.Common.Settings;
 using Identity.API.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,12 +24,19 @@ namespace Identity.API
         {
             services.AddControllers();
 
+            var appSettingSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingSection);
+
+            var appSettings = appSettingSection.Get<AppSettings>();
+            var isProduction = appSettings.IsProduction;
+
             services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(isProduction.ToDbConnectionString())));
 
             services.AddScopedServices();
             services.AddSerilogService();
             services.AddAutoMapper(typeof(Startup));
+            services.AddJwtService(appSettings.Secret);
 
             services.AddHealthChecks();
         }
@@ -41,14 +49,14 @@ namespace Identity.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/hc");
             });
         }
     }

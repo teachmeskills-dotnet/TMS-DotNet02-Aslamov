@@ -23,7 +23,7 @@ namespace Identity.API.DTO
         public string Password { get; set; }
 
         /// <summary>
-        /// Username
+        /// Username.
         /// </summary>
         public string Username { get; set; }
 

@@ -65,7 +65,7 @@ namespace Identity.API.Infrastructure
                     Email = "test@gmail.com",
                     Password = "passw@rd123",
                     Username = "test",
-                    Role = 0, // User
+                    Role = 1, // User
                     IsActive = true,
                 },
 
@@ -75,7 +75,7 @@ namespace Identity.API.Infrastructure
                     Email = "admin@gmail.com",
                     Password = "passw@rd123",
                     Username = "admin",
-                    Role = 1, // Admin
+                    Role = 2, // Admin
                     IsActive = true,
                 },
             };

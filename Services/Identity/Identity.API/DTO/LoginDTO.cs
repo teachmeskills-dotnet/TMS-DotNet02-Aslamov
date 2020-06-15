@@ -1,9 +1,9 @@
-﻿namespace Identity.API.Models
+﻿namespace Identity.API.DTO
 {
     /// <summary>
-    /// Entity for login .
+    /// Login Data Transfer Object.
     /// </summary>
-    public class LoginModel
+    public class LoginDTO
     {
         /// <summary>
         /// User email.

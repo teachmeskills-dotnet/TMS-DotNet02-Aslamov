@@ -11,6 +11,9 @@ namespace Identity.API.Common.Mapping
         /// <summary>
         /// Constructor of Automapper profile for Account.API.
         /// </summary>
-        public MappingProfile() => CreateMap<AccountModel, AccountDTO>().ReverseMap();
+        public MappingProfile()
+        {
+            CreateMap<AccountModel, AccountDTO>().ReverseMap();
+        }
     }
 }

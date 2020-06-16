@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>334596df-16da-4616-9dc6-690a6eff687b</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Interfaces\" />
+    <Folder Include="Common\Constants\" />
+    <Folder Include="Common\Extensions\" />
+    <Folder Include="Common\Mapping\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="DTO\" />
+    <Folder Include="Infrastructure\Migrations\" />
+    <Folder Include="Infrastructure\EntityConfigurations\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+
+</Project>

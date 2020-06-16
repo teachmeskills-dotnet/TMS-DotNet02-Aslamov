@@ -45,7 +45,7 @@ namespace Identity.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<TokenModel> LoginAsync(LoginDTO loginDTO)
+        public async Task<TokenDTO> LoginAsync(LoginDTO loginDTO)
         {
             var account = await _identityContext.Accounts.SingleOrDefaultAsync(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password);
 
@@ -71,7 +71,7 @@ namespace Identity.API.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtSecurityToken = tokenHandler.WriteToken(token);
 
-            var accountToken = new TokenModel
+            var accountToken = new TokenDTO
             {
                 Username = account.Username,
                 Role = account.Role.ConvertRole(),

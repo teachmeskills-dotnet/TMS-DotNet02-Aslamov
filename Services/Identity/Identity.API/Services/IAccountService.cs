@@ -1,5 +1,4 @@
 ﻿using Identity.API.DTO;
-using Identity.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,8 +14,8 @@ namespace Identity.API.Services
         /// User login.
         /// </summary>
         /// <param name="loginDTO">User login data.</param>
-        /// <returns>Operation result.</returns>
-        Task<TokenModel> LoginAsync(LoginDTO loginDTO);
+        /// <returns>Application Token.</returns>
+        Task<TokenDTO> LoginAsync(LoginDTO loginDTO);
 
         /// <summary>
         /// User registration.

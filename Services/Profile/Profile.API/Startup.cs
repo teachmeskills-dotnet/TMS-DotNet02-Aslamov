@@ -33,7 +33,7 @@ namespace Profile.API
 
             services.AddHealthChecks();
         }
-.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

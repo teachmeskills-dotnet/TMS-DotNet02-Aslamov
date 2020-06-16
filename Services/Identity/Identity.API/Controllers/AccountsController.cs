@@ -5,6 +5,7 @@ using Identity.API.DTO;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Profile.API.Common.Constants;
 using Serilog;
 
@@ -55,8 +56,8 @@ namespace Identity.API.Controllers
             var account = await _accountService.GetAccountByIdAsync(id);
             if (account == null)
             {
-                _logger.Warning($"{account.Username} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound();
+                _logger.Warning($"{id} {AccountConstants.ACCOUNT_NOT_FOUND}");
+                return NotFound(id);
             }
 
             _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -77,7 +78,7 @@ namespace Identity.API.Controllers
             if (token == null)
             {
                 _logger.Warning($"{data.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return BadRequest(AccountConstants.INCORRECT_USER_LOGIN);
+                return NotFound(AccountConstants.INCORRECT_USER_LOGIN);
             }
 
             _logger.Information($"{data.Email} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -89,7 +90,7 @@ namespace Identity.API.Controllers
         // POST: api/accounts/register
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] AccountDTO accountDTO)
+        public async Task<IActionResult> RegisterNewAccount([FromBody] AccountDTO accountDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -97,15 +98,14 @@ namespace Identity.API.Controllers
             }
 
             var (success, message) = await _accountService.RegisterAsync(accountDTO);
-
             if (!success)
             {
                 _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_ALREADY_EXIST}");
-                return BadRequest(new { message });
+                return Conflict(message);
             }
 
             _logger.Information($"{accountDTO.Email} {AccountConstants.REGISTRATION_SUCCESS}");
-            return Ok(new { message });
+            return CreatedAtAction(nameof(RegisterNewAccount), accountDTO);
         }
 
         // PUT: api/accounts/{id}
@@ -122,7 +122,7 @@ namespace Identity.API.Controllers
             if (account == null)
             {
                 _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound();
+                return NotFound(accountDTO.Id);
             }
 
             var success = await _accountService.UpdateAccountAsync(accountDTO);

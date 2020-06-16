@@ -1,9 +1,9 @@
-﻿namespace Identity.API.Models
+﻿namespace Identity.API.DTO
 {
     /// <summary>
-    /// User authentication token model.
+    /// User authentication token DTO.
     /// </summary>
-    public class TokenModel
+    public class TokenDTO
     {
         /// <summary>
         /// User name.

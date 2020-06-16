@@ -12,11 +12,11 @@ namespace Identity.API.Services
     public interface IAccountService
     {
         /// <summary>
-        /// User authentication.
+        /// User login.
         /// </summary>
         /// <param name="loginDTO">User login data.</param>
         /// <returns>Operation result.</returns>
-        Task<TokenModel> AuthenticateAsync(LoginDTO loginDTO);
+        Task<TokenModel> LoginAsync(LoginDTO loginDTO);
 
         /// <summary>
         /// User registration.

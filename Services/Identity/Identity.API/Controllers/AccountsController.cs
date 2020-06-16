@@ -24,13 +24,14 @@ namespace Identity.API.Controllers
         /// <param name="logger">Logging service.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public AccountsController(IAccountService accountService,
-                                 ILogger logger)
+                                  ILogger logger)
         {
             _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        // GET: api/accounts/{id}
+        // GET: api/accounts
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ICollection<AccountDTO>> GetAccounts()
         {
@@ -38,11 +39,11 @@ namespace Identity.API.Controllers
             var count = accounts.Count;
 
             _logger.Information($"{count} {AccountConstants.GET_ACCOUNTS}");
-
             return await _accountService.GetAllAccountsAsync();
         }
 
         // GET: api/accounts/{id}
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccount([FromRoute] Guid id)
         {
@@ -52,46 +53,42 @@ namespace Identity.API.Controllers
             }
 
             var account = await _accountService.GetAccountByIdAsync(id);
-
             if (account == null)
             {
                 _logger.Warning($"{account.Username} {AccountConstants.ACCOUNT_NOT_FOUND}");
-
                 return NotFound();
             }
 
             _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
-
             return Ok(account);
         }
 
-        // POST: api/accounts/auth
-        [HttpPost("auth")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginDTO data)
+        // POST: api/accounts/login
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO data)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var token = await _accountService.AuthenticateAsync(data);
-
+            var token = await _accountService.LoginAsync(data);
             if (token == null)
             {
-                Log.Warning($"{data.Email} {AccountConstants.EMAIL_NOT_FOUND}");
-
+                _logger.Warning($"{data.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
                 return BadRequest(AccountConstants.INCORRECT_USER_LOGIN);
             }
 
-            Log.Information($"{data.Email} {AccountConstants.GET_FOUND_EMAIL}");
+            _logger.Information($"{data.Email} {AccountConstants.GET_FOUND_ACCOUNT}");
 
             Response.ContentType = "application/json";
             return Accepted(token);
         }
 
-        // POST: api/accounts/registration
+        // POST: api/accounts/register
         [AllowAnonymous]
-        [HttpPost("registration")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AccountDTO accountDTO)
         {
             if (!ModelState.IsValid)
@@ -103,17 +100,16 @@ namespace Identity.API.Controllers
 
             if (!success)
             {
-                Log.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_ALREADY_EXIST}");
-
+                _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_ALREADY_EXIST}");
                 return BadRequest(new { message });
             }
 
-            Log.Information($"{accountDTO.Email} {AccountConstants.REGISTRATION_SUCCESS}");
-
+            _logger.Information($"{accountDTO.Email} {AccountConstants.REGISTRATION_SUCCESS}");
             return Ok(new { message });
         }
 
-        // PUT: api/accounts/{id}        
+        // PUT: api/accounts/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAccount([FromBody] AccountDTO accountDTO)
         {
@@ -123,24 +119,20 @@ namespace Identity.API.Controllers
             }
 
             var account = await _accountService.GetAccountByEmailAsync(accountDTO.Email);
-
             if (account == null)
             {
-                Log.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
+                _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
                 return NotFound();
             }
 
-            var updatedResult = await _accountService.UpdateAccountAsync(accountDTO);
-
-            if (!updatedResult)
+            var success = await _accountService.UpdateAccountAsync(accountDTO);
+            if (!success)
             {
-                Log.Warning($"{accountDTO.Email} {AccountConstants.UPDATE_ACCOUNT_CONFLICT}");
-
+                _logger.Warning($"{accountDTO.Email} {AccountConstants.UPDATE_ACCOUNT_CONFLICT}");
                 return Conflict();
             }
 
-            Log.Information($"{accountDTO.Email} {AccountConstants.UPDATE_ACCOUNT_SUCCESS}");
-
+            _logger.Information($"{accountDTO.Email} {AccountConstants.UPDATE_ACCOUNT_SUCCESS}");
             return Ok(accountDTO);
         }
     }

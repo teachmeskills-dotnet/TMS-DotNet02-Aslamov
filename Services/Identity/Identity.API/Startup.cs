@@ -30,8 +30,8 @@ namespace Identity.API
             var appSettings = appSettingSection.Get<AppSettings>();
             var isProduction = appSettings.IsProduction;
 
-            services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(isProduction.ToDbConnectionString())));
+            var connectionString = Configuration.GetConnectionString(isProduction.ToDbConnectionString());
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScopedServices();
             services.AddSerilogService();
@@ -52,6 +52,7 @@ namespace Identity.API
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -45,7 +45,7 @@ namespace Identity.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<TokenModel> AuthenticateAsync(LoginDTO loginDTO)
+        public async Task<TokenModel> LoginAsync(LoginDTO loginDTO)
         {
             var account = await _identityContext.Accounts.SingleOrDefaultAsync(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password);
 
@@ -85,7 +85,6 @@ namespace Identity.API.Services
         public async Task<(bool result, string message)> RegisterAsync(AccountDTO accountDTO)
         {
             var user = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Email == accountDTO.Email);
-
             if (user != null)
             {
                 return (false, IdentityConstants.USER_ALREADY_EXIST);

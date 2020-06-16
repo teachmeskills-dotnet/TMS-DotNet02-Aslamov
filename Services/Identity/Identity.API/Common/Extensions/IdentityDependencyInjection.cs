@@ -43,7 +43,7 @@ namespace Identity.API.Common.Extensions
         }
 
         /// <summary>
-        /// Add JWC-based authentication.
+        /// Add JWT-based authentication.
         /// </summary>
         /// <param name="services">DI container.</param>
         /// <param name="secret">Secret key.</param>
@@ -58,7 +58,7 @@ namespace Identity.API.Common.Extensions
             })
             .AddJwtBearer(x =>
             {
-                x.RequireHttpsMetadata = false;
+                x.RequireHttpsMetadata = true; // "false" -- only for debug.
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {

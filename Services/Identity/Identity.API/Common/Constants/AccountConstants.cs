@@ -51,19 +51,9 @@
         public const string DELETE_ACCOUNT_SUCCESS = "Account deletion success!";
 
         /// <summary>
-        /// Email address not found.
-        /// </summary>
-        public const string EMAIL_NOT_FOUND = "Email address not found!";
-
-        /// <summary>
         /// User login data is incorrect!
         /// </summary>
         public const string INCORRECT_USER_LOGIN = "User login data is incorrect!";
-
-        /// <summary>
-        /// Email address was found.
-        /// </summary>
-        public const string GET_FOUND_EMAIL = "Email address was found.";
 
         /// <summary>
         /// User has been successfully registered.

@@ -21,8 +21,8 @@ namespace Identity.API.Common.Extensions
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
 
-            //RuntimeMigrations.Initialize(services);
-            //IdentityContextSeed.Initialize(services);
+            RuntimeMigrations.Initialize(services);
+            IdentityContextSeed.Initialize(services);
         }
     }
 }

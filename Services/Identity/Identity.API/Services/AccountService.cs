@@ -48,7 +48,6 @@ namespace Identity.API.Services
         public async Task<TokenDTO> LoginAsync(LoginDTO loginDTO)
         {
             var account = await _identityContext.Accounts.SingleOrDefaultAsync(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password);
-
             if (account == null)
             {
                 return null;

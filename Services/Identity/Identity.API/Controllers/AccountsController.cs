@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Identity.API.Common.Interfaces;
 using Identity.API.DTO;
-using Identity.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
-using Profile.API.Common.Constants;
+using Identity.API.Common.Constants;
 using Serilog;
 
 namespace Identity.API.Controllers

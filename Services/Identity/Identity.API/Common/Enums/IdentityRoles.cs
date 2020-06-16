@@ -1,7 +1,7 @@
-﻿namespace Identity.API.Common
+﻿namespace Identity.API.Common.Enums
 {
     /// <summary>
-    /// Application roles.
+    /// User roles in application.
     /// </summary>
     public enum IdentityRoles
     {

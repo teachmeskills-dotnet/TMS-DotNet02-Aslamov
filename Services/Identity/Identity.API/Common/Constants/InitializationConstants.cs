@@ -1,7 +1,7 @@
 ﻿namespace Identity.API.Common.Constants
 {
     /// <summary>
-    /// Constants for application services initialization.
+    /// Constants for initialization of application services.
     /// </summary>
     public class InitializationConstants
     {

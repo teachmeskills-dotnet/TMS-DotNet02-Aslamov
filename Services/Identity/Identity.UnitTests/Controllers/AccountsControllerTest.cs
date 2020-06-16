@@ -1,18 +1,19 @@
-﻿using Identity.API.Controllers;
+﻿using Identity.API.Common.Interfaces;
+using Identity.API.Controllers;
 using Identity.API.DTO;
-using Identity.API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Identity.UnitTests.Controllers
 {
+    /// <summary>
+    /// Define class for AccountController testing.
+    /// </summary>
     public class AccountsControllerTest : ConstrollerTestFixture
     {
         [Fact]
@@ -254,7 +255,7 @@ namespace Identity.UnitTests.Controllers
         }
 
         [Fact]
-        public void UpdateAccount_WithAccountDoesNotExist_Returns_NotFoundResult()
+        public void UpdateAccount_WhenAccountDoesNotExist_Returns_NotFoundResult()
         {
             // Arrange
             var accountServiceMock = new Mock<IAccountService>();

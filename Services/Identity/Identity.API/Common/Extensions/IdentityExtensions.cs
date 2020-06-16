@@ -1,4 +1,5 @@
 ﻿using Identity.API.Common.Constants;
+using Identity.API.Common.Enums;
 
 namespace Identity.API.Common.Extensions
 {

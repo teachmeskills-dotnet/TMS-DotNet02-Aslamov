@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Identity.API.Services
+namespace Identity.API.Common.Interfaces
 {
     /// <summary>
     /// Interface for service to manage user accounts.

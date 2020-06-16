@@ -29,12 +29,5 @@ namespace Identity.API.Common.Interfaces
         /// <param name="entity">Entity object.</param>
         /// <returns>Updated entity.</returns>
         EntityEntry Update(object entity);
-
-        /// <summary>
-        /// Remove entity.
-        /// </summary>
-        /// <param name="entity">Entity object.</param>
-        /// <returns>Removed entity.</returns>
-        EntityEntry Remove(object entity);
     }
 }

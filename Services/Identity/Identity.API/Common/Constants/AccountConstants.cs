@@ -1,7 +1,7 @@
-﻿namespace Profile.API.Common.Constants
+﻿namespace Identity.API.Common.Constants
 {
     /// <summary>
-    /// Account common constants.
+    /// Common account constants.
     /// </summary>
     public class AccountConstants
     {
@@ -44,11 +44,6 @@
         /// Account update success.
         /// </summary>
         public const string UPDATE_ACCOUNT_SUCCESS = "Account update success!";
-
-        /// <summary>
-        /// Account deletion success.
-        /// </summary>
-        public const string DELETE_ACCOUNT_SUCCESS = "Account deletion success!";
 
         /// <summary>
         /// User login data is incorrect!

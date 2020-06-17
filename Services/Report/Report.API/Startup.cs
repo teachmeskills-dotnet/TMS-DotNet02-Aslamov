@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Profile.API.Common.Extensions;
 using Report.API.Infrastructure;
 
 namespace Report.API
@@ -23,6 +24,11 @@ namespace Report.API
 
             services.AddDbContext<ReportContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScopedServices();
+            services.AddSerilogService();
+
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -6,7 +6,7 @@ using Report.API.Services;
 using Serilog;
 using System;
 
-namespace Profile.API.Common.Extensions
+namespace Report.API.Common.Extensions
 {
     /// <summary>
     /// Extenstion to add services.

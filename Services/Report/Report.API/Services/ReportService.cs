@@ -59,7 +59,7 @@ namespace Report.API.Services
         /// <inheritdoc/>
         public async Task<ReportDTO> GetReportByIdAsync(int id)
         {
-            var report = await _reportContext.Reports.FirstOrDefaultAsync(s => s.Id == id);
+            var report = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Id == id);
             if(report == null)
             {
                 return null;
@@ -82,7 +82,7 @@ namespace Report.API.Services
         /// <inheritdoc/>
         public async Task<bool> UpdateReportAsync(ReportDTO reportDTO)
         {
-            var report = await _reportContext.Reports.FirstOrDefaultAsync(s => s.Id == reportDTO.Id);
+            var report = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Id == reportDTO.Id);
 
             if (report == null)
             {
@@ -106,7 +106,7 @@ namespace Report.API.Services
         /// <inheritdoc/>
         public async Task<bool> DeleteReportByIdAsync(int id)
         {
-            var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(p => p.Id == id);
+            var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Id == id);
             if (reportFound == null)
             {
                 _logger.Error(ReportConstants.REPORT_NOT_FOUND);

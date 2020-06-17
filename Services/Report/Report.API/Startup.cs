@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Profile.API.Common.Extensions;
+using Report.API.Common.Extensions;
 using Report.API.Infrastructure;
 
 namespace Report.API

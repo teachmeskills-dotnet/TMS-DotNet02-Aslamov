@@ -192,10 +192,10 @@ namespace Report.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
 
             var controller = new ReportsController(profileServiceMock.Object, loggerMock.Object);
-            var sensorDTO = new ReportDTO { Id = 0 };
+            var reportDTO = new ReportDTO { Id = 0 };
 
             // Act
-            var result = controller.UpdateReport(sensorDTO).GetAwaiter().GetResult();
+            var result = controller.UpdateReport(reportDTO).GetAwaiter().GetResult();
 
             // Assert
             var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);

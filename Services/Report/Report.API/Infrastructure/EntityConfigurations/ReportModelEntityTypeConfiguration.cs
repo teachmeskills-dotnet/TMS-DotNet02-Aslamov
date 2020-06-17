@@ -18,19 +18,19 @@ namespace Report.API.Infrastructure.EntityConfigurations
             builder.HasKey(r => r.Id);
 
             builder.Property(r => r.SensorDeviceId).IsRequired();
-            builder.Property(pm => pm.Date).IsRequired();
+            builder.Property(r => r.Date).IsRequired();
 
-            builder.Property(pm => pm.DataType)
+            builder.Property(r => r.DataType)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            builder.Property(pm => pm.HealthStatus)
+            builder.Property(r => r.HealthStatus)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            builder.Property(pm => pm.HealthDescription).IsRequired();
-            builder.Property(pm => pm.Diseases);
-            builder.Property(pm => pm.Accuracy).IsRequired();
+            builder.Property(r => r.HealthDescription).IsRequired();
+            builder.Property(r => r.Diseases);
+            builder.Property(r => r.Accuracy).IsRequired();
         }
     }
 }

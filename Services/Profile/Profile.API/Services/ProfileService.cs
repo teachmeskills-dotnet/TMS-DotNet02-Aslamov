@@ -40,7 +40,7 @@ namespace Profile.API.Services
         public async Task<(Guid id, bool success)> RegisterNewProfileAsync(ProfileDTO profileDTO)
         {
             var profile = _mapper.Map<ProfileDTO, ProfileModel>(profileDTO);
-            var profileFound = await _profileContext.Profiles.FirstOrDefaultAsync(s => s.Passport == profileDTO.Passport);
+            var profileFound = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.Passport == profileDTO.Passport);
 
             if (profileFound != null)
             {
@@ -59,7 +59,7 @@ namespace Profile.API.Services
         /// <inheritdoc/>
         public async Task<ProfileDTO> GetProfileByIdAsync(Guid id)
         {
-            var profile = await _profileContext.Profiles.FirstOrDefaultAsync(s => s.Id == id);
+            var profile = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.Id == id);
             if(profile == null)
             {
                 return null;
@@ -82,7 +82,7 @@ namespace Profile.API.Services
         /// <inheritdoc/>
         public async Task<bool> UpdateProfileAsync(ProfileDTO profileDTO)
         {
-            var profile = await _profileContext.Profiles.FirstOrDefaultAsync(s => s.Id == profileDTO.Id);
+            var profile = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.Id == profileDTO.Id);
 
             if (profile == null)
             {

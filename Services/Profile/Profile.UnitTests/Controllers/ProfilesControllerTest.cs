@@ -104,7 +104,7 @@ namespace Profile.UnitTests.Controllers
         }
 
         [Fact]
-        public void RegisterNewReportPost_WithInvalidModel_Returns_BadRequestResult()
+        public void RegisterNewReport_WithInvalidModel_Returns_BadRequestResult()
         {
             // Arrange
             var profileServiceMock = new Mock<IProfileService>();
@@ -122,7 +122,7 @@ namespace Profile.UnitTests.Controllers
         }
 
         [Fact]
-        public void RegisterNewProfilePost_WithValidExistingModel_Returns_ConflictResult()
+        public void RegisterNewProfile_WithValidExistingModel_Returns_ConflictResult()
         {
             // Arrange
             var profileServiceMock = new Mock<IProfileService>();
@@ -145,7 +145,7 @@ namespace Profile.UnitTests.Controllers
         }
 
         [Fact]
-        public void RegisterNewProfilePost_WithValidModel_Returns_CreatedAtActionResult()
+        public void RegisterNewProfile_WithValidModel_Returns_CreatedAtActionResult()
         {
             // Arrange
             var profileServiceMock = new Mock<IProfileService>();
@@ -193,10 +193,10 @@ namespace Profile.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
 
             var controller = new ProfilesController(profileServiceMock.Object, loggerMock.Object);
-            var sensorDTO = new ProfileDTO { Id = Guid.Empty };
+            var reportDTO = new ProfileDTO { Id = Guid.Empty };
 
             // Act
-            var result = controller.UpdateProfile(sensorDTO).GetAwaiter().GetResult();
+            var result = controller.UpdateProfile(reportDTO).GetAwaiter().GetResult();
 
             // Assert
             var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);

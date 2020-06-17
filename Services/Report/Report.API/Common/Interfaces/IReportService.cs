@@ -1,5 +1,4 @@
 ﻿using Report.API.DTO;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,9 +32,9 @@ namespace Report.API.Common.Interfaces
         /// <summary>
         /// Update report information.
         /// </summary>
-        /// <param name="sensor">Report object.</param>
+        /// <param name="reportDTO">Report object.</param>
         /// <returns>Operation status.</returns>
-        Task<bool> UpdateReportAsync(ReportDTO sensor);
+        Task<bool> UpdateReportAsync(ReportDTO reportDTO);
 
         /// <summary>
         /// Delete report from application.

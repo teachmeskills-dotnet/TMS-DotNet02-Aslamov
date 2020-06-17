@@ -26,11 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Constants\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="Controllers\" />
     <Folder Include="DTO\" />
-    <Folder Include="Infrastructure\Migrations\" />
   </ItemGroup>
 
 

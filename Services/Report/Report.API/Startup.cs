@@ -41,7 +41,7 @@ namespace Report.API
             //app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

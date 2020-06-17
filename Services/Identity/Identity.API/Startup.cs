@@ -1,14 +1,15 @@
 using AutoMapper;
+using Identity.API.Common.Extensions;
+using Identity.API.Common.Settings;
+using Identity.API.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Profile.API.Common.Extensions;
-using Profile.API.Infrastructure;
 
-namespace Profile.API
+namespace Identity.API
 {
     public class Startup
     {
@@ -23,13 +24,19 @@ namespace Profile.API
         {
             services.AddControllers();
 
-            services.AddDbContext<ProfileContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var appSettingSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingSection);
+
+            var appSettings = appSettingSection.Get<AppSettings>();
+            var isProduction = appSettings.IsProduction;
+
+            var connectionString = Configuration.GetConnectionString(isProduction.ToDbConnectionString());
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScopedServices();
-            services.AddAutomapper();
             services.AddSerilogService();
-            services.AddSwaggerService();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddJwtService(appSettings.Secret);
 
             services.AddHealthChecks();
         }
@@ -41,13 +48,11 @@ namespace Profile.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Profile API version 1"));
-
-            //app.UseAuthorization(); //TODO: Uncomment after implementing the identity service!
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

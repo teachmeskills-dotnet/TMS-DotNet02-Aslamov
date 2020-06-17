@@ -8,6 +8,11 @@ namespace Report.API.DTO
     public class ReportDTO
     {
         /// <summary>
+        /// Report Identifier.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Sensor identifier.
         /// </summary>
         public int SensorDeviceId { get; set; }

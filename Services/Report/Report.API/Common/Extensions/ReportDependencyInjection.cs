@@ -20,6 +20,7 @@ namespace Profile.API.Common.Extensions
         public static IServiceCollection AddScopedServices(this IServiceCollection services)
         {
             services.AddScoped<IReportContext, ReportContext>();
+            services.AddScoped<IReportService, ReportService>();
 
             return services;
         }

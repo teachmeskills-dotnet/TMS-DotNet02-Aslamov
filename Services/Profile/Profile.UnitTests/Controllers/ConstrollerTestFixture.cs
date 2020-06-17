@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sensor.UnitTests.Controllers
+namespace Profile.UnitTests.Controllers
 {
     /// <summary>
     /// Define base functions for ProfilesController testing.

@@ -1,13 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace DataProcessor.API.DTO
+namespace Report.API.Models
 {
     /// <summary>
-    /// Data transfer object of processing report.
+    /// Report model.
     /// </summary>
-    public class ReportDTO
+    public class ReportModel
     {
+        /// <summary>
+        /// Report Identifier.
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Sensor identifier.
         /// </summary>

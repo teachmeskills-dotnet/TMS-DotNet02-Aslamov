@@ -1,36 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace DataProcessor.API.DTO
+namespace Report.API.DTO
 {
     /// <summary>
-    /// Data transfer object of processing report.
+    /// Report Data Transfer Object (DTO).
     /// </summary>
     public class ReportDTO
     {
         /// <summary>
+        /// Report Identifier.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Sensor identifier.
         /// </summary>
+        [Required]
         public int SensorDeviceId { get; set; }
 
         /// <summary>
         /// Data acquisition date.
         /// </summary>
+        [Required]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Data type (temperature or acoustic signal).
         /// </summary>
+        [Required]
         public string DataType { get; set; }
 
         /// <summary>
         /// Health check of the patient.
         /// </summary>
+        [Required]
         public string HealthStatus { get; set; }
 
         /// <summary>
         /// Description of the patient health.
         /// </summary>
+        [Required]
         public string HealthDescription { get; set; }
 
         /// <summary>
@@ -41,6 +51,7 @@ namespace DataProcessor.API.DTO
         /// <summary>
         /// Percent accuracy of health assessment.
         /// </summary>
+        [Required]
         public int Accuracy { get; set; }
     }
 }

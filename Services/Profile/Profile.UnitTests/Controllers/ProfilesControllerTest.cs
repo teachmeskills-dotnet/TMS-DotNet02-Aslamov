@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Sensor.UnitTests.Controllers
+namespace Profile.UnitTests.Controllers
 {
     public class ProfilesControllerTest : ConstrollerTestFixture
     {
@@ -104,7 +104,7 @@ namespace Sensor.UnitTests.Controllers
         }
 
         [Fact]
-        public void RegisterNewSensorPost_WithInvalidModel_Returns_BadRequestResult()
+        public void RegisterNewReportPost_WithInvalidModel_Returns_BadRequestResult()
         {
             // Arrange
             var profileServiceMock = new Mock<IProfileService>();

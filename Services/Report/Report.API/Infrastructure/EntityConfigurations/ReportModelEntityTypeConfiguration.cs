@@ -29,7 +29,7 @@ namespace Report.API.Infrastructure.EntityConfigurations
                 .HasMaxLength(20);
 
             builder.Property(pm => pm.HealthDescription).IsRequired();
-            builder.Property(pm => pm.Diseases).IsRequired();
+            builder.Property(pm => pm.Diseases);
             builder.Property(pm => pm.Accuracy).IsRequired();
         }
     }

@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="DTO\" />
     <Folder Include="Common\Enums\" />

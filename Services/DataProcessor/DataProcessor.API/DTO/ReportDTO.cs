@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace DataProcessor.API.DTO
 {
     /// <summary>
@@ -7,29 +9,38 @@ namespace DataProcessor.API.DTO
     public class ReportDTO
     {
         /// <summary>
-        /// Data acquisition  date.
-        /// </summary>
-        public DateTime Date { get; set; }
-
-        /// <summary>
         /// Sensor identifier.
         /// </summary>
         public int SensorDeviceId { get; set; }
 
         /// <summary>
-        /// Serial of sensor device.
+        /// Data acquisition date.
         /// </summary>
-        public string SensorDeviceSerial { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
-        /// Type of sensor device.
+        /// Data type (temperature or acoustic signal).
         /// </summary>
-        public string SensorDeviceType { get; set; }
+        public string DataType { get; set; }
 
         /// <summary>
-        /// Health status of the patient.
+        /// Health check of the patient.
         /// </summary>
         public string HealthStatus { get; set; }
 
+        /// <summary>
+        /// Description of the patient health.
+        /// </summary>
+        public string HealthDescription { get; set; }
+
+        /// <summary>
+        /// Recognized patient diseases.
+        /// </summary>
+        public string Diseases { get; set; }
+
+        /// <summary>
+        /// Percent accuracy of health assessment.
+        /// </summary>
+        public int Accuracy { get; set; }
     }
 }

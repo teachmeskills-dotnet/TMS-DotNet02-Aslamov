@@ -1,4 +1,5 @@
-﻿using DataProcessor.API.DTO;
+﻿using DataProcessor.API.Common.Constants;
+using DataProcessor.API.DTO;
 using System;
 
 namespace DataProcessor.UnitTests.Controllers
@@ -19,8 +20,10 @@ namespace DataProcessor.UnitTests.Controllers
                 Date = DateTime.Now,
                 HealthStatus = "Healthy",
                 SensorDeviceId = 1,
-                SensorDeviceSerial = "123456789",
-                SensorDeviceType = "Acoustic",
+                DataType = "Acoustic",
+                Accuracy = 100,
+                Diseases = string.Empty,
+                HealthDescription = HealthDescriptionConstants.HEALTY_DESCRIPTION,
             };
         }
 

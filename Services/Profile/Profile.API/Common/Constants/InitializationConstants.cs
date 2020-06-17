@@ -1,4 +1,4 @@
-﻿namespace Sensor.API.Common.Constants
+﻿namespace Profile.API.Common.Constants
 {
     /// <summary>
     /// Constants for application services initialization.

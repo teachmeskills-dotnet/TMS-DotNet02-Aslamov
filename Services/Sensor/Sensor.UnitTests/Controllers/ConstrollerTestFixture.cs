@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Sensor.UnitTests.Controllers
 {
+    /// <summary>
+    /// Define base functions for SensorsController testing.
+    /// </summary>
     public class ConstrollerTestFixture
     {
         /// <summary>

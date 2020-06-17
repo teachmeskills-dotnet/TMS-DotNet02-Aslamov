@@ -5,7 +5,7 @@ using Sensor.API.Models;
 namespace Sensor.API.Infrastructure.EntityConfigurations
 {
     /// <summary>
-    /// Class for sensor device entity configuration.
+    /// Class for sensor device configuration.
     /// </summary>
     public class SensorDeviceEntityTypeConfiguration : IEntityTypeConfiguration<SensorDevice>
     {

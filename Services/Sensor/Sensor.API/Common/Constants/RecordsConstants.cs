@@ -16,7 +16,7 @@
         public const string RECORD_NOT_FOUND = "Record not found!";
 
         /// <summary>
-        /// Record not found.
+        /// Get found record.
         /// </summary>
         public const string GET_FOUND_RECORD = "Record found.";
 

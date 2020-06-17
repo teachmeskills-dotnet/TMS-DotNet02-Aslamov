@@ -1,13 +1,13 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Sensor.API.Common.Constants;
-using Sensor.API.Common.Extensions;
-using Sensor.API.Common.Interfaces;
-using Sensor.API.Services;
+using Profile.API.Common.Constants;
+using Profile.API.Common.Extensions;
+using Profile.API.Common.Interfaces;
+using Profile.API.Services;
 using Serilog;
 
-namespace Sensor.API
+namespace Profile.API
 {
     public class Program
     {

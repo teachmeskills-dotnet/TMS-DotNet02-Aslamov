@@ -1,20 +1,33 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Sensor.API.Common.Interfaces;
-using Sensor.API.Common.Mapping;
-using Sensor.API.Infrastructure;
-using Sensor.API.Services;
 using Microsoft.OpenApi.Models;
+using Profile.API.Common.Interfaces;
+using Profile.API.Common.Mapping;
+using Profile.API.Infrastructure;
+using Profile.API.Services;
 using Serilog;
 using System;
 
-namespace Sensor.API.Common.Extensions
+namespace Profile.API.Common.Extensions
 {
     /// <summary>
     /// Extenstion to add services.
     /// </summary>
-    public static class SensorDependencyInjection
+    public static class ProfileDependencyInjection
     {
+        /// <summary>
+        /// Add scoped services.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        /// <returns>Services.</returns>
+        public static IServiceCollection AddScopedServices(this IServiceCollection services)
+        {
+            services.AddScoped<IProfileContext, ProfileContext>();
+            services.AddScoped<IProfileService, ProfileService>();
+
+            return services;
+        }
+
         /// <summary>
         /// Add Automapper service.
         /// </summary>
@@ -24,25 +37,11 @@ namespace Sensor.API.Common.Extensions
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new SensorProfile());
+                mc.AddProfile(new MappingProfile());
             });
 
             var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-
-            return services;
-        }
-
-        /// <summary>
-        /// Add scoped services.
-        /// </summary>
-        /// <param name="services">DI container.</param>
-        /// <returns>Services.</returns>
-        public static IServiceCollection AddScopedServices(this IServiceCollection services)
-        {
-            services.AddScoped<ISensorContext, SensorContext>();
-            services.AddScoped<ISensorService, SensorService>();
-            services.AddScoped<IRecordService, RecordService>();
 
             return services;
         }
@@ -55,11 +54,11 @@ namespace Sensor.API.Common.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo 
-                { 
-                    Title = "iCare Sensor API", 
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "iCare Profile API",
                     Version = "v1",
-                    Description = "The Sensor Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                    Description = "The Profile Microservice HHTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
         }

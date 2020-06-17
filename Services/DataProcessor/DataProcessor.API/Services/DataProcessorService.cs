@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataProcessor.API.Common.Enums;
@@ -25,6 +24,7 @@ namespace DataProcessor.API.Services
             _mapper = mapper ?? throw new ArgumentNullException();
         }
 
+        // TODO: add processing cache.
         /// <inheritdoc/>
         public Task<IActionResult> AddReportToCache()
         {
@@ -56,8 +56,16 @@ namespace DataProcessor.API.Services
             {
                 return (null, false);
             }
-            
-            var healthStatus = await GetHealthStatus();
+
+            string healthStatus;
+            try
+            {
+                healthStatus = await GetHealthStatus();
+            }
+            catch
+            {
+                return (null, false);
+            }
 
             var report = _mapper.Map<DataDTO, ReportDTO>(dataDTO);
             report.HealthStatus = healthStatus;

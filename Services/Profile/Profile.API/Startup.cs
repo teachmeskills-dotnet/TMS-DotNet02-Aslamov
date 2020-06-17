@@ -1,13 +1,14 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sensor.API.Common.Extensions;
-using Sensor.API.Infrastructure;
+using Profile.API.Common.Extensions;
+using Profile.API.Infrastructure;
 
-namespace Sensor.API
+namespace Profile.API
 {
     public class Startup
     {
@@ -18,21 +19,23 @@ namespace Sensor.API
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            services.AddDbContext<SensorContext>(options =>
+            services.AddDbContext<ProfileContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddAutomapper();
             services.AddScopedServices();
-            services.AddSwaggerService();
+            services.AddAutomapper();
             services.AddSerilogService();
+            services.AddSwaggerService();
 
             services.AddHealthChecks();
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -44,9 +47,9 @@ namespace Sensor.API
             app.UseRouting();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Sensor API version 1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Profile API version 1"));
 
-            //app.UseAuthentication(); //TODO: Uncomment after implementing the identity service!
+            //app.UseAuthorization(); //TODO: Uncomment after implementing the identity service!
 
             app.UseEndpoints(endpoints =>
             {

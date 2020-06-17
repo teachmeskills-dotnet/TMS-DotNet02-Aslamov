@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Report.API.DTO
 {
@@ -15,26 +16,31 @@ namespace Report.API.DTO
         /// <summary>
         /// Sensor identifier.
         /// </summary>
+        [Required]
         public int SensorDeviceId { get; set; }
 
         /// <summary>
         /// Data acquisition date.
         /// </summary>
+        [Required]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Data type (temperature or acoustic signal).
         /// </summary>
+        [Required]
         public string DataType { get; set; }
 
         /// <summary>
         /// Health check of the patient.
         /// </summary>
+        [Required]
         public string HealthStatus { get; set; }
 
         /// <summary>
         /// Description of the patient health.
         /// </summary>
+        [Required]
         public string HealthDescription { get; set; }
 
         /// <summary>
@@ -45,6 +51,7 @@ namespace Report.API.DTO
         /// <summary>
         /// Percent accuracy of health assessment.
         /// </summary>
+        [Required]
         public int Accuracy { get; set; }
     }
 }

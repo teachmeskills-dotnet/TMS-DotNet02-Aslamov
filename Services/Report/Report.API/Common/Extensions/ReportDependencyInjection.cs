@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Report.API.Common.Interfaces;
 using Report.API.Infrastructure;
 using Report.API.Services;
@@ -37,6 +38,23 @@ namespace Profile.API.Common.Extensions
             AppDomain.CurrentDomain.ProcessExit += (s, e) => Log.CloseAndFlush();
 
             return services.AddSingleton(Log.Logger);
+        }
+
+        /// <summary>
+        /// Add Swagger Service.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        public static void AddSwaggerService(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "iCare Report API",
+                    Version = "v1",
+                    Description = "The Report Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                });
+            });
         }
     }
 }

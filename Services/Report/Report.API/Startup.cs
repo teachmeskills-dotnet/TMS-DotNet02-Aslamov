@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace Report.API
 
             services.AddScopedServices();
             services.AddSerilogService();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddHealthChecks();
         }

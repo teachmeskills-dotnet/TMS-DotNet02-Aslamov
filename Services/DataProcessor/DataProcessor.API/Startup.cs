@@ -33,10 +33,8 @@ namespace DataProcessor.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
-
-            //app.UseAuthorization(); //TODO: Uncomment after implementing the identity service!
+            app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare DataProcessor API version 1"));

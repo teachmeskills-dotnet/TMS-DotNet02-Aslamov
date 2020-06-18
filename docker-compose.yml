@@ -37,3 +37,13 @@ services:
       - 3002:80
     depends_on:
       - sqldata
+
+  report.api:
+    image: ${DOCKER_REGISTRY-}reportapi
+    build:
+      context: .
+      dockerfile: DockerfileReport
+    ports:
+      - 3005:80
+    depends_on:
+      - sqldata

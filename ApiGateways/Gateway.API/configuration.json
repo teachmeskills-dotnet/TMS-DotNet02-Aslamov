@@ -10,7 +10,19 @@
         }
       ],
       "UpstreamPathTemplate": "/sensors",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/sensors/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "sensor.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/sensors/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
     },
 
     {
@@ -23,7 +35,19 @@
         }
       ],
       "UpstreamPathTemplate": "/records",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/records/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "sensor.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/records/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
     },
 
     {
@@ -36,7 +60,19 @@
         }
       ],
       "UpstreamPathTemplate": "/profiles",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/profiles/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profile.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/profiles/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
     },
 
     {
@@ -51,6 +87,42 @@
       "UpstreamPathTemplate": "/accounts",
       "UpstreamHttpMethod": [ "Get" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/accounts/{login}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identity.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/accounts/{login}",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/accounts/{register}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identity.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/accounts/{register}",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/accounts/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identity.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/accounts/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put" ]
+    },
 
     {
       "DownstreamPathTemplate": "/api/reports",
@@ -62,7 +134,7 @@
         }
       ],
       "UpstreamPathTemplate": "/reports",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/reports/{id}",
@@ -74,12 +146,24 @@
         }
       ],
       "UpstreamPathTemplate": "/reports/{id}",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/dataprocessor",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dataprocessor.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/dataprocessor",
+      "UpstreamHttpMethod": [ "Post" ]
     }
   ],
 
-
-  "GlobalConfiguration": {
-    "UseServiceDiscovery": false
-  }
+    "GlobalConfiguration": {
+        "UseServiceDiscovery": false
+    }
 }

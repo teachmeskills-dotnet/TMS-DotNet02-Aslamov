@@ -10,6 +10,16 @@ services:
     ports:
       - 1433:1433
 
+  sensor.api:
+    image: ${DOCKER_REGISTRY-}sensorapi
+    build:
+      context: .
+      dockerfile: DockerfileSensor
+    ports:
+      - 3000:80
+    depends_on:
+      - sqldata
+
   dataprocessor.api:
     image: ${DOCKER_REGISTRY-}dataprocessorapi
     build:

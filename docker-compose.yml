@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: DockerfileSensor
     ports:
-      - 3000:80
+      - 3001:80
     depends_on:
       - sqldata
 
@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: DockerfileDataProcessor
     ports:
-      - 3001:80
+      - 3002:80
 
   profile.api:
     image: ${DOCKER_REGISTRY-}profileapi
@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: DockerfileProfile
     ports:
-      - 3002:80
+      - 3003:80
     depends_on:
       - sqldata
 

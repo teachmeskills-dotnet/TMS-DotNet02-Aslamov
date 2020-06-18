@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using DataProcessor.API.Common.Dictionaries;
 using DataProcessor.API.Common.Enums;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.DTO;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DataProcessor.API.Services
 {
@@ -16,37 +18,12 @@ namespace DataProcessor.API.Services
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Constructor of dataprocessor service.
+        /// Constructor of service for processing telemetry data.
         /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="mapper">AutoMapper service.</param>
         public DataProcessorService(IMapper mapper)
         {
-            _mapper = mapper ?? throw new ArgumentNullException();
-        }
-
-        // TODO: add processing cache.
-        /// <inheritdoc/>
-        public Task<IActionResult> AddReportToCache()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public Task<IActionResult> CleanAllCache()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public Task<IActionResult> DeleteReportFromCache(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public Task<ReportDTO> GetReportFromCache(int id)
-        {
-            throw new NotImplementedException();
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <inheritdoc/>
@@ -57,32 +34,104 @@ namespace DataProcessor.API.Services
                 return (null, false);
             }
 
-            string healthStatus;
+            ReportDTO healthReport;
             try
             {
-                healthStatus = await GetHealthStatus();
+                healthReport = await GetHealthReport(dataDTO);
             }
             catch
             {
                 return (null, false);
             }
 
-            var report = _mapper.Map<DataDTO, ReportDTO>(dataDTO);
-            report.HealthStatus = healthStatus;
-
-            return (report, true);
+            return (healthReport, true);
         }
         
         // Randomly generate health status of the patient.
-        private Task<string> GetHealthStatus()
+        private Task<ReportDTO> GetHealthReport(DataDTO dataDTO)
         {
-            var statusGenerator = new Random();
-            var status = Enum.GetName(typeof(HealthStatus), statusGenerator.Next(0, 3));
+            var generator = new Random();
+
+            var arrayOfHealthStatuses = Enum.GetValues(typeof(HealthStatus));
+            var healthStatus = (HealthStatus)arrayOfHealthStatuses.GetValue(generator.Next(0, arrayOfHealthStatuses.Length));
+
+            var accuracy = generator.Next(50, 101);
+
+            string diseases = null;
+            if (healthStatus == HealthStatus.Diseased)
+            {
+                switch(dataDTO.SensorDeviceType)
+                {
+                    case "Temperature":
+                        diseases = RecognizeDiseasesByTemperature();
+                        break;
+
+                    case "Acoustic":
+                        diseases = RecognizeDiseasesByAcoustic();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            var healthReport = _mapper.Map<DataDTO, ReportDTO>(dataDTO);
+
+            healthReport.HealthStatus = healthStatus.ToString();
+            healthReport.HealthDescription = DataProcessorDictionary.GetHealthDescription(healthStatus);
+            healthReport.Diseases = diseases;
+            healthReport.Accuracy = accuracy;
 
             // Imitation of processing time. 
-            //Thread.Sleep(5000); 
+            Thread.Sleep(1000); 
 
-            return Task.FromResult(status);
+            return Task.FromResult(healthReport);
+        }
+
+        // Recognize disease by temperature (randomly).
+        private string RecognizeDiseasesByTemperature()
+        {
+            var diseasesTotalCount = DataProcessorDictionary.GetCommonDiseasesCount();
+            var generator = new Random();
+
+            var diseaseId = generator.Next(diseasesTotalCount);
+            var disease = DataProcessorDictionary.GetCommonDisease(diseaseId);
+
+            return disease;
+        }
+
+        // Recognize heart diseases by acoustic signal (randomly).
+        private string RecognizeDiseasesByAcoustic()
+        {
+            var diseasesTotalCount = DataProcessorDictionary.GetHeartDiseasesCount();
+            var generator = new Random();
+
+            var RECOGNIZED_DISEASES_MAX_COUNT = 3;
+            var recognizedDiseasesCount = generator.Next(1, RECOGNIZED_DISEASES_MAX_COUNT);
+
+            // Create list of recognized diseases.
+            var diseasesList = new List<string>();
+            var count = 0;
+            while (count < recognizedDiseasesCount)
+            {
+                var id = generator.Next(diseasesTotalCount);
+                var disease = DataProcessorDictionary.GetHeartDisease(id);
+
+                if (!diseasesList.Contains(disease))
+                {
+                    diseasesList.Add(disease);
+                    count++;
+                }
+            }
+
+            // Conver diseases list to string format.
+            string diseases = null;
+            foreach (var disease in diseasesList)
+            {
+                diseases += $"{disease}, ";
+            }
+
+            return diseases;
         }
     }
 }

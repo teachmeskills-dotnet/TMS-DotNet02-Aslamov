@@ -5,8 +5,8 @@
     /// </summary>
     public enum HealthStatus
     {
-        Healthy = 0,
-        Diseased = 1,
-        Unknown = 2
+        Unknown = 0,
+        Healthy = 1,
+        Diseased = 2,   
     }
 }

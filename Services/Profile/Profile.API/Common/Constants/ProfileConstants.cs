@@ -8,46 +8,46 @@
         /// <summary>
         /// Profile already exists.
         /// </summary>
-        public const string PROFILE_ALREADY_EXIST= "Sensor already exists!";
+        public const string PROFILE_ALREADY_EXIST= "Profile already exists!";
 
         /// <summary>
         /// Profile not found.
         /// </summary>
-        public const string PROFILE_NOT_FOUND = "Sensor not found!";
+        public const string PROFILE_NOT_FOUND = "Profile not found!";
 
         /// <summary>
         /// Get found profile.
         /// </summary>
-        public const string GET_FOUND_PROFILE = "Sensor found.";
+        public const string GET_FOUND_PROFILE = "Profile found.";
 
         /// <summary>
         /// Profile recieved.
         /// </summary>
-        public const string GET_PROFILES = "Sensors recieved.";
+        public const string GET_PROFILES = "Profiles recieved.";
 
         /// <summary>
         /// Profile registration conflict.
         /// </summary>
-        public const string ADD_PROFILE_CONFLICT = "New sensor registration conflict!";
+        public const string ADD_PROFILE_CONFLICT = "New profile registration conflict!";
 
         /// <summary>
         /// New profile was successfully registered.
         /// </summary>
-        public const string ADD_PROFILE_SUCCESS = "New sensor was successfullty registered!";
+        public const string ADD_PROFILE_SUCCESS = "New profile was successfullty registered!";
 
         /// <summary>
         /// Profile update conflict.
         /// </summary>
-        public const string UPDATE_PROFILE_CONFLICT = "Sensor update conflict!";
+        public const string UPDATE_PROFILE_CONFLICT = "Profile update conflict!";
 
         /// <summary>
         /// Profile update success.
         /// </summary>
-        public const string UPDATE_PROFILE_SUCCESS = "Sensor update success!";
+        public const string UPDATE_PROFILE_SUCCESS = "Profile update success!";
 
         /// <summary>
         /// Profile deletion success.
         /// </summary>
-        public const string DELETE_PROFILE_SUCCESS = "Sensor deletion success!";
+        public const string DELETE_PROFILE_SUCCESS = "Profile deletion success!";
     }
 }

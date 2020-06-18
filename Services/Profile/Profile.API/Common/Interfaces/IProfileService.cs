@@ -33,9 +33,9 @@ namespace Profile.API.Common.Interfaces
         /// <summary>
         /// Update profile information.
         /// </summary>
-        /// <param name="sensor">Profile object.</param>
+        /// <param name="profileDTO">Profile object.</param>
         /// <returns>Operation status.</returns>
-        Task<bool> UpdateProfileAsync(ProfileDTO sensor);
+        Task<bool> UpdateProfileAsync(ProfileDTO profileDTO);
 
         /// <summary>
         /// Delete profile from application.

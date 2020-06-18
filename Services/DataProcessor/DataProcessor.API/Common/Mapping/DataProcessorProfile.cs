@@ -15,8 +15,10 @@ namespace DataProcessor.API.Common.Mapping
         {
             CreateMap<DataDTO, ReportDTO>()
                .ForMember(report => report.HealthStatus, opt => opt.Ignore())
+               .ForMember(report => report.DataType, opt => opt.MapFrom(data => data.SensorDeviceType))
                .ReverseMap()
-               .ForMember(data => data.Value, opt => opt.Ignore());
+               .ForMember(data => data.Value, opt => opt.Ignore())
+               .ForMember(data => data.SensorDeviceType, opt => opt.MapFrom(report => report.DataType));
         }
     }
 }

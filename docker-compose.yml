@@ -38,6 +38,16 @@ services:
     depends_on:
       - sqldata
 
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: DockerfileIdentity
+    ports:
+      - 3004:80
+    depends_on:
+      - sqldata
+
   report.api:
     image: ${DOCKER_REGISTRY-}reportapi
     build:

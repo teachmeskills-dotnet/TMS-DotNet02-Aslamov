@@ -10,6 +10,14 @@ services:
     ports:
       - 1433:1433
 
+  gateway.api:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: .
+      dockerfile: DockerfileGateway
+    ports:
+      - 3000:80
+
   sensor.api:
     image: ${DOCKER_REGISTRY-}sensorapi
     build:

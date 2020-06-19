@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Profile.API.DTO
 {
@@ -15,11 +16,13 @@ namespace Profile.API.DTO
         /// <summary>
         /// First name.
         /// </summary>
+        [Required]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Last name.
         /// </summary>
+        [Required]
         public string LastName { get; set; }
 
         /// <summary>
@@ -30,11 +33,13 @@ namespace Profile.API.DTO
         /// <summary>
         /// Passport serial.
         /// </summary>
+        [Required]
         public string Passport { get; set; }
 
         /// <summary>
         /// Birth data.
         /// </summary>
+        [Required]
         public DateTime BirthDate { get; set; }
 
         /// <summary>

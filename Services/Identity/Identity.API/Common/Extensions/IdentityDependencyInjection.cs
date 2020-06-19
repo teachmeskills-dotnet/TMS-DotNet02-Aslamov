@@ -51,16 +51,16 @@ namespace Identity.API.Common.Extensions
         {
             var key = Encoding.ASCII.GetBytes(secret);
 
-            services.AddAuthentication(x =>
+            services.AddAuthentication(opt =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x =>
+            .AddJwtBearer(opt =>
             {
-                x.RequireHttpsMetadata = true; // "false" -- only for debug.
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                opt.RequireHttpsMetadata = false; // "false" -- only for debug.
+                opt.SaveToken = true;
+                opt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),

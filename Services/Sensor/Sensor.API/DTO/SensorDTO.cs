@@ -1,4 +1,6 @@
-﻿namespace Sensor.API.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Sensor.API.DTO
 {
     /// <summary>
     /// Sensor data trasfer object.
@@ -13,6 +15,7 @@
         /// <summary>
         /// Sensor serial number.
         /// </summary>
+        [Required]
         public string Serial { get; set; }
 
         /// <summary>
@@ -23,6 +26,7 @@
         /// <summary>
         /// Sensor type.
         /// </summary>
+        [Required]
         public string SensorType { get; set; }
     }
 }

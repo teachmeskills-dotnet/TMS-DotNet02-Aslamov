@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sensor.API.DTO
 {
@@ -15,16 +16,19 @@ namespace Sensor.API.DTO
         /// <summary>
         /// Data value.
         /// </summary>
+        [Required]
         public byte[] Value { get; set; }
 
         /// <summary>
         /// Data acquisition  date.
         /// </summary>
+        [Required]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Mark deleted data.
         /// </summary>
+        [Required]
         public bool IsDeleted { get; set; }
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace Sensor.API.DTO
         /// <summary>
         /// Serial of sensor device.
         /// </summary>
+        [Required]
         public string SensorDeviceSerial { get; set; }
     }
 }

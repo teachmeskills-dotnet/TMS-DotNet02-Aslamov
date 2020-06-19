@@ -23,6 +23,8 @@ namespace DataProcessor.API
             services.AddAutomapper();
             services.AddSwaggerService();
 
+            services.AddJwtService(Configuration);
+
             services.AddHealthChecks();
         }
 
@@ -34,6 +36,8 @@ namespace DataProcessor.API
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();

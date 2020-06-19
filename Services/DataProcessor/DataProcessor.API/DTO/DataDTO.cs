@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataProcessor.API.DTO
 {
@@ -10,11 +11,13 @@ namespace DataProcessor.API.DTO
         /// <summary>
         /// Data value.
         /// </summary>
+        [Required]
         public byte[] Value { get; set; }
 
         /// <summary>
         /// Data acquisition  date.
         /// </summary>
+        [Required]
         public DateTime Date { get; set; }
 
         /// <summary>
@@ -25,11 +28,13 @@ namespace DataProcessor.API.DTO
         /// <summary>
         /// Serial of sensor device.
         /// </summary>
+        [Required]
         public string SensorDeviceSerial { get; set; }
 
         /// <summary>
         /// Type of sensor device.
         /// </summary>
+        [Required]
         public string SensorDeviceType { get; set; }
     }
 }

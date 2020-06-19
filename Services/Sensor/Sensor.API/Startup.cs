@@ -30,6 +30,8 @@ namespace Sensor.API
             services.AddSwaggerService();
             services.AddSerilogService();
 
+            services.AddJwtService(Configuration);
+
             services.AddHealthChecks();
         }
 
@@ -47,6 +49,7 @@ namespace Sensor.API
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Sensor API version 1"));
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

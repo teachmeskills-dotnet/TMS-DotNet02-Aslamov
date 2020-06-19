@@ -1,3 +1,5 @@
+using Gateway.API.Common.Extensions;
+using Gateway.API.Common.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,10 +17,10 @@ namespace Gateway.API
             var builder = new ConfigurationBuilder()
                 .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile("configuration.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            //Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +29,12 @@ namespace Gateway.API
         {
             services.AddControllers();
             services.AddOcelot(Configuration);
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            services.AddJwtService(appSettings.Secret);
 
             services.AddHealthChecks();
         }
@@ -39,8 +47,7 @@ namespace Gateway.API
             }
 
             app.UseRouting();
-
-            //app.UseAuthorization();
+            app.UseAuthentication();
             app.UseOcelot().Wait();
 
             app.UseEndpoints(endpoints =>

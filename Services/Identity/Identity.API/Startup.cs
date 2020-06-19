@@ -1,10 +1,8 @@
 using AutoMapper;
 using Identity.API.Common.Extensions;
 using Identity.API.Common.Settings;
-using Identity.API.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

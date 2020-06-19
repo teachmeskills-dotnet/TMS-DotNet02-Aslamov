@@ -62,9 +62,9 @@ namespace Identity.API.Infrastructure
                 new AccountModel()
                 {
                     Id = new Guid(),
-                    Email = "test@gmail.com",
+                    Email = "user@gmail.com",
                     Password = "passw@rd123",
-                    Username = "test",
+                    Username = "user",
                     Role = 1, // User
                     IsActive = true,
                 },

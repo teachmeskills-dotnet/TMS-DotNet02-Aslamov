@@ -31,6 +31,8 @@ namespace Report.API
             services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerService();
 
+            services.AddJwtService(Configuration);
+
             services.AddHealthChecks();
         }
 
@@ -46,7 +48,8 @@ namespace Report.API
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Report API version 1"));
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

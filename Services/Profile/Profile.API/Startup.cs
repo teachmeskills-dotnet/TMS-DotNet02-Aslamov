@@ -30,6 +30,8 @@ namespace Profile.API
             services.AddSerilogService();
             services.AddSwaggerService();
 
+            services.AddJwtService(Configuration);
+
             services.AddHealthChecks();
         }
 
@@ -46,6 +48,7 @@ namespace Profile.API
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Profile API version 1"));
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

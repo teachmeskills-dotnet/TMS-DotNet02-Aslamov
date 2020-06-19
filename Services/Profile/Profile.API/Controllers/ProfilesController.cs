@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Profile.API.Common.Constants;
 using Profile.API.Common.Interfaces;
@@ -10,6 +11,7 @@ using Serilog;
 namespace Profile.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProfilesController : ControllerBase
     {
@@ -29,6 +31,7 @@ namespace Profile.API.Controllers
         }
 
         // GET: api/profiles
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ICollection<ProfileDTO>> GetProfiles()
         {
@@ -41,6 +44,7 @@ namespace Profile.API.Controllers
         }
 
         // GET: api/profiles/{id}
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfile([FromRoute] Guid id)
         {
@@ -61,6 +65,7 @@ namespace Profile.API.Controllers
         }
 
         // POST: api/profiles
+        [Authorize(Roles ="User, Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterNewProfile([FromBody] ProfileDTO profileDTO)
         {
@@ -83,6 +88,7 @@ namespace Profile.API.Controllers
         }
 
         // PUT: api/profiles/{id}
+        [Authorize(Roles ="Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfile([FromBody] ProfileDTO profileDTO)
         {
@@ -115,6 +121,7 @@ namespace Profile.API.Controllers
         }
 
         // DELETE: api/profiles/{id}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfile([FromRoute] Guid id)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
@@ -11,6 +12,7 @@ using Serilog;
 namespace Sensor.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class SensorsController : ControllerBase
     {
@@ -30,6 +32,7 @@ namespace Sensor.API.Controllers
         }
 
         // GET: api/sensors
+        [Authorize(Roles = "User, Admin")]
         [HttpGet]
         public async Task<ICollection<SensorDTO>> GetSensors()
         {
@@ -42,6 +45,7 @@ namespace Sensor.API.Controllers
         }
 
         // GET: api/sensors/{id}
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSensor([FromRoute] int id)
         {
@@ -62,6 +66,7 @@ namespace Sensor.API.Controllers
         }
 
         // POST: api/sensors
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterNewSensor([FromBody] SensorDTO sensor)
         {
@@ -84,6 +89,7 @@ namespace Sensor.API.Controllers
         }
 
         // PUT: api/sensors/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSensor([FromBody] SensorDTO sensor)
         {
@@ -116,6 +122,7 @@ namespace Sensor.API.Controllers
         }
 
         // DELETE: api/sensors/{id}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSensor([FromRoute] int id)
         {

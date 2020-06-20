@@ -4,6 +4,8 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer.Sinks.MSSqlServer.Options;
+using System;
+using Microsoft.Extensions.Hosting;
 
 namespace Profile.API.Services
 {
@@ -15,11 +17,15 @@ namespace Profile.API.Services
         /// <inheritdoc/>
         public Logger SerilogConfiguration()
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var isProduction = environment == Environments.Production;
+
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var connectionString = configuration["ConnectionStrings:DefaultConnection"];
+            var connectionType = isProduction ? "DockerConnection" : "DefaultConnection";
+            var connectionString = configuration[$"ConnectionStrings:{connectionType}"];
 
             var serilogConfig =
                  new LoggerConfiguration()

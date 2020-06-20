@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataProcessor.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class DataProcessorController : ControllerBase
     {
@@ -22,6 +24,7 @@ namespace DataProcessor.API.Controllers
         }
 
         // Post: api/dataprocessor
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         public async Task<IActionResult> ProcessData([FromBody] DataDTO data)
         {

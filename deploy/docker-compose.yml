@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
+    environment:
+      SA_PASSWORD: "reallyStrongPwd123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+
+  gateway.api:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileGateway
+    ports:
+      - 3000:80
+
+  sensor.api:
+    image: ${DOCKER_REGISTRY-}sensorapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileSensor
+    ports:
+      - 3001:80
+    depends_on:
+      - sqldata
+
+  dataprocessor.api:
+    image: ${DOCKER_REGISTRY-}dataprocessorapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileDataProcessor
+    ports:
+      - 3002:80
+
+  profile.api:
+    image: ${DOCKER_REGISTRY-}profileapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileProfile
+    ports:
+      - 3003:80
+    depends_on:
+      - sqldata
+
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileIdentity
+    ports:
+      - 3004:80
+    depends_on:
+      - sqldata
+
+  report.api:
+    image: ${DOCKER_REGISTRY-}reportapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileReport
+    ports:
+      - 3005:80
+    depends_on:
+      - sqldata

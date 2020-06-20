@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 namespace DataProcessor.API.Common.Extensions
 {
     /// <summary>
-    /// Extenstion to add services.
+    /// Extension to add services.
     /// </summary>
     public static class DataProcessorDependencyInjection
     {

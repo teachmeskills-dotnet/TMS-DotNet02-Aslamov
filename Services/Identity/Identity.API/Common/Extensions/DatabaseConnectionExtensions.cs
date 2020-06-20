@@ -1,4 +1,10 @@
-﻿namespace Identity.API.Common.Extensions
+﻿using Identity.API.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Identity.API.Common.Extensions
 {
     /// <summary>
     /// Extension to extract the proper DB connection string based on current environment.
@@ -18,6 +24,25 @@
                 _ => "DefaultConnection",
             };
             return result;
+        }
+
+        /// <summary>
+        /// Add application db context.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        /// <param name="configuration">Startup configuration.</param>
+        /// <param name="environment">Web hosting environment.</param>
+        /// <returns>Services with application context.</returns>
+        public static IServiceCollection AddApplicationDbContext(this IServiceCollection services,
+                                                                 IConfiguration configuration,
+                                                                 IHostEnvironment environment)
+        {
+            var conntectionType = environment.IsProduction() ? "DockerConnection" : "DefaultConnection";
+
+            var connectionString = configuration.GetConnectionString(conntectionType);
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString));
+
+            return services;
         }
     }
 }

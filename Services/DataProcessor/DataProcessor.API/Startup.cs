@@ -23,6 +23,8 @@ namespace DataProcessor.API
             services.AddAutomapper();
             services.AddSwaggerService();
 
+            services.AddJwtService(Configuration);
+
             services.AddHealthChecks();
         }
 
@@ -33,10 +35,10 @@ namespace DataProcessor.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
 
-            //app.UseAuthorization(); //TODO: Uncomment after implementing the identity service!
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare DataProcessor API version 1"));

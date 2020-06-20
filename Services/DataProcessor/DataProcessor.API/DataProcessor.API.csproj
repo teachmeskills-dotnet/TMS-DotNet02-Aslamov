@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,6 +6,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
     <OutputType>Exe</OutputType>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'DataProcessor.API' ">
@@ -17,6 +18,7 @@
     <ApplicationURL>http://localhost:60786</ApplicationURL>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
@@ -31,6 +33,5 @@
     <Folder Include="DTO\" />
     <Folder Include="Common\Enums\" />
     <Folder Include="Common\Mapping\" />
-    <Folder Include="Common\Extensions\" />
   </ItemGroup>
 </Project>

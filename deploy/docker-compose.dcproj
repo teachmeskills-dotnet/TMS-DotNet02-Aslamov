@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.1</ProjectVersion>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectGuid>0ec8c826-440c-4a0f-9bc2-84197c9819d7</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="docker-compose.yml" />
+    <None Include=".dockerignore" />
+    <None Include="DockerfileDataProcessor" />
+    <None Include="DockerfileGateway" />
+    <None Include="DockerfileIdentity" />
+    <None Include="DockerfileProfile" />
+    <None Include="DockerfileReport" />
+    <None Include="DockerfileSensor" />
+  </ItemGroup>
+</Project>

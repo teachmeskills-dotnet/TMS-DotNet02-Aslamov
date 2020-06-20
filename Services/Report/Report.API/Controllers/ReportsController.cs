@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Report.API.Common.Constants;
 using Report.API.Common.Interfaces;
@@ -10,6 +11,7 @@ using Serilog;
 namespace Report.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ReportsController : ControllerBase
     {
@@ -29,6 +31,7 @@ namespace Report.API.Controllers
         }
 
         // GET: api/reports
+        [Authorize(Roles = "User, Admin")]
         [HttpGet]
         public async Task<ICollection<ReportDTO>> GetReports()
         {
@@ -41,6 +44,7 @@ namespace Report.API.Controllers
         }
 
         // GET: api/reports/{id}
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReport([FromRoute] int id)
         {
@@ -61,6 +65,7 @@ namespace Report.API.Controllers
         }
 
         // POST: api/reports
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterNewReport([FromBody] ReportDTO reportDTO)
         {
@@ -83,6 +88,7 @@ namespace Report.API.Controllers
         }
 
         // PUT: api/reports/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReport([FromBody] ReportDTO reportDTO)
         {
@@ -115,6 +121,7 @@ namespace Report.API.Controllers
         }
 
         // DELETE: api/reports/{id}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReport([FromRoute] int id)
         {

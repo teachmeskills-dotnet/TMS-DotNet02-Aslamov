@@ -13,9 +13,5 @@
     <PackageReference Include="Ocelot" Version="16.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 
 </Project>

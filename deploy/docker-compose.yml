@@ -13,16 +13,16 @@ services:
   gateway.api:
     image: ${DOCKER_REGISTRY-}gatewayapi
     build:
-      context: .
-      dockerfile: DockerfileGateway
+      context: ../
+      dockerfile: ./deploy/DockerfileGateway
     ports:
       - 3000:80
 
   sensor.api:
     image: ${DOCKER_REGISTRY-}sensorapi
     build:
-      context: .
-      dockerfile: DockerfileSensor
+      context: ../
+      dockerfile: ./deploy/DockerfileSensor
     ports:
       - 3001:80
     depends_on:
@@ -31,16 +31,16 @@ services:
   dataprocessor.api:
     image: ${DOCKER_REGISTRY-}dataprocessorapi
     build:
-      context: .
-      dockerfile: DockerfileDataProcessor
+      context: ../
+      dockerfile: ./deploy/DockerfileDataProcessor
     ports:
       - 3002:80
 
   profile.api:
     image: ${DOCKER_REGISTRY-}profileapi
     build:
-      context: .
-      dockerfile: DockerfileProfile
+      context: ../
+      dockerfile: ./deploy/DockerfileProfile
     ports:
       - 3003:80
     depends_on:
@@ -49,8 +49,8 @@ services:
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
     build:
-      context: .
-      dockerfile: DockerfileIdentity
+      context: ../
+      dockerfile: ./deploy/DockerfileIdentity
     ports:
       - 3004:80
     depends_on:
@@ -59,8 +59,8 @@ services:
   report.api:
     image: ${DOCKER_REGISTRY-}reportapi
     build:
-      context: .
-      dockerfile: DockerfileReport
+      context: ../
+      dockerfile: ./deploy/DockerfileReport
     ports:
       - 3005:80
     depends_on:

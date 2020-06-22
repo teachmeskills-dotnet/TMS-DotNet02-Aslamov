@@ -1,15 +1,15 @@
 ﻿using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
 
-namespace EventBus.Contracts.Events
+namespace EventBus.Contracts.Commands
 {
     /// <summary>
-    /// Define message interface for new record registration.
+    /// Define command to process data record.
     /// </summary>
-    public interface IRecordRegistered : IEvent
+    public interface IProcessData : ICommand
     {
         /// <summary>
-        /// New record data transfer object.
+        /// Data record for processing.
         /// </summary>
         IRecordDTO Record { get; set; }
     }

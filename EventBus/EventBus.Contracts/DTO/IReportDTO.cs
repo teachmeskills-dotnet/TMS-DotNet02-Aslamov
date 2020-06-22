@@ -1,46 +1,45 @@
-﻿using EventBus.Contracts.DTO;
-using System;
+﻿using System;
 
-namespace DataProcessor.API.DTO
+namespace EventBus.Contracts.DTO
 {
     /// <summary>
-    /// Data transfer object of processing report.
+    /// Define interface for data processing report.
     /// </summary>
-    public class ReportDTO : IReportDTO
+    public interface IReportDTO
     {
         /// <summary>
         /// Sensor identifier.
         /// </summary>
-        public int SensorDeviceId { get; set; }
+        int SensorDeviceId { get; set; }
 
         /// <summary>
         /// Data acquisition date.
         /// </summary>
-        public DateTime Date { get; set; }
+        DateTime Date { get; set; }
 
         /// <summary>
         /// Data type (temperature or acoustic signal).
         /// </summary>
-        public string DataType { get; set; }
+        string DataType { get; set; }
 
         /// <summary>
         /// Health check of the patient.
         /// </summary>
-        public string HealthStatus { get; set; }
+        string HealthStatus { get; set; }
 
         /// <summary>
         /// Description of the patient health.
         /// </summary>
-        public string HealthDescription { get; set; }
+        string HealthDescription { get; set; }
 
         /// <summary>
         /// Recognized patient diseases.
         /// </summary>
-        public string Diseases { get; set; }
+        string Diseases { get; set; }
 
         /// <summary>
         /// Percent accuracy of health assessment.
         /// </summary>
-        public int Accuracy { get; set; }
+        int Accuracy { get; set; }
     }
 }

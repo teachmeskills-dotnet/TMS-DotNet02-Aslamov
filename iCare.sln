@@ -18,6 +18,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{6FFF6270-148B-4546-BC10-E737CF9E6405}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{DC3AF596-37D3-4E42-98F0-AC305BA4A063}"
+	ProjectSection(SolutionItems) = preProject
+		EventBus\README.md = EventBus\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSources", "DataSources", "{3C3D9CDF-7A2C-4DAF-B00F-A892F34F9A94}"
 EndProject
@@ -58,6 +61,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Report.UnitTests", "Services\Report\Report.UnitTests\Report.UnitTests.csproj", "{ACED5C60-3BBD-4081-A024-66C2911609BF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensor.UnitTests", "Services\Sensor\Sensor.UnitTests\Sensor.UnitTests.csproj", "{E811E0F7-DA50-4133-8CED-09F881D8123C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Contracts", "EventBus\EventBus.Contracts\EventBus.Contracts.csproj", "{6F320C2B-F576-4836-855F-8FD49279091C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +118,10 @@ Global
 		{E811E0F7-DA50-4133-8CED-09F881D8123C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E811E0F7-DA50-4133-8CED-09F881D8123C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E811E0F7-DA50-4133-8CED-09F881D8123C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F320C2B-F576-4836-855F-8FD49279091C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F320C2B-F576-4836-855F-8FD49279091C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F320C2B-F576-4836-855F-8FD49279091C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F320C2B-F576-4836-855F-8FD49279091C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,6 +149,7 @@ Global
 		{48246AEA-728E-4218-8F0E-957D7965CBF5} = {4EF10C4D-C02F-4ADB-AC64-E1B4816AA393}
 		{ACED5C60-3BBD-4081-A024-66C2911609BF} = {4EF10C4D-C02F-4ADB-AC64-E1B4816AA393}
 		{E811E0F7-DA50-4133-8CED-09F881D8123C} = {4EF10C4D-C02F-4ADB-AC64-E1B4816AA393}
+		{6F320C2B-F576-4836-855F-8FD49279091C} = {DC3AF596-37D3-4E42-98F0-AC305BA4A063}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E51B4101-52E1-4FB3-933B-931665B1241C}

@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sensor.API.DTO
+namespace DataProcessor.API.DTO
 {
     /// <summary>
     /// Record data transfer object.

@@ -24,6 +24,7 @@ namespace DataProcessor.API
             services.AddSwaggerService();
 
             services.AddJwtService(Configuration);
+            services.AddEventBusService(Configuration);
 
             services.AddHealthChecks();
         }

@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E43D10FC-D932-4AB6-A982-88E3C1610B38}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{6FFF6270-148B-4546-BC10-E737CF9E6405}"
+	ProjectSection(SolutionItems) = preProject
+		ApiGateway\README.md = ApiGateway\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{DC3AF596-37D3-4E42-98F0-AC305BA4A063}"
 	ProjectSection(SolutionItems) = preProject
@@ -62,7 +65,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Report.UnitTests", "Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensor.UnitTests", "Services\Sensor\Sensor.UnitTests\Sensor.UnitTests.csproj", "{E811E0F7-DA50-4133-8CED-09F881D8123C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Contracts", "EventBus\EventBus.Contracts\EventBus.Contracts.csproj", "{6F320C2B-F576-4836-855F-8FD49279091C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.Contracts", "EventBus\EventBus.Contracts\EventBus.Contracts.csproj", "{6F320C2B-F576-4836-855F-8FD49279091C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,16 +1,11 @@
-﻿using DataProcessor.API.Common.Settings;
-using DataProcessor.API.EventBus.Consumers;
-using DataProcessor.API.EventBus.Produsers;
-using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
-using EventBus.Contracts.DTO;
-using GreenPipes;
+﻿using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Report.API.EventBus.Consumers;
+using Repport.API.Common.Settings;
 
-namespace DataProcessor.API.Common.Extensions
+namespace Report.API.Common.Extensions
 {
     /// <summary>
     /// Define extensions to configure event bus.
@@ -29,7 +24,7 @@ namespace DataProcessor.API.Common.Extensions
 
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<ProcessDataConsumer>();
+                x.AddConsumer<RegisterReportConsumer>();
 
                 x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -41,16 +36,13 @@ namespace DataProcessor.API.Common.Extensions
                         host.Password(eventBusSettings.Password);
                     });
 
-                    cfg.ReceiveEndpoint(eventBusSettings.DataProcessingQueue, ep =>
+                    cfg.ReceiveEndpoint(eventBusSettings.ReportsQueue, ep =>
                     {
                         ep.PrefetchCount = 16;
                         ep.UseMessageRetry(r => r.Interval(2, 100));
 
-                        ep.ConfigureConsumer<ProcessDataConsumer>(context);
+                        ep.ConfigureConsumer<RegisterReportConsumer>(context);
                     });
-
-                    var queueUri = new Uri(string.Concat(eventBusSettings.HostUri, "/", eventBusSettings.ReportsQueue));
-                    EndpointConvention.Map<IRegisterReport>(queueUri);
                 }));
             });
 
@@ -59,8 +51,6 @@ namespace DataProcessor.API.Common.Extensions
             services.AddSingleton<IPublishEndpoint>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
-
-            services.AddScoped(typeof(ICommandProducer<IReportDTO>),typeof(RegisterReportProducer));
 
             return services;
         }

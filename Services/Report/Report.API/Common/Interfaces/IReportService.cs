@@ -1,4 +1,5 @@
-﻿using Report.API.DTO;
+﻿using EventBus.Contracts.DTO;
+using Report.API.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Report.API.Common.Interfaces
         /// </summary>
         /// <param name="reportDTO">Report model.</param>
         /// <returns>Report Id and operation status.</returns>
-        Task<(int id, bool success)> RegisterNewReportAsync(ReportDTO reportDTO);
+        Task<(int id, bool success)> RegisterNewReportAsync(IReportDTO reportDTO);
 
         /// <summary>
         /// Get report by identifier.

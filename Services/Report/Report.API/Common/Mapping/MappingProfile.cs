@@ -1,4 +1,5 @@
-﻿using Report.API.DTO;
+﻿using EventBus.Contracts.DTO;
+using Report.API.DTO;
 using Report.API.Models;
 
 namespace Report.API.Common.Mapping
@@ -11,6 +12,10 @@ namespace Report.API.Common.Mapping
         /// <summary>
         /// Constructor of Automapper profile for Report.API.
         /// </summary>
-        public MappingProfile() => CreateMap<ReportModel, ReportDTO>().ReverseMap();
+        public MappingProfile()
+        {
+            CreateMap<ReportModel, ReportDTO>().ReverseMap();
+            CreateMap<ReportModel, IReportDTO>().ReverseMap();
+        }
     }
 }

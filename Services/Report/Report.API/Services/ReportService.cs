@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EventBus.Contracts.DTO;
 using Microsoft.EntityFrameworkCore;
 using Report.API.Common.Constants;
 using Report.API.Common.Interfaces;
@@ -37,9 +38,9 @@ namespace Report.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<(int id, bool success)> RegisterNewReportAsync(ReportDTO reportDTO)
+        public async Task<(int id, bool success)> RegisterNewReportAsync(IReportDTO reportDTO)
         {
-            var report = _mapper.Map<ReportDTO, ReportModel>(reportDTO);
+            var report = _mapper.Map<IReportDTO, ReportModel>(reportDTO);
             var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Date == reportDTO.Date && r.SensorDeviceId == reportDTO.SensorDeviceId);
 
             if (reportFound != null)

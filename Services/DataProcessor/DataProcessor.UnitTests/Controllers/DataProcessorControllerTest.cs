@@ -1,8 +1,17 @@
-﻿using DataProcessor.API.Common.Interfaces;
+﻿using Castle.Core.Logging;
+using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.Controllers;
 using DataProcessor.API.DTO;
+using DataProcessor.API.EventBus.Messages;
+using DataProcessor.API.EventBus.Produsers;
+using EventBus.Contracts.Commands;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,7 +28,14 @@ namespace DataProcessor.UnitTests.Controllers
             // Arrange
             var dataProcessorServiceMock = new Mock<IDataProcessorService>();
 
-            var controller = new DataProcessorController(dataProcessorServiceMock.Object);
+            var loggerMock = new Mock<ILogger<DataProcessorController>>();
+
+            var commandProducerMock = new Mock<ICommandProducer<IReportDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IReportDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             controller.ModelState.AddModelError("Model", "SomeError");
 
             var model = new DataDTO();
@@ -40,7 +56,14 @@ namespace DataProcessor.UnitTests.Controllers
                 .ProcessData(It.IsAny<DataDTO>()))
                 .Returns(Task.FromResult<(ReportDTO, bool)>((null, false)));
 
-            var controller = new DataProcessorController(dataProcessorServiceMock.Object);
+            var loggerMock = new Mock<ILogger<DataProcessorController>>();
+
+            var commandProducerMock = new Mock<ICommandProducer<IReportDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IReportDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var model = GetData();
 
             // Act
@@ -59,7 +82,14 @@ namespace DataProcessor.UnitTests.Controllers
                 .ProcessData(It.IsAny<DataDTO>()))
                 .Returns(Task.FromResult<(ReportDTO, bool)>((GetReport(), true)));
 
-            var controller = new DataProcessorController(dataProcessorServiceMock.Object);
+            var loggerMock = new Mock<ILogger<DataProcessorController>>();
+
+            var commandProducerMock = new Mock<ICommandProducer<IReportDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IReportDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var model = GetData();
 
             // Act

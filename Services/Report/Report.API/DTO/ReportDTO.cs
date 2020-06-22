@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventBus.Contracts.DTO;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Report.API.DTO
@@ -6,7 +7,7 @@ namespace Report.API.DTO
     /// <summary>
     /// Report Data Transfer Object (DTO).
     /// </summary>
-    public class ReportDTO
+    public class ReportDTO : IReportDTO
     {
         /// <summary>
         /// Report Identifier.

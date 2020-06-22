@@ -6,18 +6,34 @@
 
 | Publish Events    | Send Commands       | Subcribed             |
 |-------------------|---------------------|-----------------------|
-| IRecordRegistered | IProcessData        | IDataProcessed        |
-| IRecordDeleted    |                     |                       |
-| IRecordUpdated    |                     |                       |
-| ISensorRegistered |                     |                       |
-| ISensorDeleted    |                     |                       |
-| ISensorUpdated    |                     |                       |
+| IRecordRegistered | IProcessData        | IDataProcessed        |+
+| IRecordDeleted    |                     |                       |-
+| IRecordUpdated    |                     |                       |-
+| ISensorRegistered |                     |                       |-
+| ISensorDeleted    |                     |                       |-
+| ISensorUpdated    |                     |                       |-
 
 ### DataProcessor.API
 
 | Publish Events    | Send Commands       | Subcribed             |
 |-------------------|---------------------|-----------------------|
-| IDataProcessed    | IRegisterReport     | IReportRegistered     |
+| IDataProcessed    | IRegisterReport     | IProcessData          |+
+
+### Report.API
+
+| Publish Events    | Send Commands       | Subcribed             |
+|-------------------|---------------------|-----------------------|
+| IReportRegistered |                     | IRegisterReport       |-
+|                   |                     | IRecordDeleted        |-
+|                   |                     | ISensorDeleted        |-
+|                   |                     | IProfileDeleted       |-
+
+### Profile.API
+
+| Publish Events    | Send Commands       | Subcribed             |
+|-------------------|---------------------|-----------------------|
+| IProfileRegistered|                     |                       |-
+|                   |                     |                       |-
 
 ## Author
 

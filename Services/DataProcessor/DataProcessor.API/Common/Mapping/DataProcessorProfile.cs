@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataProcessor.API.DTO;
+using EventBus.Contracts.DTO;
 
 namespace DataProcessor.API.Common.Mapping
 {
@@ -13,7 +14,7 @@ namespace DataProcessor.API.Common.Mapping
         /// </summary>
         public DataProcessorProfile()
         {
-            CreateMap<DataDTO, ReportDTO>()
+            CreateMap<IDataDTO, ReportDTO>()
                .ForMember(report => report.HealthStatus, opt => opt.Ignore())
                .ForMember(report => report.DataType, opt => opt.MapFrom(data => data.SensorDeviceType))
                .ReverseMap()

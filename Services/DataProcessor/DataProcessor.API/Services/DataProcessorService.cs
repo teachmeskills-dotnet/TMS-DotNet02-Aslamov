@@ -7,6 +7,7 @@ using DataProcessor.API.Common.Dictionaries;
 using DataProcessor.API.Common.Enums;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.DTO;
+using EventBus.Contracts.DTO;
 
 namespace DataProcessor.API.Services
 {
@@ -27,7 +28,7 @@ namespace DataProcessor.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<(ReportDTO report, bool success)> ProcessData(DataDTO dataDTO)
+        public async Task<(ReportDTO report, bool success)> ProcessData(IDataDTO dataDTO)
         {
             if(dataDTO == null)
             {
@@ -48,7 +49,7 @@ namespace DataProcessor.API.Services
         }
         
         // Randomly generate health status of the patient.
-        private Task<ReportDTO> GetHealthReport(DataDTO dataDTO)
+        private Task<ReportDTO> GetHealthReport(IDataDTO dataDTO)
         {
             var generator = new Random();
 
@@ -75,7 +76,7 @@ namespace DataProcessor.API.Services
                 }
             }
 
-            var healthReport = _mapper.Map<DataDTO, ReportDTO>(dataDTO);
+            var healthReport = _mapper.Map<IDataDTO, ReportDTO>(dataDTO);
 
             healthReport.HealthStatus = healthStatus.ToString();
             healthReport.HealthDescription = DataProcessorDictionary.GetHealthDescription(healthStatus);

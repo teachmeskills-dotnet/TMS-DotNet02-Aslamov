@@ -11,6 +11,11 @@
         public string HostName { get; set; }
 
         /// <summary>
+        /// RabbitMQ host URI.
+        /// </summary>
+        public string HostUri { get; set; }
+
+        /// <summary>
         /// RabbitMQ virtual host name.
         /// </summary>
         public string VirtualHostName { get; set; }
@@ -24,5 +29,10 @@
         /// RabbitMQ password
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Queue for records data processing.
+        /// </summary>
+        public string DataProcessingQueue { get; set; }
     }
 }

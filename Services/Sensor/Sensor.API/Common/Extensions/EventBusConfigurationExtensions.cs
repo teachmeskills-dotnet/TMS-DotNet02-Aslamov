@@ -1,7 +1,10 @@
-﻿using MassTransit;
+﻿using EventBus.Contracts.Commands;
+using EventBus.Contracts.Events;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sensor.API.Common.Settings;
+using System;
 
 namespace Sensor.API.Common.Extensions
 {
@@ -27,6 +30,9 @@ namespace Sensor.API.Common.Extensions
                     host.Username(eventBusSettings.UserName);
                     host.Password(eventBusSettings.Password);
                 });
+
+                var queueUri = new Uri(string.Concat(eventBusSettings.HostUri, "/", eventBusSettings.DataProcessingQueue));
+                EndpointConvention.Map<IProcessData>(queueUri);
             });
 
             services.AddSingleton(busControl);

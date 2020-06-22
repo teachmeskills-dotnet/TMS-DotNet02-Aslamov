@@ -1,9 +1,11 @@
 ﻿using DataProcessor.API.Common.Settings;
 using DataProcessor.API.EventBus.Consumers;
+using EventBus.Contracts.Commands;
 using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace DataProcessor.API.Common.Extensions
 {
@@ -24,7 +26,7 @@ namespace DataProcessor.API.Common.Extensions
 
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<NewRecordRegisteredConsumer>();
+                x.AddConsumer<ProcessDataConsumer>();
 
                 x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -36,18 +38,24 @@ namespace DataProcessor.API.Common.Extensions
                         host.Password(eventBusSettings.Password);
                     });
 
-                    cfg.ReceiveEndpoint("new-record-queue", ep =>
+                    cfg.ReceiveEndpoint(eventBusSettings.DataProcessingQueue, ep =>
                     {
                         ep.PrefetchCount = 16;
                         ep.UseMessageRetry(r => r.Interval(2, 100));
 
-                        ep.ConfigureConsumer<NewRecordRegisteredConsumer>(context);
+                        ep.ConfigureConsumer<ProcessDataConsumer>(context);
                     });
-
                 }));
             });
 
+            var queueUri = new Uri(string.Concat("rabbitmq://localhost","/", eventBusSettings.ReportsQueue));
+            EndpointConvention.Map<IRegisterReport>(queueUri);
+
             services.AddMassTransitHostedService();
+
+            services.AddSingleton<IPublishEndpoint>(provider => provider.GetRequiredService<IBusControl>());
+            services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
+            services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
 
             return services;
         }

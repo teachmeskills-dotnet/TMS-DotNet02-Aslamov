@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EventBus.Contracts;
+using EventBus.Contracts.Commands;
 using EventBus.Contracts.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace Sensor.API.Services
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEnpoint;
+        private readonly IBusControl _bus;
 
         /// <summary>
         /// Constructor of record service.
@@ -32,11 +34,13 @@ namespace Sensor.API.Services
         /// <param name="mapper">Automapper.</param>
         public RecordService(ISensorContext sensorContext,
                              IMapper mapper,
-                             IPublishEndpoint publishEndpoint)
+                             IPublishEndpoint publishEndpoint,
+                             IBusControl bus)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _publishEnpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _bus = bus ?? throw new ArgumentNullException(nameof(bus));
         }
 
         /// <inheritdoc/>
@@ -70,9 +74,9 @@ namespace Sensor.API.Services
 
             try
             {
-                await _publishEnpoint.Publish<IRecordRegistered>(new
+                await _bus.Send<IProcessData>(new
                 {
-                    Id = Guid.NewGuid(),
+                    CommandId = Guid.NewGuid(),
                     Record = recordDTO,
                     CreationDate = DateTime.Now,
                 });

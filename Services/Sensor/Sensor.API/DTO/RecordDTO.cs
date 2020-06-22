@@ -42,5 +42,8 @@ namespace Sensor.API.DTO
         /// </summary>
         [Required]
         public string SensorDeviceSerial { get; set; }
+
+        ///<inheritdoc/>
+        public string SensorDeviceType { get; set; }
     }
 }

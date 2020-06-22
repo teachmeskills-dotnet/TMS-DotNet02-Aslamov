@@ -36,6 +36,7 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Enums\" />
     <Folder Include="Common\Mapping\" />
+    <Folder Include="EventBus\Messages\" />
     <Folder Include="EventBus\Produsers\" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DataProcessor.API.DTO;
-using Microsoft.AspNetCore.Mvc;
+using EventBus.Contracts.DTO;
 
 namespace DataProcessor.API.Common.Interfaces
 {
@@ -14,6 +14,6 @@ namespace DataProcessor.API.Common.Interfaces
         /// </summary>
         /// <param name="dataDTO">Sensor data.</param>
         /// <returns>Processing report.</returns>
-        Task<(ReportDTO report, bool success)> ProcessData(DataDTO dataDTO);
+        Task<(ReportDTO report, bool success)> ProcessData(IDataDTO dataDTO);
     }
 }

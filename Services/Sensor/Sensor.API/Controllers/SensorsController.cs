@@ -25,10 +25,13 @@ namespace Sensor.API.Controllers
         /// <param name="sensorService">Service to manage sensors.</param>
         /// <param name="logger">Logging service.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public SensorsController(ISensorService sensorService, ILogger logger)
+        public SensorsController(ISensorService sensorService, ILogger logger) 
+            //IRequestClient<ISendMessage> requestClient)
         {
             _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            //_requestClient = requestClient ?? throw new ArgumentNullException(nameof(requestClient));
         }
 
         // GET: api/sensors

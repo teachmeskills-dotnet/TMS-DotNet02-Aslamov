@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using EventBus.Contracts;
+using EventBus.Contracts.Events;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
@@ -20,6 +23,7 @@ namespace Sensor.API.Services
     {
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEnpoint;
 
         /// <summary>
         /// Constructor of record service.
@@ -27,16 +31,17 @@ namespace Sensor.API.Services
         /// <param name="sensorContext">Sensor context.</param>
         /// <param name="mapper">Automapper.</param>
         public RecordService(ISensorContext sensorContext,
-                             IMapper mapper)
+                             IMapper mapper,
+                             IPublishEndpoint publishEndpoint)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _publishEnpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
         /// <inheritdoc/>
         public async Task<(int id, bool success)> RegisterNewRecordAsync(RecordDTO recordDTO)
         {
-            var record = _mapper.Map<RecordDTO, SensorRecord>(recordDTO);
             var recordFound = await _sensorContext.Records.FirstOrDefaultAsync(r => r.Date == recordDTO.Date &&
                                                                                     r.SensorDevice.Serial == recordDTO.SensorDeviceSerial);
             if (recordFound != null)
@@ -52,13 +57,30 @@ namespace Sensor.API.Services
                 return (0, false);
             }
 
-            record.SensorDeviceId = sensorFound.Id;
+            recordDTO.SensorDeviceId = sensorFound.Id;
+
+            var record = _mapper.Map<RecordDTO, SensorRecord>(recordDTO);
             record.SensorDevice = sensorFound;
 
             await _sensorContext.Records.AddAsync(record);
             await _sensorContext.SaveChangesAsync(new CancellationToken());
-
+            
             var id = record.Id;
+            recordDTO.Id = id;
+
+            try
+            {
+                await _publishEnpoint.Publish<IRecordRegistered>(new
+                {
+                    Id = Guid.NewGuid(),
+                    Record = recordDTO,
+                    CreationDate = DateTime.Now,
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
 
             return (id, true);
         }

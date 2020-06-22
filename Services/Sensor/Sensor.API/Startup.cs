@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace Sensor.API
             services.AddSerilogService();
 
             services.AddJwtService(Configuration);
+            services.AddEventBusService(Configuration);
 
             services.AddHealthChecks();
         }
@@ -54,6 +56,7 @@ namespace Sensor.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
                 endpoints.MapHealthChecks("/hc");
             });
         }

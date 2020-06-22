@@ -9,5 +9,10 @@
         /// Secret key.
         /// </summary>
         public string Secret { get; set; }
+
+        /// <summary>
+        /// Event bus (RabbitMQ-based) settings.
+        /// </summary>
+        public EventBusSettings EvengBusSettings { get; set; }
     }
 }

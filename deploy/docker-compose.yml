@@ -27,6 +27,7 @@ services:
       - 3001:80
     depends_on:
       - sqldata
+      - event_bus
 
   dataprocessor.api:
     image: ${DOCKER_REGISTRY-}dataprocessorapi
@@ -35,6 +36,8 @@ services:
       dockerfile: ./deploy/DockerfileDataProcessor
     ports:
       - 3002:80
+    depends_on:
+      - event_bus
 
   profile.api:
     image: ${DOCKER_REGISTRY-}profileapi
@@ -45,6 +48,7 @@ services:
       - 3003:80
     depends_on:
       - sqldata
+      - event_bus
 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
@@ -55,6 +59,7 @@ services:
       - 3004:80
     depends_on:
       - sqldata
+      - event_bus
 
   report.api:
     image: ${DOCKER_REGISTRY-}reportapi
@@ -65,3 +70,13 @@ services:
       - 3005:80
     depends_on:
       - sqldata
+      - event_bus
+
+  event_bus:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - 5672:5672
+      - 15672:15672

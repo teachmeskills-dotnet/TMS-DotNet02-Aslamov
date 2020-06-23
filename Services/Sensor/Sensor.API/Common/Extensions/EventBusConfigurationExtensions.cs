@@ -3,8 +3,10 @@ using EventBus.Contracts.Commands;
 using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
 using MassTransit;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Sensor.API.Common.Settings;
 using System;
 
@@ -19,21 +21,26 @@ namespace Sensor.API.Common.Extensions
         /// Add event bus service (RabbitMQ-based).
         /// </summary>
         /// <param name="services">DI Container.</param>
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="environment">Hosting environment.</param>
         /// <returns>Configured event bus service.</returns>
-        public static IServiceCollection AddEventBusService(this IServiceCollection services, IConfiguration section)
+        public static IServiceCollection AddEventBusService(this IServiceCollection services, 
+                                                            IConfiguration configuration,
+                                                            IHostEnvironment environment)
         {
-            var eventBusSettingsSection = section.GetSection("EventBusSettings");
+            var eventBusSettingsSection = configuration.GetSection("EventBusSettings");
             var eventBusSettings = eventBusSettingsSection.Get<EventBusSettings>();
 
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.Host(eventBusSettings.HostName, eventBusSettings.VirtualHostName, host =>
+                var hostName = environment.IsProduction() ? eventBusSettings.DockerHostName : eventBusSettings.HostName;
+                cfg.Host(hostName, eventBusSettings.VirtualHostName, host =>
                 {
                     host.Username(eventBusSettings.UserName);
                     host.Password(eventBusSettings.Password);
                 });
 
-                var queueUri = new Uri(string.Concat(eventBusSettings.HostUri, "/", eventBusSettings.DataProcessingQueue));
+                var queueUri = new Uri(string.Concat("queue:", eventBusSettings.DataProcessingQueue));
                 EndpointConvention.Map<IProcessData>(queueUri);
             });
 

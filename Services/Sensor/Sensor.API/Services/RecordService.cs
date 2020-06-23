@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using EventBus.Contracts;
 using EventBus.Contracts.Commands;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
 using EventBus.Contracts.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +26,9 @@ namespace Sensor.API.Services
     {
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
-        private readonly IPublishEndpoint _publishEnpoint;
-        private readonly IBusControl _bus;
+        private readonly ICommandProducer<IProcessData, IRecordDTO> _processDataCommandProducer;
+        //private readonly IPublishEndpoint _publishEnpoint;
+        //private readonly IBusControl _bus;
 
         /// <summary>
         /// Constructor of record service.
@@ -34,13 +37,14 @@ namespace Sensor.API.Services
         /// <param name="mapper">Automapper.</param>
         public RecordService(ISensorContext sensorContext,
                              IMapper mapper,
-                             IPublishEndpoint publishEndpoint,
-                             IBusControl bus)
+                             ICommandProducer<IProcessData, IRecordDTO> processDataCommandProducer)
+                             //IBusControl bus)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _publishEnpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
-            _bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            _processDataCommandProducer = processDataCommandProducer ?? throw new ArgumentNullException(nameof(processDataCommandProducer));
+            //_publishEnpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            //_bus = bus ?? throw new ArgumentNullException(nameof(bus));
         }
 
         /// <inheritdoc/>
@@ -57,7 +61,7 @@ namespace Sensor.API.Services
             var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Serial == recordDTO.SensorDeviceSerial);
             if (sensorFound == null)
             {
-                Log.Error($"{sensorFound.SensorType} {SensorsConstants.UNKNOWN_SENSOR_SERIAL}");
+                Log.Error($"{recordDTO.SensorDeviceSerial} {SensorsConstants.UNKNOWN_SENSOR_SERIAL}");
                 return (0, false);
             }
 
@@ -72,19 +76,18 @@ namespace Sensor.API.Services
             var id = record.Id;
             recordDTO.Id = id;
 
-            try
+            var sensorTypeFound = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensorFound.SensorTypeId);
+            if (sensorTypeFound == null)
             {
-                await _bus.Send<IProcessData>(new
-                {
-                    CommandId = Guid.NewGuid(),
-                    Record = recordDTO,
-                    CreationDate = DateTime.Now,
-                });
+                Log.Error($"{sensorFound.Id} {SensorsConstants.UNKNOWN_SENSOR_TYPE}");
+                recordDTO.SensorDeviceType = null;
             }
-            catch (Exception ex)
+            else
             {
-                Log.Error(ex.Message);
+                recordDTO.SensorDeviceType = sensorTypeFound.Type;
             }
+
+            await _processDataCommandProducer.Send(recordDTO);
 
             return (id, true);
         }

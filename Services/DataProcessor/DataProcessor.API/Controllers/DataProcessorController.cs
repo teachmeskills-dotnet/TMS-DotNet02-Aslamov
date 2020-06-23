@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DataProcessor.API.Common.Constants;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.DTO;
-using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
-using EventBus.Contracts.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,21 +16,17 @@ namespace DataProcessor.API.Controllers
     {
         private readonly IDataProcessorService _dataProcessorService;
         private readonly ILogger<DataProcessorController> _logger;
-        private readonly ICommandProducer<IRegisterReport,IReportDTO> _registerReportCommand;
 
         /// <summary>
         /// Constructor of controller for sensor data processing.
         /// </summary>
         /// <param name="dataProcessorService">Service for processing of sensor data.</param>
         /// <param name="logger">Logging service.</param>
-        /// <param name="registerReportCommand">Register report command producer.</param>
         public DataProcessorController( IDataProcessorService dataProcessorService,
-                                        ILogger<DataProcessorController> logger,
-                                        ICommandProducer<IRegisterReport,IReportDTO> registerReportCommand)
+                                        ILogger<DataProcessorController> logger)
         {
             _dataProcessorService = dataProcessorService ?? throw new ArgumentNullException(nameof(dataProcessorService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _registerReportCommand = registerReportCommand ?? throw new ArgumentNullException(nameof(registerReportCommand));
         }
 
         // Post: api/dataprocessor
@@ -48,11 +42,11 @@ namespace DataProcessor.API.Controllers
             var (report, success) = await _dataProcessorService.ProcessData(data);
             if (!success)
             {
+                _logger.LogWarning(DataProcessorConstants.DATA_PROCESSING_CONFLICT);
                 return Conflict();
             }
 
-            await _registerReportCommand.Send(report);
-
+            _logger.LogInformation(DataProcessorConstants.DATA_PROCESSING_SUCCESS);
             return Ok(report);
         }
     }

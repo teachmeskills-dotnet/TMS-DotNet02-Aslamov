@@ -1,5 +1,9 @@
 # API Gateway
 
+API Gateway is a single entry point for a microservice application. This service routes to the designated microservice. 
+
+In addition, each microservice has an external port and can be accessed from outside.
+
 | Microservice         | Container name      | Port    |
 |----------------------|---------------------|---------|
 | SQL Server           | sqldata             | 1433:80 |

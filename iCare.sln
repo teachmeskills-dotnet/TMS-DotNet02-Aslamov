@@ -30,14 +30,29 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{53B800EB-FDC8-4409-A99F-9C9099F3507A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Profile", "Profile", "{B91F9AD6-C4B6-478A-91C7-60C296E4D4E9}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Profile\README.md = Services\Profile\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{B2AA53F7-2A66-4885-97AA-7E77018816D5}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Report\README.md = Services\Report\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{22464DB9-8FD4-489E-9C7D-F6800C8B9831}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Identity\README.md = Services\Identity\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProcessor", "DataProcessor", "{84C63EFA-2634-4182-921E-884B0FF6115C}"
+	ProjectSection(SolutionItems) = preProject
+		Services\DataProcessor\README.md = Services\DataProcessor\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sensor", "Sensor", "{447D4B71-E0D8-46DA-917E-5FB9C0B2F83D}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Sensor\README.md = Services\Sensor\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensor.API", "Services\Sensor\Sensor.API\Sensor.API.csproj", "{E2852FBC-327A-4F2D-BC3E-DDD05D55F395}"
 EndProject

@@ -8,29 +8,38 @@ Services for data storage & processing are simple CRUD microservices.
 
 ## Getting Started
 
-The application is free-to-use, so just login to start creating amaizing posts!
-
 ## Application settings
 
 ## Deployment of Docker container on Heroku
 
+## Microservices
+
+The microservices in the application are completely independent and are not aware of the existence of other microservices.
+
+- [x] [API Gateway]()
+- [x] [Sensor Microservice]()
+- [x] [DataProcessor Microservice]()
+- [x] [Identity Microservice]()
+- [x] [Profile Microservice]()
+- [x] [Report Microservice]()
+- [x] [Event Bus]()
+- [ ] [Data Source]()
+- [ ] [Web]()
+
 ## Built with
 
 - [ASP.NET Core 3.1](https://docs.microsoft.com/en-us/aspnet/core/)
-- [Clean architecture](https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
 - [Microservices](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/)
+- [REST API](https://restfulapi.net/)
 - [Docker](https://www.docker.com/)
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
-- [Fluent Validation](https://fluentvalidation.net/)
-- [CQRS](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
-- [MediatR](https://github.com/jbogard/MediatR)
 - [Automapper](https://automapper.org/)
-- [MimeKit](http://www.mimekit.net/)
 - [Health check](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-3.1)
 - [xUnit](https://xunit.net/)
 - [Moq](https://github.com/Moq/moq4/wiki/Quickstart)
-- [Shouldly](https://github.com/shouldly/shouldly)
 - [Serilog](https://serilog.net/)
+- [MassTransit](https://masstransit-project.com/)
+- [RabbitMQ](https://www.rabbitmq.com/)
 
 ## Author
 

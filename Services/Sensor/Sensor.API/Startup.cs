@@ -58,6 +58,17 @@ namespace Sensor.API
                 endpoints.MapControllers();
 
                 endpoints.MapHealthChecks("/hc");
+
+                endpoints.MapHealthChecks("/hc/ready", new HealthCheckOptions()
+                {
+                    Predicate = (check) => check.Tags.Contains("ready"),
+                });
+
+                endpoints.MapHealthChecks("/hc/live", new HealthCheckOptions()
+                {
+                    Predicate = (_) => false
+                });
+
             });
         }
     }

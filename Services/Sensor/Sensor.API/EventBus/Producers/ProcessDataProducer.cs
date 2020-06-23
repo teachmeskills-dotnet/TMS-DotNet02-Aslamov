@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace DataProcessor.API.EventBus.Produsers
 {
     /// <summary>
-    /// Define class to send commands to event bus for data processing report registration.
+    /// Define 
     /// </summary>
-    public class RegisterReportProducer : ICommandProducer<IRegisterReport, IReportDTO> 
+    public class ProcessDataProducer : ICommandProducer<IProcessData, IRecordDTO> 
     {
         private readonly IBusControl _bus;
 
@@ -18,18 +18,18 @@ namespace DataProcessor.API.EventBus.Produsers
         /// Constructor of command producer.
         /// </summary>
         /// <param name="bus">Event bus.</param>
-        public RegisterReportProducer(IBusControl bus) => _bus = bus ?? throw new ArgumentNullException(nameof(bus));
+        public ProcessDataProducer(IBusControl bus) => _bus = bus ?? throw new ArgumentNullException(nameof(bus));
 
         /// <inheritdoc/>
-        /// <param name="report">Report data transfer object.</param>
-        public async Task<bool> Send(IReportDTO report)
+        /// <param name="record">Record data transfer object.</param>
+        public async Task<bool> Send(IRecordDTO record)
         {
             try
             {
-                await _bus.Send<IRegisterReport>(new
+                await _bus.Send<IProcessData>(new
                 {
                     CommandId = Guid.NewGuid(),
-                    Report = report,
+                    Record = record,
                     CreationDate = DateTime.Now,
                 });
             }

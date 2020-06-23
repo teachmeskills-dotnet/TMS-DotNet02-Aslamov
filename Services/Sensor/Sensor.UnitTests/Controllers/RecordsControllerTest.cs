@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventBus.Contracts.Commands;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Controllers;
@@ -24,7 +27,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
 
             // Act
             var result = controller.GetRecords(null).GetAwaiter().GetResult();
@@ -44,7 +52,12 @@ namespace Sensor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger>();
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             controller.ModelState.AddModelError("Id", "InvalidId");
 
             var id = 1;
@@ -68,7 +81,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var id = 1;
 
             // Act
@@ -91,7 +109,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var id = 2;
 
             // Act
@@ -109,7 +132,12 @@ namespace Sensor.UnitTests.Controllers
             var recordServiceMock = new Mock<IRecordService>();
             var loggerMock = new Mock<ILogger>();
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             controller.ModelState.AddModelError("Error", "Model Error");
             var recordDTO= new RecordDTO();
 
@@ -132,7 +160,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO();
 
             // Act
@@ -155,7 +188,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO();
 
             // Act
@@ -173,7 +211,12 @@ namespace Sensor.UnitTests.Controllers
             var recordServiceMock = new Mock<IRecordService>();
             var loggerMock = new Mock<ILogger>();
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             controller.ModelState.AddModelError("Error", "Model Error");
             var recordDTO = new RecordDTO();
 
@@ -191,7 +234,12 @@ namespace Sensor.UnitTests.Controllers
             var recordServiceMock = new Mock<IRecordService>();
             var loggerMock = new Mock<ILogger>();
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO { Id = -1 };
 
             // Act
@@ -214,7 +262,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO { Id = 2 };
 
             // Act
@@ -242,7 +295,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO { Id = 1 };
 
             // Act
@@ -269,7 +327,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO { Id = 1 };
 
             // Act
@@ -292,7 +355,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var recordDTO = new RecordDTO();
             var id = 1;
 
@@ -321,7 +389,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
             var id = 1;
 
             // Act
@@ -344,7 +417,12 @@ namespace Sensor.UnitTests.Controllers
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
 
-            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
+            var commandProducerMock = new Mock<ICommandProducer<IProcessData, IRecordDTO>>();
+            commandProducerMock.Setup(producer => producer
+                .Send(It.IsAny<IRecordDTO>()))
+                .Returns(Task.FromResult(true));
+
+            var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
 
             // Act
             var result = controller.DeleteRecords().GetAwaiter().GetResult();

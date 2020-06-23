@@ -1,17 +1,12 @@
-﻿using Castle.Core.Logging;
-using DataProcessor.API.Common.Interfaces;
+﻿using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.Controllers;
 using DataProcessor.API.DTO;
-using DataProcessor.API.EventBus.Messages;
-using DataProcessor.API.EventBus.Produsers;
 using EventBus.Contracts.Commands;
 using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
-using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 

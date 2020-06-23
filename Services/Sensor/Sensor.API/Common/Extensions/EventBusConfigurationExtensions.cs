@@ -1,5 +1,7 @@
-﻿using EventBus.Contracts.Commands;
-using EventBus.Contracts.Events;
+﻿using DataProcessor.API.EventBus.Produsers;
+using EventBus.Contracts.Commands;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,11 +39,11 @@ namespace Sensor.API.Common.Extensions
 
             services.AddSingleton(busControl);
 
-            services.AddMassTransitHostedService();
-
             services.AddSingleton<IPublishEndpoint>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
+
+            services.AddScoped(typeof(ICommandProducer<IProcessData, IRecordDTO>), typeof(ProcessDataProducer));
 
             return services;
         }

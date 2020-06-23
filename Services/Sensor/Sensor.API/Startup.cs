@@ -32,7 +32,7 @@ namespace Sensor.API
             services.AddSerilogService();
 
             services.AddJwtService(Configuration);
-            services.AddEventBusService(Configuration);
+            services.AddEventBusService(Configuration, Environment);
 
             services.AddHealthChecks();
         }

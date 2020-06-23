@@ -8,6 +8,7 @@ using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace DataProcessor.API.Common.Extensions
@@ -21,10 +22,14 @@ namespace DataProcessor.API.Common.Extensions
         /// Add event bus service (RabbitMQ-based).
         /// </summary>
         /// <param name="services">DI Container.</param>
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="environment">Hosting environment.</param>
         /// <returns>Configured event bus service.</returns>
-        public static IServiceCollection AddEventBusService(this IServiceCollection services, IConfiguration section)
+        public static IServiceCollection AddEventBusService(this IServiceCollection services,
+                                                            IConfiguration configuration,
+                                                            IHostEnvironment environment)
         {
-            var eventBusSettingsSection = section.GetSection("EventBusSettings");
+            var eventBusSettingsSection = configuration.GetSection("EventBusSettings");
             var eventBusSettings = eventBusSettingsSection.Get<EventBusSettings>();
 
             services.AddMassTransit(x =>
@@ -35,7 +40,8 @@ namespace DataProcessor.API.Common.Extensions
                 {
                     cfg.UseHealthCheck(context);
 
-                    cfg.Host(eventBusSettings.HostName, eventBusSettings.VirtualHostName, host =>
+                    var hostName = environment.IsProduction() ? eventBusSettings.DockerHostName : eventBusSettings.HostName;
+                    cfg.Host(hostName, eventBusSettings.VirtualHostName, host =>
                     {
                         host.Username(eventBusSettings.UserName);
                         host.Password(eventBusSettings.Password);
@@ -49,7 +55,7 @@ namespace DataProcessor.API.Common.Extensions
                         ep.ConfigureConsumer<ProcessDataConsumer>(context);
                     });
 
-                    var queueUri = new Uri(string.Concat(eventBusSettings.HostUri, "/", eventBusSettings.ReportsQueue));
+                    var queueUri = new Uri(string.Concat("queue:", eventBusSettings.ReportsQueue));
                     EndpointConvention.Map<IRegisterReport>(queueUri);
                 }));
             });

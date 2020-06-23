@@ -10,15 +10,15 @@ namespace Report.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public IConfiguration Configuration { get; }
+
+        public IHostEnvironment Environment { get; }
+
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
         }
-
-        public IConfiguration Configuration { get; }
-
-        public IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,12 +32,12 @@ namespace Report.API
             services.AddSwaggerService();
 
             services.AddJwtService(Configuration);
-            services.AddEventBusService(Configuration);
+            services.AddEventBusService(Configuration, Environment);
 
             services.AddHealthChecks();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

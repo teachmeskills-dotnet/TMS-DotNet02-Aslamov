@@ -90,8 +90,6 @@ namespace Sensor.API.Controllers
 
             record.Id = id;
 
-            await _processDataCommandProducer.Send(record);
-
             _logger.Information($"{record.Id} {RecordsConstants.ADD_RECORD_SUCCESS}");
             return CreatedAtAction(nameof(RegisterNewRecord), record);
         }

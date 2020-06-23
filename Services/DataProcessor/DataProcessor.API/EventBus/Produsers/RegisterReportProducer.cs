@@ -10,7 +10,7 @@ namespace DataProcessor.API.EventBus.Produsers
     /// <summary>
     /// Define 
     /// </summary>
-    public class RegisterReportProducer : ICommandProducer<IReportDTO> 
+    public class RegisterReportProducer : ICommandProducer<IRegisterReport, IReportDTO> 
     {
         private readonly IBusControl _bus;
 

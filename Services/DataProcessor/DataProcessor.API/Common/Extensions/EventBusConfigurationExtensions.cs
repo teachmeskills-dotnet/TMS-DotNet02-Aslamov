@@ -60,7 +60,7 @@ namespace DataProcessor.API.Common.Extensions
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
 
-            services.AddScoped(typeof(ICommandProducer<IReportDTO>),typeof(RegisterReportProducer));
+            services.AddScoped(typeof(ICommandProducer<IRegisterReport,IReportDTO>),typeof(RegisterReportProducer));
 
             return services;
         }

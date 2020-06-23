@@ -39,13 +39,11 @@ namespace DataProcessor.API.Services
             try
             {
                 healthReport = await GetHealthReport(dataDTO);
-
             }
             catch
             {
                 return (null, false);
             }
-
             return (healthReport, true);
         }
         

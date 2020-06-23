@@ -11,12 +11,12 @@
         public string HostName { get; set; }
 
         /// <summary>
-        /// RabbitMQ host URI.
+        /// Event bus (RabbitMQ-based) docker host name.
         /// </summary>
-        public string HostUri { get; set; }
+        public string DockerHostName { get; set; }
 
         /// <summary>
-        /// RabbitMQ virtual host name.
+        /// Event bus (RabbitMQ-based) virtual host name.
         /// </summary>
         public string VirtualHostName { get; set; }
 

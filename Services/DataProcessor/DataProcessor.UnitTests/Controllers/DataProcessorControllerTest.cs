@@ -30,7 +30,7 @@ namespace DataProcessor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
 
-            var commandProducerMock = new Mock<ICommandProducer<IReportDTO>>();
+            var commandProducerMock = new Mock<ICommandProducer<IRegisterReport,IReportDTO>>();
             commandProducerMock.Setup(producer => producer
                 .Send(It.IsAny<IReportDTO>()))
                 .Returns(Task.FromResult(true));
@@ -58,7 +58,7 @@ namespace DataProcessor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
 
-            var commandProducerMock = new Mock<ICommandProducer<IReportDTO>>();
+            var commandProducerMock = new Mock<ICommandProducer<IRegisterReport, IReportDTO>>();
             commandProducerMock.Setup(producer => producer
                 .Send(It.IsAny<IReportDTO>()))
                 .Returns(Task.FromResult(true));
@@ -84,7 +84,7 @@ namespace DataProcessor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
 
-            var commandProducerMock = new Mock<ICommandProducer<IReportDTO>>();
+            var commandProducerMock = new Mock<ICommandProducer<IRegisterReport, IReportDTO>>();
             commandProducerMock.Setup(producer => producer
                 .Send(It.IsAny<IReportDTO>()))
                 .Returns(Task.FromResult(true));

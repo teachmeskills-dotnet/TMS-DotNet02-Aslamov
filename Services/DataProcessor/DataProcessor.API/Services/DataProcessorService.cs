@@ -7,6 +7,8 @@ using DataProcessor.API.Common.Dictionaries;
 using DataProcessor.API.Common.Enums;
 using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.DTO;
+using EventBus.Contracts.Commands;
+using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
 
 namespace DataProcessor.API.Services
@@ -17,14 +19,17 @@ namespace DataProcessor.API.Services
     public class DataProcessorService : IDataProcessorService
     {
         private readonly IMapper _mapper;
+        private readonly ICommandProducer<IRegisterReport, IReportDTO> _registerReportCommandProducer;
 
         /// <summary>
         /// Constructor of service for processing telemetry data.
         /// </summary>
         /// <param name="mapper">AutoMapper service.</param>
-        public DataProcessorService(IMapper mapper)
+        /// <param name="registerReportCommandProducer">Command producer for event bus.</param>
+        public DataProcessorService(IMapper mapper, ICommandProducer<IRegisterReport, IReportDTO> registerReportCommandProducer)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _registerReportCommandProducer = registerReportCommandProducer ?? throw new ArgumentNullException(nameof(registerReportCommandProducer));
         }
 
         /// <inheritdoc/>
@@ -39,6 +44,7 @@ namespace DataProcessor.API.Services
             try
             {
                 healthReport = await GetHealthReport(dataDTO);
+                await _registerReportCommandProducer.Send(healthReport);
             }
             catch
             {

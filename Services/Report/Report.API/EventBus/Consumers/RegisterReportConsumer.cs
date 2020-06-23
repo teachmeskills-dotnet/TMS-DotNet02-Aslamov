@@ -2,6 +2,7 @@
 using EventBus.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Report.API.Common.Constants;
 using Report.API.Common.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Report.API.EventBus.Consumers
         /// </summary>
         /// <param name="reportService">Service for reports management.</param>
         /// <param name="logger">Logging service.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public RegisterReportConsumer( IReportService reportService,
                                        ILogger<RegisterReportConsumer> logger)
         {
@@ -42,12 +44,12 @@ namespace Report.API.EventBus.Consumers
                 // Publish event on successful data processing.
                 await context.Publish<IReportRegistered>(new
                 {
-                    Message = $"Report has been registered. Event ID: {context.Message.CommandId}"
+                    Message = $"{ReportConstants.ADD_REPORT_SUCCESS} {ReportConstants.COMMAND_ID}: {context.Message.CommandId}"
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError("Event Bus ERROR", ex);
+                _logger.LogError($"{ReportConstants.EVENT_BUS_CONSUMER_ERROR}: {ex.Message}");
             }
         }
     }

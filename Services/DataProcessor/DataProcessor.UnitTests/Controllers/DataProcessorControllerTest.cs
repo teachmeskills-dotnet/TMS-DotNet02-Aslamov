@@ -1,9 +1,6 @@
 ﻿using DataProcessor.API.Common.Interfaces;
 using DataProcessor.API.Controllers;
 using DataProcessor.API.DTO;
-using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
-using EventBus.Contracts.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -25,12 +22,7 @@ namespace DataProcessor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
 
-            var commandProducerMock = new Mock<ICommandProducer<IRegisterReport,IReportDTO>>();
-            commandProducerMock.Setup(producer => producer
-                .Send(It.IsAny<IReportDTO>()))
-                .Returns(Task.FromResult(true));
-
-            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
+            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Model", "SomeError");
 
             var model = new DataDTO();
@@ -53,12 +45,7 @@ namespace DataProcessor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
 
-            var commandProducerMock = new Mock<ICommandProducer<IRegisterReport, IReportDTO>>();
-            commandProducerMock.Setup(producer => producer
-                .Send(It.IsAny<IReportDTO>()))
-                .Returns(Task.FromResult(true));
-
-            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
+            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object);
             var model = GetData();
 
             // Act
@@ -79,12 +66,7 @@ namespace DataProcessor.UnitTests.Controllers
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
 
-            var commandProducerMock = new Mock<ICommandProducer<IRegisterReport, IReportDTO>>();
-            commandProducerMock.Setup(producer => producer
-                .Send(It.IsAny<IReportDTO>()))
-                .Returns(Task.FromResult(true));
-
-            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object, commandProducerMock.Object);
+            var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object);
             var model = GetData();
 
             // Act

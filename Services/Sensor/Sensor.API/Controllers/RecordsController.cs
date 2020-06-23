@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
-using EventBus.Contracts.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sensor.API.Common.Constants;
@@ -20,7 +17,6 @@ namespace Sensor.API.Controllers
     {
         private readonly IRecordService _recordService;
         private readonly ILogger _logger;
-        private readonly ICommandProducer<IProcessData, IRecordDTO> _processDataCommandProducer;
 
         /// <summary>
         /// Constructor of records controller.
@@ -28,13 +24,10 @@ namespace Sensor.API.Controllers
         /// <param name="recordService">Service to manage sensor records.</param>
         /// <param name="logger">Logging service.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public RecordsController(IRecordService recordService, 
-                                 ILogger logger,
-                                 ICommandProducer<IProcessData, IRecordDTO> processDataCommandProducer)
+        public RecordsController(IRecordService recordService, ILogger logger)
         {
             _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _processDataCommandProducer = processDataCommandProducer ?? throw new ArgumentNullException(nameof(processDataCommandProducer));
         }
 
         // GET: api/records

@@ -18,6 +18,7 @@ namespace DataProcessor.API.EventBus.Produsers
         /// Constructor of command producer.
         /// </summary>
         /// <param name="bus">Event bus.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public ProcessDataProducer(IBusControl bus) => _bus = bus ?? throw new ArgumentNullException(nameof(bus));
 
         /// <inheritdoc/>

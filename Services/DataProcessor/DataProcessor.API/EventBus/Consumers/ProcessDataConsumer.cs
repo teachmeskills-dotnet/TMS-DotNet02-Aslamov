@@ -1,4 +1,5 @@
-﻿using DataProcessor.API.Common.Interfaces;
+﻿using DataProcessor.API.Common.Constants;
+using DataProcessor.API.Common.Interfaces;
 using EventBus.Contracts.Commands;
 using EventBus.Contracts.Events;
 using MassTransit;
@@ -21,6 +22,7 @@ namespace DataProcessor.API.EventBus.Consumers
         /// </summary>
         /// <param name="dataProcessorService">Service for data processing.</param>
         /// <param name="logger">Logging service.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public ProcessDataConsumer( IDataProcessorService dataProcessorService,
                                     ILogger<ProcessDataConsumer> logger)
         {
@@ -42,20 +44,12 @@ namespace DataProcessor.API.EventBus.Consumers
                 // Publish event on successful data processing.
                 await context.Publish<IRecordProcessed>(new
                 {
-                    Message = $"Data has been processed. Event ID: {context.Message.CommandId}"
-                });
-
-                // Send command to register new data processing report.
-                await context.Send<IRegisterReport>(new
-                {
-                    CommandId = Guid.NewGuid(),
-                    Report = reportDTO,
-                    CreationDate = DateTime.Now,
+                    Message = $"{DataProcessorConstants.DATA_PROCESSING_SUCCESS} {DataProcessorConstants.COMMAND_ID}: {context.Message.CommandId}"
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError("Event Bus ERROR", ex);
+                _logger.LogError($"{DataProcessorConstants.EVENT_BUS_CONSUMER_ERROR}: {ex.Message}");
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EventBus.Contracts.DTO
+﻿namespace EventBus.Contracts.DTO
 {
     /// <summary>
     /// Define interface for record DTO.

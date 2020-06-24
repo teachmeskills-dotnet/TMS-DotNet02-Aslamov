@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using EventBus.Contracts;
 using EventBus.Contracts.Commands;
 using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
-using EventBus.Contracts.Events;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.DTO;
 using Sensor.API.Models;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +24,7 @@ namespace Sensor.API.Services
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
         private readonly ICommandProducer<IProcessData, IRecordDTO> _processDataCommandProducer;
-        //private readonly IPublishEndpoint _publishEnpoint;
-        //private readonly IBusControl _bus;
+        private readonly ILogger<RecordService> _logger;
 
         /// <summary>
         /// Constructor of record service.
@@ -37,14 +33,13 @@ namespace Sensor.API.Services
         /// <param name="mapper">Automapper.</param>
         public RecordService(ISensorContext sensorContext,
                              IMapper mapper,
-                             ICommandProducer<IProcessData, IRecordDTO> processDataCommandProducer)
-                             //IBusControl bus)
+                             ICommandProducer<IProcessData, IRecordDTO> processDataCommandProducer,
+                             ILogger<RecordService> logger)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _processDataCommandProducer = processDataCommandProducer ?? throw new ArgumentNullException(nameof(processDataCommandProducer));
-            //_publishEnpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
-            //_bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>
@@ -54,14 +49,14 @@ namespace Sensor.API.Services
                                                                                     r.SensorDevice.Serial == recordDTO.SensorDeviceSerial);
             if (recordFound != null)
             {
-                Log.Error(RecordsConstants.RECORD_ALREADY_EXIST);
+                _logger.LogError(RecordsConstants.RECORD_ALREADY_EXIST);
                 return (0, false);
             }
 
             var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Serial == recordDTO.SensorDeviceSerial);
             if (sensorFound == null)
             {
-                Log.Error($"{recordDTO.SensorDeviceSerial} {SensorsConstants.UNKNOWN_SENSOR_SERIAL}");
+                _logger.LogError($"{recordDTO.SensorDeviceSerial} {SensorsConstants.UNKNOWN_SENSOR_SERIAL}");
                 return (0, false);
             }
 
@@ -79,7 +74,7 @@ namespace Sensor.API.Services
             var sensorTypeFound = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensorFound.SensorTypeId);
             if (sensorTypeFound == null)
             {
-                Log.Error($"{sensorFound.Id} {SensorsConstants.UNKNOWN_SENSOR_TYPE}");
+                _logger.LogError($"{sensorFound.Id} {SensorsConstants.UNKNOWN_SENSOR_TYPE}");
                 recordDTO.SensorDeviceType = null;
             }
             else
@@ -152,7 +147,7 @@ namespace Sensor.API.Services
 
             if (recordDTO.Value == null)
             {
-                Log.Error(RecordsConstants.EMPTY_RECORD_VALUE);
+                _logger.LogError(RecordsConstants.EMPTY_RECORD_VALUE);
                 return false;
             }
             record.Value = recordDTO.Value;
@@ -164,7 +159,7 @@ namespace Sensor.API.Services
                 var newSensorDevice = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Serial== recordDTO.SensorDeviceSerial);
                 if (newSensorDevice == null)
                 {
-                    Log.Error(SensorsConstants.UNKNOWN_SENSOR_SERIAL);
+                    _logger.LogError(SensorsConstants.UNKNOWN_SENSOR_SERIAL);
                     return false;
                 }
                 else
@@ -186,7 +181,7 @@ namespace Sensor.API.Services
             var recordFound = await _sensorContext.Records.FirstOrDefaultAsync(r => r.Id == id);
             if (recordFound == null)
             {
-                Log.Error(RecordsConstants.RECORD_NOT_FOUND);
+                _logger.LogError(RecordsConstants.RECORD_NOT_FOUND);
                 return false;
             }
 

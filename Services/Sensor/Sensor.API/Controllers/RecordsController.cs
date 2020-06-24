@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.DTO;
-using Serilog;
 
 namespace Sensor.API.Controllers
 {
@@ -16,7 +16,7 @@ namespace Sensor.API.Controllers
     public class RecordsController : ControllerBase
     {
         private readonly IRecordService _recordService;
-        private readonly ILogger _logger;
+        private readonly ILogger<RecordsController> _logger;
 
         /// <summary>
         /// Constructor of records controller.
@@ -24,7 +24,7 @@ namespace Sensor.API.Controllers
         /// <param name="recordService">Service to manage sensor records.</param>
         /// <param name="logger">Logging service.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public RecordsController(IRecordService recordService, ILogger logger)
+        public RecordsController(IRecordService recordService, ILogger<RecordsController> logger)
         {
             _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -38,7 +38,7 @@ namespace Sensor.API.Controllers
             var records = await _recordService.GetAllRecordsAsync(sensorId);
             var count = records.Count;
 
-            _logger.Information($"{count} {RecordsConstants.GET_RECORDS}");
+            _logger.LogInformation($"{count} {RecordsConstants.GET_RECORDS}");
 
             return records;
         }
@@ -56,11 +56,11 @@ namespace Sensor.API.Controllers
             var record = await _recordService.GetRecordByIdAsync(id);
             if (record == null)
             {
-                _logger.Warning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
+                _logger.LogWarning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
                 return NotFound(id);
             }
 
-            _logger.Information($"{record.Id} {RecordsConstants.GET_FOUND_RECORD}");
+            _logger.LogInformation($"{record.Id} {RecordsConstants.GET_FOUND_RECORD}");
             return Ok(record);
         }
 
@@ -77,13 +77,13 @@ namespace Sensor.API.Controllers
             var (id, success) = await _recordService.RegisterNewRecordAsync(record);
             if (!success)
             {
-                _logger.Warning($"{id} {RecordsConstants.ADD_RECORD_CONFLICT}");
+                _logger.LogWarning($"{id} {RecordsConstants.ADD_RECORD_CONFLICT}");
                 return Conflict(id);
             }
 
             record.Id = id;
 
-            _logger.Information($"{record.Id} {RecordsConstants.ADD_RECORD_SUCCESS}");
+            _logger.LogInformation($"{record.Id} {RecordsConstants.ADD_RECORD_SUCCESS}");
             return CreatedAtAction(nameof(RegisterNewRecord), record);
         }
 
@@ -105,18 +105,18 @@ namespace Sensor.API.Controllers
             var sensorFound = await _recordService.GetRecordByIdAsync(record.Id);
             if (sensorFound == null)
             {
-                _logger.Warning($"{record.Id} {RecordsConstants.RECORD_NOT_FOUND}");
+                _logger.LogWarning($"{record.Id} {RecordsConstants.RECORD_NOT_FOUND}");
                 return NotFound(record.Id);
             }
 
             var success = await _recordService.UpdateRecordAsync(record);
             if (!success)
             {
-                _logger.Warning($"{record.Id} {RecordsConstants.UPDATE_RECORD_CONFLICT}");
+                _logger.LogWarning($"{record.Id} {RecordsConstants.UPDATE_RECORD_CONFLICT}");
                 return Conflict();
             }
 
-            _logger.Information($"{record.Id} {RecordsConstants.UPDATE_RECORD_SUCCESS}");
+            _logger.LogInformation($"{record.Id} {RecordsConstants.UPDATE_RECORD_SUCCESS}");
             return Ok(record);
         }
 
@@ -133,11 +133,11 @@ namespace Sensor.API.Controllers
             var success = await _recordService.DeleteRecordByIdAsync(id);
             if (!success)
             {
-                _logger.Warning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
+                _logger.LogWarning($"{id} {RecordsConstants.RECORD_NOT_FOUND}");
                 return NotFound(id);
             }
 
-            _logger.Information($"{id} {RecordsConstants.DELETE_RECORD_SUCCESS}");
+            _logger.LogInformation($"{id} {RecordsConstants.DELETE_RECORD_SUCCESS}");
             return Ok(id);
         }
 
@@ -148,7 +148,7 @@ namespace Sensor.API.Controllers
         {
             await _recordService.DeleteAllRecordsAsync();
 
-            _logger.Information($"{RecordsConstants.DELETE_RECORD_SUCCESS}");
+            _logger.LogInformation($"{RecordsConstants.DELETE_RECORD_SUCCESS}");
             return Ok();
         }
     }

@@ -1,13 +1,12 @@
 ﻿using Jaeger;
 using Jaeger.Samplers;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using OpenTracing.Util;
 using System.Reflection;
 
-namespace Sensor.API.Common.Extensions
+namespace Identity.API.Common.Extensions
 {
     /// <summary>
     /// Define extensions to configure Jaeger tracer.
@@ -24,7 +23,7 @@ namespace Sensor.API.Common.Extensions
             services.AddSingleton<ITracer>(serviceProvider =>
             {
                 //string serviceName = Assembly.GetEntryAssembly().GetName().Name;
-                var serviceName = "sensor";
+                var serviceName = "identity";
 
                 ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 

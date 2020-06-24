@@ -22,7 +22,8 @@ namespace Gateway.API.Common.Extensions
         {
             services.AddSingleton<ITracer>(serviceProvider =>
             {
-                string serviceName = Assembly.GetEntryAssembly().GetName().Name;
+                //string serviceName = Assembly.GetEntryAssembly().GetName().Name;
+                var serviceName = "gateway";
 
                 ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 
@@ -33,12 +34,13 @@ namespace Gateway.API.Common.Extensions
                     .WithSampler(sampler)
                     .Build();
 
-                GlobalTracer.Register(tracer);
+                if (!GlobalTracer.IsRegistered())
+                {
+                    GlobalTracer.Register(tracer);
+                }
 
                 return tracer;
             });
-
-            services.AddOpenTracing();
 
             return services;
         }

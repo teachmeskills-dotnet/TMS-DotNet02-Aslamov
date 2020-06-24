@@ -1,5 +1,6 @@
 using DataProcessor.API.Common.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,6 +55,16 @@ namespace DataProcessor.API
             {
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc");
+
+                endpoints.MapHealthChecks("/hc/ready", new HealthCheckOptions()
+                {
+                    Predicate = (check) => check.Tags.Contains("ready"),
+                });
+
+                endpoints.MapHealthChecks("/hc/live", new HealthCheckOptions()
+                {
+                    Predicate = (_) => false
+                });
             });
         }
     }

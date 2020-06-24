@@ -1,5 +1,6 @@
 ﻿using GreenPipes;
 using MassTransit;
+using MassTransit.OpenTracing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,6 +42,8 @@ namespace Report.API.Common.Extensions
                         host.Username(eventBusSettings.UserName);
                         host.Password(eventBusSettings.Password);
                     });
+
+                    cfg.PropagateOpenTracingContext();
 
                     cfg.ReceiveEndpoint(eventBusSettings.ReportsQueue, ep =>
                     {

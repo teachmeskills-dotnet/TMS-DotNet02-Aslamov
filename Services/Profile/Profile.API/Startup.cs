@@ -32,6 +32,9 @@ namespace Profile.API
 
             services.AddJwtService(Configuration);
 
+            services.AddOpenTracing();
+            services.AddJaegerService();
+
             services.AddHealthChecks();
         }
 

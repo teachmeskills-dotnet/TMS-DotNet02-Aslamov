@@ -37,6 +37,9 @@ namespace Identity.API
             var appSettings = appSettingSection.Get<AppSettings>();
             services.AddJwtService(appSettings.Secret);
 
+            services.AddOpenTracing();
+            services.AddJaegerService();
+
             services.AddHealthChecks();
         }
 

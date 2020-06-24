@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Controllers;
 using Sensor.API.DTO;
-using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -21,8 +21,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetAllSensorsAsync())
                 .Returns(Task.FromResult(GetAllSensors()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
 
@@ -42,7 +41,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetSensorByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetSensor()));
 
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Id", "InvalidId");
@@ -65,8 +64,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetSensorByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetSensor()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var id = 1;
@@ -88,8 +86,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetSensorByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetNullSensor()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var id = 2;
@@ -107,7 +104,7 @@ namespace Sensor.UnitTests.Controllers
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Error", "Model Error");
@@ -129,8 +126,7 @@ namespace Sensor.UnitTests.Controllers
                 .RegisterNewSensorAsync(It.IsAny<SensorDTO>()))
                 .Returns(Task.FromResult((1, false)));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO();
@@ -152,8 +148,7 @@ namespace Sensor.UnitTests.Controllers
                 .RegisterNewSensorAsync(It.IsAny<SensorDTO>()))
                 .Returns(Task.FromResult((1, true)));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO();
@@ -171,7 +166,7 @@ namespace Sensor.UnitTests.Controllers
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Error", "Model Error");
@@ -189,7 +184,7 @@ namespace Sensor.UnitTests.Controllers
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO { Id = -1 };
@@ -211,8 +206,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetSensorByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetNullSensor()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO { Id = 2 };
@@ -239,8 +233,7 @@ namespace Sensor.UnitTests.Controllers
                 .UpdateSensorAsync(It.IsAny<SensorDTO>()))
                 .Returns(Task.FromResult(false));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO { Id = 1 };
@@ -266,8 +259,7 @@ namespace Sensor.UnitTests.Controllers
                 .UpdateSensorAsync(It.IsAny<SensorDTO>()))
                 .Returns(Task.FromResult(true));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO { Id = 1 };
@@ -290,8 +282,7 @@ namespace Sensor.UnitTests.Controllers
                 .Returns(Task.FromResult(false));
 
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var sensorDTO = new SensorDTO();
@@ -319,8 +310,7 @@ namespace Sensor.UnitTests.Controllers
                 .DeleteSensorByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<SensorsController>>();
 
             var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
             var id = 1;

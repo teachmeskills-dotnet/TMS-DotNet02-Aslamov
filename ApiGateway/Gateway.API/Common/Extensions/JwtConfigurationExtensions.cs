@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Gateway.API.Common.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -14,10 +16,14 @@ namespace Gateway.API.Common.Extensions
         /// Add JWT authentication service to DI.
         /// </summary>
         /// <param name="services">DI container.</param>
-        /// <param name="secret">Secret key.</param>
-        public static void AddJwtService(this IServiceCollection services, string secret)
+        /// <param name="configuration">Application configuration.</param>
+        public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
         {
-            var key = Encoding.ASCII.GetBytes(secret);
+            var appSettingsSection = configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services.AddAuthentication(opt =>
             {

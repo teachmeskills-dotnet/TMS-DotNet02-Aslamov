@@ -16,13 +16,13 @@ Services for data storage & processing are simple CRUD microservices.
 
 The microservices in the application are completely independent and are not aware of the existence of other microservices.
 
-- [x] [API Gateway]()
-- [x] [Sensor Microservice]()
-- [x] [DataProcessor Microservice]()
-- [x] [Identity Microservice]()
-- [x] [Profile Microservice]()
-- [x] [Report Microservice]()
-- [x] [Event Bus]()
+- [x] [API Gateway](./ApiGateway/README.md)
+- [x] [Sensor Microservice](./Services/Sensor/README.md)
+- [x] [DataProcessor Microservice](./Services/DataProcessor/README.md)
+- [x] [Identity Microservice](./Services/Identity/README.md)
+- [x] [Profile Microservice](./Services/Profile/README.md)
+- [x] [Report Microservice](./Services/Report/README.md)
+- [x] [Event Bus](./EventBus/README.md)
 - [ ] [Data Source]()
 - [ ] [Web]()
 
@@ -40,6 +40,8 @@ The microservices in the application are completely independent and are not awar
 - [Serilog](https://serilog.net/)
 - [MassTransit](https://masstransit-project.com/)
 - [RabbitMQ](https://www.rabbitmq.com/)
+- [Open Tracing](https://opentracing.io/)
+- [Jaeger](https://www.jaegertracing.io/)
 
 ## Author
 

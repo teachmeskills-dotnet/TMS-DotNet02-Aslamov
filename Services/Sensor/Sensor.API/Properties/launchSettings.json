@@ -18,9 +18,9 @@
     "Sensor.API": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:4001"
+      "applicationUrl": "http://localhost:4001"
     }
   }
 }

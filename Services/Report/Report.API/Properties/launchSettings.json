@@ -18,9 +18,9 @@
     "Report.API": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:4005"
+      "applicationUrl": "http://localhost:4005"
     }
   }
 }

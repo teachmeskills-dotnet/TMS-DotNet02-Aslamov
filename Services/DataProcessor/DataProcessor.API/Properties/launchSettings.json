@@ -18,9 +18,9 @@
     "DataProcessor.API": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:4002"
+      "applicationUrl": "http://localhost:4002"
     }
   }
 }

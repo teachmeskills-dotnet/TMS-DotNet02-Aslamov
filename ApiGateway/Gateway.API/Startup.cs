@@ -35,6 +35,7 @@ namespace Gateway.API
             var appSettings = appSettingsSection.Get<AppSettings>();
             services.AddJwtService(appSettings.Secret);
 
+            services.AddOpenTracing();
             services.AddJaegerService();
 
             services.AddHealthChecks();

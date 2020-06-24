@@ -18,6 +18,7 @@
     <ApplicationURL>http://localhost:60786</ApplicationURL>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Jaeger" Version="0.3.7" />
     <PackageReference Include="MassTransit" Version="6.3.2" />
     <PackageReference Include="MassTransit.AspNetCore" Version="6.3.2" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="6.3.2" />
@@ -26,6 +27,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.4.1" />

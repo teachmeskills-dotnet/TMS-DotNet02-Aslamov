@@ -29,6 +29,9 @@ namespace DataProcessor.API
             services.AddJwtService(Configuration);
             services.AddEventBusService(Configuration, Environment);
 
+            services.AddOpenTracing();
+            services.AddJaegerService();
+
             services.AddHealthChecks();
         }
 

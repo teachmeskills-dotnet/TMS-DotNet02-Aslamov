@@ -3,6 +3,7 @@ using EventBus.Contracts.Commands;
 using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
 using MassTransit;
+using MassTransit.OpenTracing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,8 @@ namespace Sensor.API.Common.Extensions
                     host.Username(eventBusSettings.UserName);
                     host.Password(eventBusSettings.Password);
                 });
+
+                cfg.PropagateOpenTracingContext();
 
                 var queueUri = new Uri(string.Concat("queue:", eventBusSettings.DataProcessingQueue));
                 EndpointConvention.Map<IProcessData>(queueUri);

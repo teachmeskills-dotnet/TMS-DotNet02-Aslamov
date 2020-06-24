@@ -9,15 +9,15 @@ namespace Profile.API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public IHostEnvironment Environment { get; }
+
         public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
         }
-
-        public IConfiguration Configuration { get; }
-
-        public IHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -33,7 +33,7 @@ namespace Profile.API
             services.AddJwtService(Configuration);
 
             services.AddOpenTracing();
-            services.AddJaegerService();
+            services.AddJaegerService(Configuration, Environment);
 
             services.AddHealthChecks();
         }

@@ -1,7 +1,9 @@
 ﻿using Identity.API.Common.Interfaces;
+using Identity.API.Common.Settings;
 using Identity.API.Infrastructure;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -46,10 +48,14 @@ namespace Identity.API.Common.Extensions
         /// Add JWT-based authentication.
         /// </summary>
         /// <param name="services">DI container.</param>
-        /// <param name="secret">Secret key.</param>
-        public static void AddJwtService(this IServiceCollection services, string secret)
+        /// <param name="configuration">Application configuration.</param>
+        public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
         {
-            var key = Encoding.ASCII.GetBytes(secret);
+            var appSettingSection = configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingSection);
+            var appSettings = appSettingSection.Get<AppSettings>();
+
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services.AddAuthentication(opt =>
             {

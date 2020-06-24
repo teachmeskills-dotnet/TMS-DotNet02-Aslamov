@@ -1,6 +1,5 @@
 using AutoMapper;
 using Identity.API.Common.Extensions;
-using Identity.API.Common.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,20 +24,16 @@ namespace Identity.API
         {
             services.AddControllers();
 
-            var appSettingSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingSection);
-
             services.AddApplicationDbContext(Configuration, Environment);
 
             services.AddScopedServices();
             services.AddSerilogService();
             services.AddAutoMapper(typeof(Startup));
 
-            var appSettings = appSettingSection.Get<AppSettings>();
-            services.AddJwtService(appSettings.Secret);
+            services.AddJwtService(Configuration);
 
             services.AddOpenTracing();
-            services.AddJaegerService();
+            services.AddJaegerService(Configuration, Environment);
 
             services.AddHealthChecks();
         }

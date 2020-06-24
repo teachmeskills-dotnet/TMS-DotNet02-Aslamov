@@ -1,12 +1,9 @@
-﻿using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
-using EventBus.Contracts.DTO;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Controllers;
 using Sensor.API.DTO;
-using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -24,8 +21,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetAllRecordsAsync(null))
                 .Returns(Task.FromResult(GetAllRecords()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
 
@@ -45,7 +41,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetRecordByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetRecord()));
 
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Id", "InvalidId");
@@ -68,8 +64,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetRecordByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetRecord()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var id = 1;
@@ -91,8 +86,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetRecordByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetNullRecord()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var id = 2;
@@ -110,7 +104,7 @@ namespace Sensor.UnitTests.Controllers
         {
             // Arrange
             var recordServiceMock = new Mock<IRecordService>();
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Error", "Model Error");
@@ -132,8 +126,7 @@ namespace Sensor.UnitTests.Controllers
                 .RegisterNewRecordAsync(It.IsAny<RecordDTO>()))
                 .Returns(Task.FromResult((1, false)));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO();
@@ -155,8 +148,7 @@ namespace Sensor.UnitTests.Controllers
                 .RegisterNewRecordAsync(It.IsAny<RecordDTO>()))
                 .Returns(Task.FromResult((1, true)));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO();
@@ -174,7 +166,7 @@ namespace Sensor.UnitTests.Controllers
         {
             // Arrange
             var recordServiceMock = new Mock<IRecordService>();
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Error", "Model Error");
@@ -192,7 +184,7 @@ namespace Sensor.UnitTests.Controllers
         {
             // Arrange
             var recordServiceMock = new Mock<IRecordService>();
-            var loggerMock = new Mock<ILogger>();
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO { Id = -1 };
@@ -214,8 +206,7 @@ namespace Sensor.UnitTests.Controllers
                 .GetRecordByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(GetNullRecord()));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO { Id = 2 };
@@ -242,8 +233,7 @@ namespace Sensor.UnitTests.Controllers
                 .UpdateRecordAsync(It.IsAny<RecordDTO>()))
                 .Returns(Task.FromResult(false));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO { Id = 1 };
@@ -269,8 +259,7 @@ namespace Sensor.UnitTests.Controllers
                 .UpdateRecordAsync(It.IsAny<RecordDTO>()))
                 .Returns(Task.FromResult(true));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO { Id = 1 };
@@ -292,8 +281,7 @@ namespace Sensor.UnitTests.Controllers
                 .DeleteRecordByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(false));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var recordDTO = new RecordDTO();
@@ -321,8 +309,7 @@ namespace Sensor.UnitTests.Controllers
                 .DeleteRecordByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
             var id = 1;
@@ -344,8 +331,7 @@ namespace Sensor.UnitTests.Controllers
             recordServiceMock.Setup(service => service
                 .DeleteAllRecordsAsync());
 
-            var loggerMock = new Mock<ILogger>();
-            loggerMock.Setup(c => c.Information(It.IsAny<string>()));
+            var loggerMock = new Mock<ILogger<RecordsController>>();
 
             var controller = new RecordsController(recordServiceMock.Object, loggerMock.Object);
 

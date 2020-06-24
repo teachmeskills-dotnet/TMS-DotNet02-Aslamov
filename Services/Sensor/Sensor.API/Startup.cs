@@ -34,6 +34,8 @@ namespace Sensor.API
             services.AddJwtService(Configuration);
             services.AddEventBusService(Configuration, Environment);
 
+            services.AddJaegerService();
+
             services.AddHealthChecks();
         }
 

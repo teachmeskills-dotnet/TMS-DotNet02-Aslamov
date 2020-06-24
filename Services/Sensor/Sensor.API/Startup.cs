@@ -30,11 +30,11 @@ namespace Sensor.API
             services.AddScopedServices();
             services.AddSwaggerService();
 
-            services.AddOpenTracing();
-            services.AddJaegerService();
-
             services.AddJwtService(Configuration);
             services.AddEventBusService(Configuration, Environment);
+
+            services.AddOpenTracing();
+            services.AddJaegerService(Configuration, Environment);
 
             services.AddHealthChecks();
         }

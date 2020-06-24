@@ -8,9 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Jaeger" Version="0.3.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Ocelot" Version="16.0.1" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.2" />
   </ItemGroup>
 
 

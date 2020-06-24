@@ -27,7 +27,6 @@ namespace Gateway.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddOcelot(Configuration);
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -35,6 +34,8 @@ namespace Gateway.API
 
             var appSettings = appSettingsSection.Get<AppSettings>();
             services.AddJwtService(appSettings.Secret);
+
+            services.AddJaegerService();
 
             services.AddHealthChecks();
         }
@@ -48,13 +49,13 @@ namespace Gateway.API
 
             app.UseRouting();
             app.UseAuthentication();
-            app.UseOcelot().Wait();
-
+            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc");
             });
+
+            app.UseOcelot().Wait();
         }
     }
 }

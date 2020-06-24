@@ -29,12 +29,12 @@ namespace Sensor.API
             services.AddAutomapper();
             services.AddScopedServices();
             services.AddSwaggerService();
-            services.AddSerilogService();
+
+            services.AddOpenTracing();
+            services.AddJaegerService();
 
             services.AddJwtService(Configuration);
             services.AddEventBusService(Configuration, Environment);
-
-            services.AddJaegerService();
 
             services.AddHealthChecks();
         }
@@ -46,7 +46,6 @@ namespace Sensor.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseSwagger();
@@ -70,7 +69,6 @@ namespace Sensor.API
                 {
                     Predicate = (_) => false
                 });
-
             });
         }
     }

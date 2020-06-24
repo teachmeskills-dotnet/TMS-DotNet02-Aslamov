@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.DTO;
@@ -19,6 +20,7 @@ namespace Sensor.API.Services
     {
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<SensorService> _logger;
 
         /// <summary>
         /// Constructor of sensor service.
@@ -26,10 +28,12 @@ namespace Sensor.API.Services
         /// <param name="sensorContext">Sensor context.</param>
         /// <param name="mapper">Automapper.</param>
         public SensorService(ISensorContext sensorContext,
-                             IMapper mapper)
+                             IMapper mapper,
+                             ILogger<SensorService> logger)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>
@@ -40,14 +44,14 @@ namespace Sensor.API.Services
 
             if (sensorFound != null)
             {
-                Log.Error(SensorsConstants.SENSOR_ALREADY_EXIST);
+                _logger.LogError(SensorsConstants.SENSOR_ALREADY_EXIST);
                 return (0, false);
             }
 
             var typeFound = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.SensorType);
             if (typeFound == null)
             {
-                Log.Error($"{sensorDTO.SensorType} {SensorsConstants.UNKNOWN_SENSOR_TYPE}");
+                _logger.LogError($"{sensorDTO.SensorType} {SensorsConstants.UNKNOWN_SENSOR_TYPE}");
                 return (0, false);
             }
 
@@ -113,7 +117,7 @@ namespace Sensor.API.Services
                 var newType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Type == sensorDTO.SensorType);
                 if (newType == null)
                 {
-                    Log.Error(SensorsConstants.UNKNOWN_SENSOR_TYPE);
+                    _logger.LogError(SensorsConstants.UNKNOWN_SENSOR_TYPE);
                     return false;
                 }
                 else
@@ -135,7 +139,7 @@ namespace Sensor.API.Services
             var sensorFound = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
             if (sensorFound == null)
             {
-                Log.Error(SensorsConstants.SENSOR_NOT_FOUND);
+                _logger.LogError(SensorsConstants.SENSOR_NOT_FOUND);
                 return false;
             }
 

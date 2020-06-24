@@ -1,10 +1,11 @@
-﻿using Jaeger;
-using Jaeger.Samplers;
+﻿using Gateway.API.Common.Settings;
+using Jaeger;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using OpenTracing;
 using OpenTracing.Util;
-using System.Reflection;
+using System;
 
 namespace Gateway.API.Common.Extensions
 {
@@ -14,34 +15,39 @@ namespace Gateway.API.Common.Extensions
     public static class JaegerConfigurationExtensions
     {
         /// <summary>
-        /// Add Jaeger service,
+        /// Add Jaeger service.
         /// </summary>
         /// <param name="services">DI container.</param>
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="environment">Application environment.</param>
         /// <returns>Services with configured Jaeger.</returns>
-        public static IServiceCollection AddJaegerService(this IServiceCollection services)
+        public static IServiceCollection AddJaegerService( this IServiceCollection services, 
+                                                           IConfiguration configuration, 
+                                                           IHostEnvironment environment)
         {
-            services.AddSingleton<ITracer>(serviceProvider =>
+            var jaegerSettingsSection = configuration.GetSection("JaegerSettings");
+            services.Configure<JaegerSettings>(jaegerSettingsSection);
+            var jaegerSettings = jaegerSettingsSection.Get<JaegerSettings>();
+
+            var agentHost = environment.IsProduction() ? jaegerSettings.DockerAgentHost : jaegerSettings.DefaultAgentHost;
+
+            services.AddSingleton(serviceProvider =>
             {
-                //string serviceName = Assembly.GetEntryAssembly().GetName().Name;
-                var serviceName = "gateway";
+                Environment.SetEnvironmentVariable("JAEGER_SERVICE_NAME", jaegerSettings.ServiceName);
+                Environment.SetEnvironmentVariable("JAEGER_AGENT_HOST", agentHost);
+                Environment.SetEnvironmentVariable("JAEGER_AGENT_PORT", jaegerSettings.AgentPort);
+                Environment.SetEnvironmentVariable("JAEGER_SAMPLER_TYPE", jaegerSettings.SamplerType);
 
-                ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-
-                ISampler sampler = new ConstSampler(sample: true);
-
-                ITracer tracer = new Tracer.Builder(serviceName)
-                    .WithLoggerFactory(loggerFactory)
-                    .WithSampler(sampler)
-                    .Build();
+                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+                var config = Configuration.FromEnv(loggerFactory);
+                var tracer = config.GetTracer();
 
                 if (!GlobalTracer.IsRegistered())
                 {
                     GlobalTracer.Register(tracer);
                 }
-
                 return tracer;
             });
-
             return services;
         }
     }

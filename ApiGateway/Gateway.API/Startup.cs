@@ -1,5 +1,4 @@
 using Gateway.API.Common.Extensions;
-using Gateway.API.Common.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +11,10 @@ namespace Gateway.API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public IHostEnvironment Environment { get; }
+
         public Startup(IHostEnvironment environment)
         {
             var builder = new ConfigurationBuilder()
@@ -21,27 +24,21 @@ namespace Gateway.API
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+            Environment = environment;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOcelot(Configuration);
-
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            services.AddJwtService(appSettings.Secret);
+            services.AddJwtService(Configuration);
 
             services.AddOpenTracing();
-            services.AddJaegerService();
+            services.AddJaegerService(Configuration, Environment);
 
             services.AddHealthChecks();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

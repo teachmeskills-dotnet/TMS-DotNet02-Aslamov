@@ -15,105 +15,62 @@ services:
     build:
       context: ../
       dockerfile: ./deploy/DockerfileGateway
-    environment: 
-      - JAEGER_SERVICE_NAME=gateway
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - "3000:80"
-    depends_on:
-      - jaeger
 
   sensor.api:
     image: ${DOCKER_REGISTRY-}sensorapi
     build:
       context: ../
       dockerfile: ./deploy/DockerfileSensor
-    environment: 
-      - JAEGER_SERVICE_NAME=sensor
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - "3001:80"
     depends_on:
       - sqldata
       - event_bus
-      - jaeger
 
   dataprocessor.api:
     image: ${DOCKER_REGISTRY-}dataprocessorapi
     build:
       context: ../
       dockerfile: ./deploy/DockerfileDataProcessor
-    environment: 
-      - JAEGER_SERVICE_NAME=dataprocessor
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - "3002:80"
     depends_on:
       - event_bus
-      - jaeger
 
   profile.api:
     image: ${DOCKER_REGISTRY-}profileapi
     build:
       context: ../
       dockerfile: ./deploy/DockerfileProfile
-    environment: 
-      - JAEGER_SERVICE_NAME=profile
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - "3003:80"
     depends_on:
       - sqldata
       - event_bus
-      - jaeger
 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
     build:
       context: ../
       dockerfile: ./deploy/DockerfileIdentity
-    environment: 
-      - JAEGER_SERVICE_NAME=identity
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - "3004:80"
     depends_on:
       - sqldata
       - event_bus
-      - jaeger
 
   report.api:
     image: ${DOCKER_REGISTRY-}reportapi
     build:
       context: ../
       dockerfile: ./deploy/DockerfileReport
-    environment: 
-      - JAEGER_SERVICE_NAME=report
-      - JAEGER_AGENT_HOST=jaeger
-      - JAEGER_AGENT_PORT=6831
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - "3005:80"
     depends_on:
       - sqldata
       - event_bus
-      - jaeger
 
   event_bus:
     image: rabbitmq:3-management

@@ -35,7 +35,7 @@ namespace Report.API
             services.AddEventBusService(Configuration, Environment);
 
             services.AddOpenTracing();
-            services.AddJaegerService();
+            services.AddJaegerService(Configuration, Environment);
 
             services.AddHealthChecks();
         }

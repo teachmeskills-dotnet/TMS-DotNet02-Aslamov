@@ -73,5 +73,12 @@ namespace DataSource.API.Controllers
 
             return Accepted("Configuration accepted!");
         }
+
+        [HttpGet("hc")]
+        public IActionResult HealthCheck()
+        {
+            var serviceState = _dataSourceService.ServiceState.ToString();
+            return Content(serviceState);
+        }
     }
 }

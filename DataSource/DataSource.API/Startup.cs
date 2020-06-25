@@ -26,6 +26,8 @@ namespace DataSource.API
             services.AddHealthChecks();
 
             services.AddDataSourceService(Configuration, Environment);
+            services.AddOpenTracing();
+            services.AddJaegerService(Configuration, Environment);
 
             services.AddInfrastructureServices();
         }

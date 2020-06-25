@@ -1,4 +1,5 @@
 ﻿using DataSource.Application.DTO;
+using DataSource.Application.Enums;
 using DataSource.Application.Extensions;
 using DataSource.Application.Interfaces;
 using DataSource.Application.Settings;
@@ -30,10 +31,13 @@ namespace DataSource.Infrastructure.Services
         }
 
         /// <inheritdoc/>
-        public ISensor Sensor { get; private set; }
+        public ISensor Sensor { get; protected set; }
 
         /// <inheritdoc/>
-        public ITransmitter Transmitter { get; private set; }
+        public ITransmitter Transmitter { get; protected set; }
+
+        /// <inheritdoc/>
+        public ServiceState ServiceState { get; protected set; }
 
         /// <summary>
         /// Constructor of the service to generate & send telemetry data.
@@ -123,6 +127,8 @@ namespace DataSource.Infrastructure.Services
                 {
                     _cancellationTokenSource.Dispose();
                 }
+
+                ServiceState = ServiceState.Working;
                 return true;
             }
             return false;
@@ -143,6 +149,7 @@ namespace DataSource.Infrastructure.Services
             if (_cancellationTokenSource != null)
             {
                 _cancellationTokenSource.Cancel();
+                ServiceState = ServiceState.Stopped;
                 return true;
             }
             return false;

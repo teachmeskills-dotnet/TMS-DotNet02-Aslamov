@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
 
+  # ----------- Data storage -------- #
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
     environment:
@@ -10,6 +11,7 @@ services:
     ports:
       - "1433:1433"
 
+  # ----------- API Microservices -------- #
   gateway.api:
     image: ${DOCKER_REGISTRY-}gatewayapi
     build:
@@ -72,6 +74,7 @@ services:
       - sqldata
       - event_bus
 
+  # ----------- Infrastructure -------- #
   event_bus:
     image: rabbitmq:3-management
     environment:
@@ -93,3 +96,12 @@ services:
       - "16686:16686"
       - "14268:14268"
       - "9411:9411"
+
+  # ----------- Data Sources -------- #
+  datasource.api:
+    image: ${DOCKER_REGISTRY-}datasourceapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileDataSource
+    ports:
+      - "3010:80"

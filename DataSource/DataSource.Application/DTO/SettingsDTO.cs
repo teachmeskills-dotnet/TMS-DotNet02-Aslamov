@@ -1,35 +1,28 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataSource.Application.Settings
+namespace DataSource.Application.DTO
 {
     /// <summary>
-    /// Data generator settings.
+    /// Settings data transfer object.
     /// </summary>
-    public class GeneratorSettings
+    public class SettingsDTO
     {
-        /// <summary>
-        /// Authorization token.
-        /// </summary>
-        public string AuthToken { get; set; }
-
-        /// <summary>
-        /// Host address for posting data. 
-        /// </summary>
-        public string HostAddress { get; set; }
-
         /// <summary>
         /// Sensor serial number.
         /// </summary>
+        [Required]
         public string SensorSerial { get; set; }
 
         /// <summary>
         /// Data type to generate.
         /// </summary>
+        [Required]
         public string DataType { get; set; }
 
         /// <summary>
         /// Data generation time interval (seconds).
         /// </summary>
+        [Required]
         public string GenerationTimeIntervalSeconds { get; set; }
     }
 }

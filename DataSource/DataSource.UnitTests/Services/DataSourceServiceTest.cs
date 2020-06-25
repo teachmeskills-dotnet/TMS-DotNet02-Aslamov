@@ -9,16 +9,16 @@ using Xunit;
 
 namespace DataSource.UnitTests.Services
 {
-    public class DataGeneratorServiceTest
+    public class DataSourceServiceTest
     {
         /// <summary>
         /// Test data generator.
         /// </summary>
-        IDataGeneratorService TestGenerator { get; set; }
+        IDataSourceService TestGenerator { get; set; }
 
-        public DataGeneratorServiceTest()
+        public DataSourceServiceTest()
         {
-            var settings = new GeneratorSettings
+            var settings = new DataSourceSettings
             {
                 DataType = DataType.Temperature.ToString(),
                 SensorSerial = "123456789",
@@ -27,17 +27,17 @@ namespace DataSource.UnitTests.Services
                 HostAddress = "http://localhost:3000/records",
             };
 
-            TestGenerator = new DataGeneratorService(settings);
+            TestGenerator = new DataSourceService(settings);
         }
 
         [Fact]
         public void Constructor_WithEmptySettins_Returns_ArgumentNullException()
         {
             // Arrange
-            GeneratorSettings settings = null;
+            DataSourceSettings settings = null;
 
             // Act
-            var constructGenerator = new Action(() => new DataGeneratorService(settings));
+            var constructGenerator = new Action(() => new DataSourceService(settings));
 
             // Assert
             Assert.Throws<ArgumentNullException>(constructGenerator);
@@ -47,7 +47,7 @@ namespace DataSource.UnitTests.Services
         public void Configure_WithEmptySettins_Returns_ArgumentNullException()
         {
             // Arrange
-            GeneratorSettings settings = null;
+            DataSourceSettings settings = null;
 
             // Act
             var configureGenerator = new Action(() => TestGenerator.Configure(settings));
@@ -64,7 +64,7 @@ namespace DataSource.UnitTests.Services
             var oldSensorSerial = TestGenerator.Sensor.Serial;
             var oldGenerationTimeInterval = TestGenerator.GenerationTimeInterval;
 
-            var settings = new GeneratorSettings
+            var settings = new DataSourceSettings
             {
                 DataType = DataType.Acoustic.ToString(),
                 SensorSerial = "0987654321",

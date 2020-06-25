@@ -1,4 +1,5 @@
-﻿using DataSource.Application.Extensions;
+﻿using DataSource.Application.DTO;
+using DataSource.Application.Extensions;
 using DataSource.Application.Interfaces;
 using DataSource.Application.Settings;
 using System;
@@ -10,7 +11,7 @@ namespace DataSource.Infrastructure.Services
     /// <summary>
     /// Define service to generate data records of a specific type.
     /// </summary>
-    public class DataGeneratorService : IDataGeneratorService
+    public class DataSourceService : IDataSourceService
     {
         // Source of cancellation tokens.
         private CancellationTokenSource _cancellationTokenSource;
@@ -38,32 +39,63 @@ namespace DataSource.Infrastructure.Services
         /// Constructor of the service to generate & send telemetry data.
         /// </summary>
         /// <param name="settings">Generator settings.</param>
-        public DataGeneratorService(GeneratorSettings settings) 
+        public DataSourceService(DataSourceSettings settings) 
         {
             Configure(settings);
         }
 
         /// <inheritdoc/>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Configure(GeneratorSettings settings)
+        public bool Configure(DataSourceSettings settings)
         {
             settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             GenerationTimeInterval = settings.GenerationTimeIntervalSeconds.ToInteger().ToMilliseconds();
 
-            var dataType = settings.DataType.ToDataType();
-            var sernoseSerial = settings.SensorSerial;
+            try
+            {
+                var dataType = settings.DataType.ToDataType();
+                var sernoseSerial = settings.SensorSerial;
 
-            Sensor = new Sensor(sernoseSerial, dataType);
+                Sensor = new Sensor(sernoseSerial, dataType);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-            var hostAddress = settings.HostAddress;
-            var authToken = settings.AuthToken;
+            try
+            {
+                var hostAddress = settings.HostAddress;
+                var authToken = settings.AuthToken;
 
-            Transmitter = new Transmitter(hostAddress, authToken);
+                Transmitter = new Transmitter(hostAddress, authToken);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <inheritdoc/>
-        public void Start()
+        public bool Configure(SettingsDTO settings)
+        {
+            settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
+            var dataType = settings.DataType.ToDataType();
+            var sernoseSerial = settings.SensorSerial;
+
+            GenerationTimeInterval = settings.GenerationTimeIntervalSeconds.ToInteger().ToMilliseconds();
+
+            Sensor = new Sensor(sernoseSerial, dataType);
+
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public bool Start()
         {    
             if (_genarationTask == null || _genarationTask.Status == TaskStatus.Canceled)
             {
@@ -78,23 +110,29 @@ namespace DataSource.Infrastructure.Services
                 {
                     _cancellationTokenSource.Dispose();
                 }
+                return true;
             }
+            return false;
         }
 
         /// <inheritdoc/>
-        public void Start(int generationTimeInterval)
+        public bool Start(int generationTimeInterval)
         {
             GenerationTimeInterval = generationTimeInterval;
-            Start();
+            var success = Start();
+
+            return success;
         }
 
         /// <inheritdoc/>
-        public void Stop()
+        public bool Stop()
         {
             if (_cancellationTokenSource != null)
             {
                 _cancellationTokenSource.Cancel();
+                return true;
             }
+            return false;
         }
 
         // Generate data and send it to specific API.
@@ -110,7 +148,7 @@ namespace DataSource.Infrastructure.Services
                 var dataRecord = Sensor.GetDataRecord();
                 if (dataRecord != null)
                 {
-                    var status = await Transmitter.SendDataRecord(dataRecord);
+                    await Transmitter.SendDataRecord(dataRecord);
                 }
                 await Task.Delay(GenerationTimeInterval);
             }

@@ -55,5 +55,11 @@ namespace DataSource.Application.Interfaces
         /// <param name="settings">Generator settings.</param>
         /// <returns>Operation result.</returns>
         bool Configure(SettingsDTO settings);
+
+        /// <summary>
+        /// Get data source configuration.
+        /// </summary>
+        /// <returns>Data source settings.</returns>
+        SettingsDTO GetConfiguration();
     }
 }

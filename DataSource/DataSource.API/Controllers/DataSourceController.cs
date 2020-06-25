@@ -49,6 +49,14 @@ namespace DataSource.API.Controllers
             return Ok("Stopped!");
         }
 
+        [HttpGet("configuration")]
+        public SettingsDTO GetConfiguration()
+        {
+            var settings = _dataSourceService.GetConfiguration();
+
+            return settings;
+        }
+
         [HttpPost("configuration")]
         public IActionResult Configure([FromBody] SettingsDTO settings)
         {

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace DataSource.Application.Settings
+﻿namespace DataSource.Application.Settings
 {
     /// <summary>
     /// Data generator settings.

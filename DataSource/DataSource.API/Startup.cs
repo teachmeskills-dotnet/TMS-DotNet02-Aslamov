@@ -1,4 +1,5 @@
 using DataSource.API.Extensions;
+using DataSource.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,8 @@ namespace DataSource.API
             services.AddHealthChecks();
 
             services.AddDataSourceService(Configuration, Environment);
+
+            services.AddInfrastructureServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -35,6 +38,9 @@ namespace DataSource.API
             }
 
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Data Source API version 1"));
 
             app.UseAuthorization();
 

@@ -95,6 +95,19 @@ namespace DataSource.Infrastructure.Services
         }
 
         /// <inheritdoc/>
+        public SettingsDTO GetConfiguration()
+        {
+            var settings = new SettingsDTO
+            {
+                SensorSerial = Sensor.Serial,
+                DataType = Sensor.DataType.ToString(),
+                GenerationTimeIntervalSeconds = GenerationTimeInterval.ToSeconds().ToString(),
+            };
+
+            return settings;
+        }
+
+        /// <inheritdoc/>
         public bool Start()
         {    
             if (_genarationTask == null || _genarationTask.Status == TaskStatus.Canceled)

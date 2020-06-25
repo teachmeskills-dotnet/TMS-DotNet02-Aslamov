@@ -45,5 +45,21 @@ namespace DataSource.Application.Extensions
 
             return timeIntervalSeconds * 1000;
         }
+
+        /// <summary>
+        /// Extension method to conver time interval from milliseconds to secods.
+        /// </summary>
+        /// <param name="timeIntervalMilliseconds">Time interval in milliseconds.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>Time interval in seconds.</returns>
+        public static int ToSeconds(this int timeIntervalMilliseconds)
+        {
+            if (timeIntervalMilliseconds <= 0)
+            {
+                throw new ArgumentNullException(nameof(timeIntervalMilliseconds));
+            }
+
+            return timeIntervalMilliseconds / 1000;
+        }
     }
 }

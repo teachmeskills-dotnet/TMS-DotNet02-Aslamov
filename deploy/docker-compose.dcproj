@@ -9,6 +9,7 @@
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
     <None Include="DockerfileDataProcessor" />
+    <None Include="DockerfileDataSource" />
     <None Include="DockerfileGateway" />
     <None Include="DockerfileIdentity" />
     <None Include="DockerfileProfile" />

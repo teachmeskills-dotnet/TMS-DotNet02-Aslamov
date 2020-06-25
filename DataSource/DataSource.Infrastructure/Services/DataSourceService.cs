@@ -114,7 +114,7 @@ namespace DataSource.Infrastructure.Services
         /// <inheritdoc/>
         public bool Start()
         {    
-            if (_genarationTask == null || _genarationTask.Status == TaskStatus.Canceled)
+            if (_genarationTask == null || _genarationTask.Status == TaskStatus.Canceled || _genarationTask.Status == TaskStatus.Faulted)
             {
                 _cancellationTokenSource = new CancellationTokenSource();
                 var cancellationToken = _cancellationTokenSource.Token;
@@ -126,6 +126,10 @@ namespace DataSource.Infrastructure.Services
                 catch (OperationCanceledException)
                 {
                     _cancellationTokenSource.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"ERROR! {ex.Message}");
                 }
 
                 ServiceState = ServiceState.Working;

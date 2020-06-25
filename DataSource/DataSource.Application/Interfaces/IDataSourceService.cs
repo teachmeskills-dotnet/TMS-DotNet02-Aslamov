@@ -1,4 +1,5 @@
 ﻿using DataSource.Application.DTO;
+using DataSource.Application.Enums;
 using DataSource.Application.Settings;
 
 namespace DataSource.Application.Interfaces
@@ -9,7 +10,7 @@ namespace DataSource.Application.Interfaces
     public interface IDataSourceService
     {
         /// <summary>
-        /// Sensor device.
+        /// Sensor device for data collection.
         /// </summary>
         ISensor Sensor { get; }
 
@@ -17,6 +18,11 @@ namespace DataSource.Application.Interfaces
         /// Transmitter for posting data to specific API.
         /// </summary>
         ITransmitter Transmitter { get; }
+
+        /// <summary>
+        /// Service state (stopped / working).
+        /// </summary>
+        ServiceState ServiceState { get; }
 
         /// <summary>
         /// Time interval (ms) for data generation .

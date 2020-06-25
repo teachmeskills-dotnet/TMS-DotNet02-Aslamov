@@ -1,11 +1,12 @@
-﻿using DataSource.Application.Settings;
+﻿using DataSource.Application.DTO;
+using DataSource.Application.Settings;
 
 namespace DataSource.Application.Interfaces
 {
     /// <summary>
     /// Define interface for generator of telemetry data.
     /// </summary>
-    public interface IDataGeneratorService
+    public interface IDataSourceService
     {
         /// <summary>
         /// Sensor device.
@@ -25,23 +26,34 @@ namespace DataSource.Application.Interfaces
         /// <summary>
         /// Start data generation with defaul generation time interval.
         /// </summary>
-        void Start();
+        /// <returns>Operation result.</returns>
+        bool Start();
 
         /// <summary>
         /// Start data generation with specific generation time interval (ms).
         /// </summary>
         /// <param name="generationTimeInterval">Generation time interval (ms).</param>
-        void Start(int generationTimeInterval);
+        /// <returns>Operation result.</returns>
+        bool Start(int generationTimeInterval);
 
         /// <summary>
         /// Stop data generation.
         /// </summary>
-        void Stop();
+        /// <returns>Operation result.</returns>
+        bool Stop();
+
+        /// <summary>
+        /// Configure the whole data source service.
+        /// </summary>
+        /// <param name="settings">Service settings.</param>
+        /// <returns>Operation result.</returns>
+        bool Configure(DataSourceSettings settings);
 
         /// <summary>
         /// Configure data generator.
         /// </summary>
-        /// <param name="settings">Data generator common settings.</param>
-        void Configure(GeneratorSettings settings);
+        /// <param name="settings">Generator settings.</param>
+        /// <returns>Operation result.</returns>
+        bool Configure(SettingsDTO settings);
     }
 }

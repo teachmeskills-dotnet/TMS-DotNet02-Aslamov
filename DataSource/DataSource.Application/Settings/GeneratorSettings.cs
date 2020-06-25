@@ -8,9 +8,19 @@ namespace DataSource.Application.Settings
     public class GeneratorSettings
     {
         /// <summary>
-        /// Generator serial number.
+        /// Authorization token.
         /// </summary>
-        public string Serial { get; set; }
+        public string AuthToken { get; set; }
+
+        /// <summary>
+        /// Host address for posting data. 
+        /// </summary>
+        public string HostAddress { get; set; }
+
+        /// <summary>
+        /// Sensor serial number.
+        /// </summary>
+        public string SensorSerial { get; set; }
 
         /// <summary>
         /// Data type to generate.
@@ -18,8 +28,8 @@ namespace DataSource.Application.Settings
         public string DataType { get; set; }
 
         /// <summary>
-        /// Data generation time interval.
+        /// Data generation time interval (seconds).
         /// </summary>
-        public string GenerationTimeInterval { get; set; }
+        public string GenerationTimeIntervalSeconds { get; set; }
     }
 }

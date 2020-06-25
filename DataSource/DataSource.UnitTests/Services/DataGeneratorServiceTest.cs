@@ -21,8 +21,10 @@ namespace DataSource.UnitTests.Services
             var settings = new GeneratorSettings
             {
                 DataType = DataType.Temperature.ToString(),
-                Serial = "1234567890",
-                GenerationTimeInterval = "5",
+                SensorSerial = "123456789",
+                GenerationTimeIntervalSeconds = "5",
+                AuthToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImE3NWI2OWI4LTk2OWYtNDY5ZS1iMjZkLTA4ZDgxMzg5NGQyNyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTU5MjU3MDMwMCwiZXhwIjoxNTkzMTc1MTAwLCJpYXQiOjE1OTI1NzAzMDB9.OBHTe43zxDN5o7pnwNEauyZ73m_juw7z46XW8C8nNvU",
+                HostAddress = "http://localhost:3000/records",
             };
 
             TestGenerator = new DataGeneratorService(settings);
@@ -65,8 +67,10 @@ namespace DataSource.UnitTests.Services
             var settings = new GeneratorSettings
             {
                 DataType = DataType.Acoustic.ToString(),
-                Serial = "0987654321",
-                GenerationTimeInterval = "10",
+                SensorSerial = "0987654321",
+                GenerationTimeIntervalSeconds = "10",
+                AuthToken = "11111",
+                HostAddress = "http://localhost:4000/records",
             };
 
             // Act
@@ -81,26 +85,20 @@ namespace DataSource.UnitTests.Services
             (TestGenerator.GenerationTimeInterval).ShouldNotBe(oldGenerationTimeInterval);
         }
 
-        [Fact]
-        // Hand test.
-        public void Start_Generates_Data()
-        {
-            // Arrange
+        //[Fact]
+        //// Hand test.
+        //public void Start_Generates_Data()
+        //{
+        //    TestGenerator.Start();
 
-            // Act
-            TestGenerator.Start();
+        //    Thread.Sleep(50000);
+        //    TestGenerator.Stop();
 
-            Thread.Sleep(20000);
-            TestGenerator.Stop();
+        //    //Thread.Sleep(20000);
+        //    //TestGenerator.Start(1000);
 
-            Thread.Sleep(20000);
-            TestGenerator.Start(1000);
-
-            Thread.Sleep(20000);
-            TestGenerator.Stop();
-
-            // Assert
-        }
-
+        //    //Thread.Sleep(20000);
+        //    //TestGenerator.Stop();
+        //}
     }
 }

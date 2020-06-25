@@ -10,12 +10,12 @@ namespace DataSource.Application.Interfaces
         /// <summary>
         /// Sensor device.
         /// </summary>
-        ISensor Sensor { get; set; }
+        ISensor Sensor { get; }
 
         /// <summary>
-        /// Http client.
+        /// Transmitter for posting data to specific API.
         /// </summary>
-        IHttpClient HttpClient { get; set; }
+        ITransmitter Transmitter { get; }
 
         /// <summary>
         /// Time interval (ms) for data generation .

@@ -15,7 +15,7 @@ namespace DataSource.Infrastructure.Services
         // Source of cancellation tokens.
         private CancellationTokenSource _cancellationTokenSource;
 
-        // Task for generation.
+        // Task for data generation.
         private Task _genarationTask;
 
         // Time interval (ms) for data generation.
@@ -29,10 +29,10 @@ namespace DataSource.Infrastructure.Services
         }
 
         /// <inheritdoc/>
-        public ISensor Sensor { get; set; }
+        public ISensor Sensor { get; private set; }
 
         /// <inheritdoc/>
-        public IHttpClient HttpClient { get; set; }
+        public ITransmitter Transmitter { get; private set; }
 
         /// <summary>
         /// Constructor of the service to generate & send telemetry data.
@@ -49,12 +49,17 @@ namespace DataSource.Infrastructure.Services
         {
             settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
-            GenerationTimeInterval = settings.GenerationTimeInterval.ToInteger().ToMilliseconds();
+            GenerationTimeInterval = settings.GenerationTimeIntervalSeconds.ToInteger().ToMilliseconds();
 
             var dataType = settings.DataType.ToDataType();
-            var serial = settings.Serial;
+            var sernoseSerial = settings.SensorSerial;
 
-            Sensor = new Sensor(serial, dataType);
+            Sensor = new Sensor(sernoseSerial, dataType);
+
+            var hostAddress = settings.HostAddress;
+            var authToken = settings.AuthToken;
+
+            Transmitter = new Transmitter(hostAddress, authToken);
         }
 
         /// <inheritdoc/>
@@ -84,7 +89,13 @@ namespace DataSource.Infrastructure.Services
         }
 
         /// <inheritdoc/>
-        public void Stop() => _cancellationTokenSource.Cancel();
+        public void Stop()
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+            }
+        }
 
         // Generate data and send it to specific API.
         private async Task GenerateAndSend(CancellationToken token)
@@ -96,7 +107,11 @@ namespace DataSource.Infrastructure.Services
                     token.ThrowIfCancellationRequested();
                 }
 
-                var dataRecord = await Task.Run(Sensor.GetDataRecord);
+                var dataRecord = Sensor.GetDataRecord();
+                if (dataRecord != null)
+                {
+                    var status = await Transmitter.SendDataRecord(dataRecord);
+                }
                 await Task.Delay(GenerationTimeInterval);
             }
         }

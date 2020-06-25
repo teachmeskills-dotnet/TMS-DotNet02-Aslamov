@@ -11,14 +11,10 @@ namespace DataSource.Infrastructure.Services
     /// </summary>
     public class Sensor : ISensor
     {
-        /// <summary>
-        /// Sensor type.
-        /// </summary>
+        /// <inheritdoc/>
         public DataType DataType { get; set; }
 
-        /// <summary>
-        /// Sensor serial number.
-        /// </summary>
+        /// <inheritdoc/>
         public string Serial { get; set; }
 
         /// <summary>

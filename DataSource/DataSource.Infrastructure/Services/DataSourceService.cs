@@ -101,12 +101,20 @@ namespace DataSource.Infrastructure.Services
         /// <inheritdoc/>
         public SettingsDTO GetConfiguration()
         {
-            var settings = new SettingsDTO
+            SettingsDTO settings;
+            try
             {
-                SensorSerial = Sensor.Serial,
-                DataType = Sensor.DataType.ToString(),
-                GenerationTimeIntervalSeconds = GenerationTimeInterval.ToSeconds().ToString(),
-            };
+                settings = new SettingsDTO
+                {
+                    SensorSerial = Sensor.Serial,
+                    DataType = Sensor.DataType.ToString(),
+                    GenerationTimeIntervalSeconds = GenerationTimeInterval.ToSeconds().ToString(),
+                };
+            }
+            catch (Exception)
+            {
+                return null;
+            }
 
             return settings;
         }

@@ -25,6 +25,7 @@ namespace DataSource.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        // api/datasource/start
         [HttpPost("start")]
         public IActionResult Start()
         {
@@ -37,6 +38,7 @@ namespace DataSource.API.Controllers
             return Ok("Started!");
         }
 
+        // api/datasource/stop
         [HttpPost("stop")]
         public IActionResult Stop()
         {
@@ -49,20 +51,26 @@ namespace DataSource.API.Controllers
             return Ok("Stopped!");
         }
 
+        // api/datasource/configuration
         [HttpGet("configuration")]
-        public SettingsDTO GetConfiguration()
+        public IActionResult GetConfiguration()
         {
             var settings = _dataSourceService.GetConfiguration();
+            if (settings == null)
+            {
+                return NotFound();
+            }
 
-            return settings;
+            return Ok(settings);
         }
 
+        // api/datasource/configuration
         [HttpPost("configuration")]
         public IActionResult Configure([FromBody] SettingsDTO settings)
         {
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
+                return BadRequest(ModelState);
             }
             
             var success = _dataSourceService.Configure(settings);
@@ -74,6 +82,7 @@ namespace DataSource.API.Controllers
             return Accepted("Configuration accepted!");
         }
 
+        // api/datasource/hc
         [HttpGet("hc")]
         public IActionResult HealthCheck()
         {

@@ -1,4 +1,4 @@
-# TMS-DotNet02-Aslamov
+# iCare-Microservices
 
 ![.NET Core](https://github.com/teachmeskills-dotnet/TMS-DotNet02-Aslamov/workflows/.NET%20Core/badge.svg)
 
@@ -8,7 +8,7 @@ Services for data storage & processing are simple CRUD microservices.
 
 ## Getting Started
 
-To run the application, type the following command from the app root directory:
+To run the application, type the following commands from the app root directory:
 
 ```
 > docker-compose build
@@ -38,7 +38,7 @@ The microservices in the application are completely independent and are not awar
 - [x] [Report Microservice](./Services/Report/README.md)
 - [x] [Event Bus](./EventBus/README.md)
 - [x] [Data Source](./DataSource/README.md)
-- [ ] [Web App]()
+- [x] [Web App](https://github.com/aslamovyura/iCare-single-page-app)
 
 ## Built with
 
@@ -61,7 +61,7 @@ The microservices in the application are completely independent and are not awar
 
 ## Author
 
-[Yury Aslamov](https://aslamovyura.github.io/)
+[Yury Aslamov](https://aslamovyura.github.io/) - Software Developer, Ph.D.
 
 ## License
 

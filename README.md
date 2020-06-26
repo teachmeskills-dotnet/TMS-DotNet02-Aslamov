@@ -1,4 +1,4 @@
-# TMS-DotNet02-Aslamov
+# iCare-Microservices
 
 ![.NET Core](https://github.com/teachmeskills-dotnet/TMS-DotNet02-Aslamov/workflows/.NET%20Core/badge.svg)
 
@@ -8,9 +8,23 @@ Services for data storage & processing are simple CRUD microservices.
 
 ## Getting Started
 
-## Application settings
+To run the application, type the following commands from the app root directory:
 
-## Deployment of Docker container on Heroku
+```
+> docker-compose build
+> docker-compose up
+```
+
+For Mac Os or Linux systems, use `sudo` for command above.
+To know more about docker-compose, please visit [docker official site](https://docs.docker.com/compose/).
+
+## Architecture overview
+
+The reference application is cross-platform and can run on Windows, Linux or Mac OS. A microservice-oriented architecture with multiple standalone microservices (simple CRUD) is used.
+
+The Http protocol is used for communication between web application and microservices. Communication across multiple microservices is based on the Event Bus with commands & events. The reference application uses the [MassTransit](https://masstransit-project.com/) event bus with [RabbitMQ](https://www.rabbitmq.com/) message broker.
+
+![iCare architecture](./resources/icare_architecture.png)
 
 ## Microservices
 
@@ -23,13 +37,15 @@ The microservices in the application are completely independent and are not awar
 - [x] [Profile Microservice](./Services/Profile/README.md)
 - [x] [Report Microservice](./Services/Report/README.md)
 - [x] [Event Bus](./EventBus/README.md)
-- [ ] [Data Source]()
-- [ ] [Web]()
+- [x] [Data Source](./DataSource/README.md)
+- [x] [Web App](./Web/README.md)
 
 ## Built with
 
 - [ASP.NET Core 3.1](https://docs.microsoft.com/en-us/aspnet/core/)
 - [Microservices](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/)
+- [Clean architecture](https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
+- [CRUD](https://docs.microsoft.com/en-us/iis-administration/api/crud)
 - [REST API](https://restfulapi.net/)
 - [Docker](https://www.docker.com/)
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
@@ -45,7 +61,7 @@ The microservices in the application are completely independent and are not awar
 
 ## Author
 
-[Yury Aslamov](https://aslamovyura.github.io/)
+[Yury Aslamov](https://aslamovyura.github.io/) - Software Developer, Ph.D.
 
 ## License
 

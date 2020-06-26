@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["DataSource/DataSource.API/DataSource.API.csproj", "DataSource/DataSource.API/"]
+COPY ["DataSource/DataSource.Infrastructure/DataSource.Infrastructure.csproj", "DataSource/DataSource.Infrastructure/"]
+COPY ["DataSource/DataSource.Application/DataSource.Application.csproj", "DataSource/DataSource.Application/"]
+RUN dotnet restore "DataSource/DataSource.API/DataSource.API.csproj"
+COPY . .
+WORKDIR "/src/DataSource/DataSource.API"
+RUN dotnet build "DataSource.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "DataSource.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "DataSource.API.dll"]

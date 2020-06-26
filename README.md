@@ -38,7 +38,7 @@ The microservices in the application are completely independent and are not awar
 - [x] [Report Microservice](./Services/Report/README.md)
 - [x] [Event Bus](./EventBus/README.md)
 - [x] [Data Source](./DataSource/README.md)
-- [x] [Web App](https://github.com/aslamovyura/iCare-single-page-app)
+- [x] [Web App](./Web/README.md)
 
 ## Built with
 

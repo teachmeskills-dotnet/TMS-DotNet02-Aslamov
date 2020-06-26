@@ -31,6 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSource", "DataSource", 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{53B800EB-FDC8-4409-A99F-9C9099F3507A}"
+	ProjectSection(SolutionItems) = preProject
+		Web\README.md = Web\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Profile", "Profile", "{B91F9AD6-C4B6-478A-91C7-60C296E4D4E9}"
 	ProjectSection(SolutionItems) = preProject
@@ -85,13 +88,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensor.UnitTests", "Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.Contracts", "EventBus\EventBus.Contracts\EventBus.Contracts.csproj", "{6F320C2B-F576-4836-855F-8FD49279091C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.API", "DataSource\DataSource.API\DataSource.API.csproj", "{4250642E-06C6-4674-8824-A888CF2C9CC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSource.API", "DataSource\DataSource.API\DataSource.API.csproj", "{4250642E-06C6-4674-8824-A888CF2C9CC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.UnitTests", "DataSource\DataSource.UnitTests\DataSource.UnitTests.csproj", "{47AF77F3-ED1E-4D36-935A-43A6FE50C27C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSource.UnitTests", "DataSource\DataSource.UnitTests\DataSource.UnitTests.csproj", "{47AF77F3-ED1E-4D36-935A-43A6FE50C27C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.Application", "DataSource\DataSource.Application\DataSource.Application.csproj", "{797DA577-31A2-45C6-A492-FD46C33F4886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSource.Application", "DataSource\DataSource.Application\DataSource.Application.csproj", "{797DA577-31A2-45C6-A492-FD46C33F4886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.Infrastructure", "DataSource\DataSource.Infrastructure\DataSource.Infrastructure.csproj", "{149AD5AD-08A7-41B7-9318-13199B8FCA00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSource.Infrastructure", "DataSource\DataSource.Infrastructure\DataSource.Infrastructure.csproj", "{149AD5AD-08A7-41B7-9318-13199B8FCA00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

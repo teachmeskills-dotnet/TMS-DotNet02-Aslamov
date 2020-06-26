@@ -194,11 +194,28 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "dataprocessor.api",
+          "Host": "dataprocessor_1.api",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/dataprocessor",
+      "UpstreamPathTemplate": "/dataprocessor_1",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/dataprocessor",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dataprocessor_2.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/dataprocessor_2",
       "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
@@ -207,7 +224,7 @@
     }
   ],
 
-    "GlobalConfiguration": {
-        "UseServiceDiscovery": false
-    }
+  "GlobalConfiguration": {
+    "UseServiceDiscovery": false
+  }
 }

@@ -2,15 +2,6 @@ version: '3.4'
 
 services:
 
-  # ----------- Data storage -------- #
-  sqldata:
-    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
-    environment:
-      SA_PASSWORD: "reallyStrongPwd123"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-
   # ----------- API Microservices -------- #
   gateway.api:
     image: ${DOCKER_REGISTRY-}gatewayapi
@@ -31,14 +22,15 @@ services:
       - sqldata
       - event_bus
 
-  dataprocessor.api:
-    image: ${DOCKER_REGISTRY-}dataprocessorapi
+  report.api:
+    image: ${DOCKER_REGISTRY-}reportapi
     build:
       context: ../
-      dockerfile: ./deploy/DockerfileDataProcessor
+      dockerfile: ./deploy/DockerfileReport
     ports:
       - "3002:80"
     depends_on:
+      - sqldata
       - event_bus
 
   profile.api:
@@ -63,18 +55,35 @@ services:
       - sqldata
       - event_bus
 
-  report.api:
-    image: ${DOCKER_REGISTRY-}reportapi
+  dataprocessor_1.api:
+    image: ${DOCKER_REGISTRY-}dataprocessorapi
     build:
       context: ../
-      dockerfile: ./deploy/DockerfileReport
+      dockerfile: ./deploy/DockerfileDataProcessor
     ports:
       - "3005:80"
     depends_on:
-      - sqldata
+      - event_bus
+
+  dataprocessor_2.api:
+    image: ${DOCKER_REGISTRY-}dataprocessorapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileDataProcessor
+    ports:
+      - "3006:80"
+    depends_on:
       - event_bus
 
   # ----------- Infrastructure -------- #
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
+    environment:
+      SA_PASSWORD: "reallyStrongPwd123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
   event_bus:
     image: rabbitmq:3-management
     environment:
@@ -97,11 +106,19 @@ services:
       - "14268:14268"
       - "9411:9411"
 
-  # ----------- Data Sources -------- #
-  datasource.api:
+  # ----------- Data Sources (Sensors) -------- #
+  datasource_1.api:
     image: ${DOCKER_REGISTRY-}datasourceapi
     build:
       context: ../
       dockerfile: ./deploy/DockerfileDataSource
     ports:
       - "3010:80"
+
+  datasource_2.api:
+    image: ${DOCKER_REGISTRY-}datasourceapi
+    build:
+      context: ../
+      dockerfile: ./deploy/DockerfileDataSource
+    ports:
+      - "3011:80"

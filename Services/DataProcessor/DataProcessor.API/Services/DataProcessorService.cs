@@ -88,8 +88,8 @@ namespace DataProcessor.API.Services
             healthReport.Diseases = diseases;
             healthReport.Accuracy = accuracy;
 
-            // Imitation of processing time. 
-            Thread.Sleep(1000); 
+            // Imitation of processing time (10 sec). 
+            Thread.Sleep(10000); 
 
             return Task.FromResult(healthReport);
         }

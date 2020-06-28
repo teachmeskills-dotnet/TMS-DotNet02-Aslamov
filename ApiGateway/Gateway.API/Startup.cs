@@ -36,6 +36,7 @@ namespace Gateway.API
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);
 
+            services.AddCors();
             services.AddHealthChecks();
         }
 
@@ -47,6 +48,11 @@ namespace Gateway.API
             }
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyOrigin()
+                              .AllowAnyHeader()
+                              .AllowAnyMethod());
+
             app.UseAuthentication();
             
             app.UseEndpoints(endpoints =>

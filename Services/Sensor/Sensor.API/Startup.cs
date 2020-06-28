@@ -11,7 +11,6 @@ namespace Sensor.API
     public class Startup
     {
         public IConfiguration Configuration { get; }
-
         public IHostEnvironment Environment { get;  }
 
         public Startup(IConfiguration configuration, IHostEnvironment environment)
@@ -36,6 +35,7 @@ namespace Sensor.API
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);
 
+            services.AddCors();
             services.AddHealthChecks();
         }
 
@@ -47,6 +47,10 @@ namespace Sensor.API
             }
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyOrigin()
+                              .AllowAnyHeader()
+                              .AllowAnyMethod());
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Sensor API version 1"));

@@ -36,6 +36,7 @@ namespace Identity.API
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);
 
+            services.AddCors();
             services.AddHealthChecks();
         }
 
@@ -47,6 +48,10 @@ namespace Identity.API
             }
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyOrigin()
+                                          .AllowAnyHeader()
+                                          .AllowAnyMethod());
 
             app.UseAuthentication();
             app.UseAuthorization();

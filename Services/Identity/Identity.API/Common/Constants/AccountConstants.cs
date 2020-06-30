@@ -54,5 +54,10 @@
         /// User has been successfully registered.
         /// </summary>
         public static readonly string REGISTRATION_SUCCESS = "User has been successfully registered!";
+
+        /// <summary>
+        /// Accound deletion success.
+        /// </summary>
+        public const string DELETE_ACCOUNT_SUCCESS = "Account deletion success!";
     }
 }

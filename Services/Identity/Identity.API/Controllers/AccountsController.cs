@@ -135,5 +135,26 @@ namespace Identity.API.Controllers
             _logger.Information($"{accountDTO.Email} {AccountConstants.UPDATE_ACCOUNT_SUCCESS}");
             return Ok(accountDTO);
         }
+
+        // DELETE: api/accounts/{id}
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProfile([FromRoute] Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var success = await _accountService.DeleteAccountByIdAsync(id);
+            if (!success)
+            {
+                _logger.Warning($"{id} {AccountConstants.ACCOUNT_NOT_FOUND}");
+                return NotFound(id);
+            }
+
+            _logger.Information($"{id} {AccountConstants.DELETE_ACCOUNT_SUCCESS}");
+            return Ok(id);
+        }
     }
 }

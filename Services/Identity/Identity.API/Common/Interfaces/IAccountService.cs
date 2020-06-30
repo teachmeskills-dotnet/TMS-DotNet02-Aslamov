@@ -47,8 +47,15 @@ namespace Identity.API.Common.Interfaces
         /// <summary>
         /// Update user account.
         /// </summary>
-        /// <param name="accountDTO">User account DTO..</param>
+        /// <param name="accountDTO">User account DTO.</param>
         /// <returns>Operation result.</returns>
         Task<bool> UpdateAccountAsync(AccountDTO accountDTO);
+
+        /// <summary>
+        /// Delete user account.
+        /// </summary>
+        /// <param name="accountId">Account identifier.</param>
+        /// <returns>Operation result.</returns>
+        Task<bool> DeleteAccountByIdAsync(Guid accountId);
     }
 }

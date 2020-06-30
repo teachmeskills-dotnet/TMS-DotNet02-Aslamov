@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.Events;
 using Identity.API.Common.Constants;
 using Identity.API.Common.Extensions;
 using Identity.API.Common.Interfaces;
 using Identity.API.Common.Settings;
 using Identity.API.DTO;
-using Identity.API.Infrastructure.EntityConfigurations;
 using Identity.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,6 +30,7 @@ namespace Identity.API.Services
         private readonly IIdentityContext _identityContext;
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
+        private readonly IEventProducer<IAccountDeleted, Guid> _accountDeletedEventProducer;
 
         /// <summary>
         /// Constructor of service for managing user accounts.
@@ -35,14 +38,17 @@ namespace Identity.API.Services
         /// <param name="identityContext">Identity service.</param>
         /// <param name="mapper">Mapping service.</param>
         /// <param name="appSettings">Application settings.</param>
+        /// <param name="accountDeletedEventProducer">Producer of account deletion event.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public AccountService( IIdentityContext identityContext,
                                IMapper mapper,
-                               IOptions<AppSettings> appSettings)
+                               IOptions<AppSettings> appSettings,
+                               IEventProducer<IAccountDeleted, Guid> accountDeletedEventProducer)
         {
             _identityContext = identityContext ?? throw new ArgumentNullException(nameof(identityContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _appSettings = appSettings.Value ?? throw new ArgumentNullException(nameof(appSettings));
+            _accountDeletedEventProducer = accountDeletedEventProducer ?? throw new ArgumentNullException(nameof(accountDeletedEventProducer));
         }
 
         /// <inheritdoc/>
@@ -102,7 +108,7 @@ namespace Identity.API.Services
         /// <inheritdoc/>
         public async Task<AccountDTO> GetAccountByEmailAsync(string email)
         {
-            var account = await _identityContext.Accounts.FirstOrDefaultAsync(p => p.Email == email);
+            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Email == email);
             var accountDTO = _mapper.Map<AccountModel, AccountDTO>(account);
 
             return accountDTO;
@@ -111,7 +117,7 @@ namespace Identity.API.Services
         /// <inheritdoc/>
         public async Task<AccountDTO> GetAccountByIdAsync(Guid accoundId)
         {
-            var account = await _identityContext.Accounts.FirstOrDefaultAsync(p => p.Id == accoundId);
+            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Id == accoundId);
             var accountDTO = _mapper.Map<AccountModel, AccountDTO>(account);
 
             return accountDTO;
@@ -137,7 +143,7 @@ namespace Identity.API.Services
         /// <inheritdoc/>
         public async Task<bool> UpdateAccountAsync(AccountDTO accountDTO)
         {
-            var account = await _identityContext.Accounts.FirstOrDefaultAsync(p => p.Id == accountDTO.Id);
+            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Id == accountDTO.Id);
 
             if (account == null)
             {
@@ -152,6 +158,24 @@ namespace Identity.API.Services
 
             _identityContext.Update(account);
             await _identityContext.SaveChangesAsync(new CancellationToken());
+
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAccountByIdAsync(Guid accountId)
+        {
+            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
+            if (account == null)
+            {
+                Log.Error(AccountConstants.ACCOUNT_NOT_FOUND);
+                return false;
+            }
+
+            _identityContext.Remove(account);
+            await _identityContext.SaveChangesAsync(new CancellationToken());
+
+            await _accountDeletedEventProducer.Publish(accountId);
 
             return true;
         }

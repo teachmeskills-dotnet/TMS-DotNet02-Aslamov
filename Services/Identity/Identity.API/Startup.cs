@@ -32,6 +32,7 @@ namespace Identity.API
             services.AddAutoMapper(typeof(Startup));
 
             services.AddJwtService(Configuration);
+            services.AddEventBusService(Configuration, Environment);
 
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);

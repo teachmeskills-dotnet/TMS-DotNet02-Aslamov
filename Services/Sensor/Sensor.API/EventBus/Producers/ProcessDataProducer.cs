@@ -5,7 +5,7 @@ using MassTransit;
 using System;
 using System.Threading.Tasks;
 
-namespace DataProcessor.API.EventBus.Produsers
+namespace Sensor.API.EventBus.Produsers
 {
     /// <summary>
     /// Define 

@@ -1,17 +1,16 @@
-﻿using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
-using EventBus.Contracts.DTO;
+﻿using EventBus.Contracts.Common;
+using EventBus.Contracts.Events;
+using Identity.API.Common.Settings;
+using Identity.API.EventBus.Produsers;
 using MassTransit;
 using MassTransit.OpenTracing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sensor.API.Common.Settings;
-using Sensor.API.EventBus.Produsers;
 using System;
 
-namespace Sensor.API.Common.Extensions
+namespace Identity.API.Common.Extensions
 {
     /// <summary>
     /// Define extensions to configure event bus.
@@ -42,9 +41,6 @@ namespace Sensor.API.Common.Extensions
                 });
 
                 cfg.PropagateOpenTracingContext();
-
-                var queueUri = new Uri(string.Concat("queue:", eventBusSettings.DataProcessingQueue));
-                EndpointConvention.Map<IProcessData>(queueUri);
             });
 
             services.AddSingleton(busControl);
@@ -53,7 +49,7 @@ namespace Sensor.API.Common.Extensions
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
 
-            services.AddScoped(typeof(ICommandProducer<IProcessData, IRecordDTO>), typeof(ProcessDataProducer));
+            services.AddScoped(typeof(IEventProducer<IAccountDeleted, Guid>), typeof(AccountDeletedProducer));
 
             return services;
         }

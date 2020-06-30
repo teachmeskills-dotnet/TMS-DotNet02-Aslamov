@@ -82,7 +82,6 @@ namespace Sensor.API.Services
                 recordDTO.SensorDeviceType = sensorTypeFound.Type;
             }
 
-            // TODO: make operation async!
             await _processDataCommandProducer.Send(recordDTO);
 
             return (id, true);

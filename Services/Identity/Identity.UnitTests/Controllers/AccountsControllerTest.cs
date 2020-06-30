@@ -144,7 +144,6 @@ namespace Identity.UnitTests.Controllers
 
             // Assert
             var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<string>(notFoundObjectResult.Value);
         }
 
         [Fact]
@@ -197,7 +196,7 @@ namespace Identity.UnitTests.Controllers
             var accountServiceMock = new Mock<IAccountService>();
             accountServiceMock.Setup(service => service
                 .RegisterAsync(It.IsAny<AccountDTO>()))
-                .Returns(Task.FromResult((false, "Error!")));
+                .Returns(Task.FromResult((Guid.NewGuid(), false)));
 
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
@@ -210,7 +209,6 @@ namespace Identity.UnitTests.Controllers
 
             // Assert
             var conflictObjectResult = Assert.IsType<ConflictObjectResult>(result);
-            Assert.IsAssignableFrom<string>(conflictObjectResult.Value);
         }
 
         [Fact]
@@ -220,7 +218,7 @@ namespace Identity.UnitTests.Controllers
             var accountServiceMock = new Mock<IAccountService>();
             accountServiceMock.Setup(service => service
                 .RegisterAsync(It.IsAny<AccountDTO>()))
-                .Returns(Task.FromResult((true, "Success!")));
+                .Returns(Task.FromResult((Guid.NewGuid(), true)));
 
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));

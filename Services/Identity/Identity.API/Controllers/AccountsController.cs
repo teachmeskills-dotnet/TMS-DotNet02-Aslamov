@@ -77,7 +77,7 @@ namespace Identity.API.Controllers
             if (token == null)
             {
                 _logger.Warning($"{data.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound(AccountConstants.INCORRECT_USER_LOGIN);
+                return NotFound(new { Message = AccountConstants.INCORRECT_USER_LOGIN });
             }
 
             _logger.Information($"{data.Email} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -96,14 +96,15 @@ namespace Identity.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var (success, message) = await _accountService.RegisterAsync(accountDTO);
+            var (id, success) = await _accountService.RegisterAsync(accountDTO);
             if (!success)
             {
                 _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_ALREADY_EXIST}");
-                return Conflict(message);
+                return Conflict(new { Message = AccountConstants.ACCOUNT_ALREADY_EXIST });
             }
 
             _logger.Information($"{accountDTO.Email} {AccountConstants.REGISTRATION_SUCCESS}");
+            accountDTO.Id = id;
             return CreatedAtAction(nameof(RegisterNewAccount), accountDTO);
         }
 

@@ -4,6 +4,7 @@ using Identity.API.Common.Extensions;
 using Identity.API.Common.Interfaces;
 using Identity.API.Common.Settings;
 using Identity.API.DTO;
+using Identity.API.Infrastructure.EntityConfigurations;
 using Identity.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -81,12 +82,12 @@ namespace Identity.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<(bool result, string message)> RegisterAsync(AccountDTO accountDTO)
+        public async Task<(Guid id, bool result)> RegisterAsync(AccountDTO accountDTO)
         {
             var user = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Email == accountDTO.Email);
             if (user != null)
             {
-                return (false, IdentityConstants.USER_ALREADY_EXIST);
+                return (Guid.Empty, false);
             }
 
             var account = _mapper.Map<AccountDTO, AccountModel>(accountDTO);
@@ -94,7 +95,8 @@ namespace Identity.API.Services
             await _identityContext.Accounts.AddAsync(account);
             await _identityContext.SaveChangesAsync(new CancellationToken());
 
-            return (true, IdentityConstants.REGISTRATION_SUCCESS);
+            var id = account.Id;
+            return (id, true);
         }
 
         /// <inheritdoc/>

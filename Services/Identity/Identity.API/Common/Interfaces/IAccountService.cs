@@ -22,7 +22,7 @@ namespace Identity.API.Common.Interfaces
         /// </summary>
         /// <param name="accountDTO">User account data.</param>
         /// <returns>Uperation result.</returns>
-        Task<(bool result, string message)> RegisterAsync(AccountDTO accountDTO);
+        Task<(Guid id, bool result)> RegisterAsync(AccountDTO accountDTO);
 
         /// <summary>
         /// Get account by email address.

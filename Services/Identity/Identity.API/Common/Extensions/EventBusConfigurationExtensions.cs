@@ -1,6 +1,8 @@
 ﻿using EventBus.Contracts.Common;
 using EventBus.Contracts.Events;
+using GreenPipes;
 using Identity.API.Common.Settings;
+using Identity.API.EventBus.Consumers;
 using Identity.API.EventBus.Produsers;
 using MassTransit;
 using MassTransit.OpenTracing;
@@ -31,19 +33,34 @@ namespace Identity.API.Common.Extensions
             var eventBusSettingsSection = configuration.GetSection("EventBusSettings");
             var eventBusSettings = eventBusSettingsSection.Get<EventBusSettings>();
 
-            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+            services.AddMassTransit(x =>
             {
-                var hostName = environment.IsProduction() ? eventBusSettings.DockerHostName : eventBusSettings.HostName;
-                cfg.Host(hostName, eventBusSettings.VirtualHostName, host =>
-                {
-                    host.Username(eventBusSettings.UserName);
-                    host.Password(eventBusSettings.Password);
-                });
+                x.AddConsumer<UserDeletedConsumer>();
 
-                cfg.PropagateOpenTracingContext();
+                x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.UseHealthCheck(context);
+
+                    var hostName = environment.IsProduction() ? eventBusSettings.DockerHostName : eventBusSettings.HostName;
+                    cfg.Host(hostName, eventBusSettings.VirtualHostName, host =>
+                    {
+                        host.Username(eventBusSettings.UserName);
+                        host.Password(eventBusSettings.Password);
+                    });
+
+                    cfg.PropagateOpenTracingContext();
+
+                    cfg.ReceiveEndpoint("user-events", ep =>
+                    {
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(r => r.Interval(2, 100));
+
+                        ep.ConfigureConsumer<UserDeletedConsumer>(context);
+                    });
+                }));
             });
 
-            services.AddSingleton(busControl);
+            services.AddMassTransitHostedService();
 
             services.AddSingleton<IPublishEndpoint>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());

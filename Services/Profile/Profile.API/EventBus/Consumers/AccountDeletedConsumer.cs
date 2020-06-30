@@ -17,7 +17,7 @@ namespace Profile.API.EventBus.Consumers
         private readonly ILogger<AccountDeletedConsumer> _logger;
 
         /// <summary>
-        /// Constructor of the consumer of account deletion events.
+        /// Constructor of the consumer of "account deleted" events.
         /// </summary>
         /// <param name="profileService">Service for profiles management.</param>
         /// <param name="logger">Logging service.</param>
@@ -30,7 +30,7 @@ namespace Profile.API.EventBus.Consumers
         }
 
         /// <summary>
-        /// Consume record registration event.
+        /// Consume "account deleted" event.
         /// </summary>
         /// <param name="context">Event context.</param>
         public async Task Consume(ConsumeContext<IAccountDeleted> context)

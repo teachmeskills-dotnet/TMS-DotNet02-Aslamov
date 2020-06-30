@@ -1,4 +1,5 @@
 ﻿using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
 using EventBus.Contracts.Events;
 using MassTransit;
 using System;
@@ -7,29 +8,30 @@ using System.Threading.Tasks;
 namespace Identity.API.EventBus.Produsers
 {
     /// <summary>
-    /// Define produser of "account deleted" events.
+    /// Define event produser of "user deleted" events.
     /// </summary>
-    public class AccountDeletedProducer : IEventProducer<IAccountDeleted, Guid> 
+    public class UserDeletedProducer : IEventProducer<IUserDeleted, IUserDTO> 
     {
         private readonly IBusControl _bus;
 
         /// <summary>
-        /// Constructor of producer for "account deleted" events.
+        /// Constructor of producer for user deletion events.
         /// </summary>
         /// <param name="bus">Event bus.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public AccountDeletedProducer(IBusControl bus) => _bus = bus ?? throw new ArgumentNullException(nameof(bus));
+        public UserDeletedProducer(IBusControl bus) => _bus = bus ?? throw new ArgumentNullException(nameof(bus));
 
         /// <inheritdoc/>
         /// <param name="accountId">Account identifier.</param>
-        public async Task<bool> Publish(Guid accountId)
+        public async Task<bool> Publish(IUserDTO userDTO)
         {
             try
             {
-                await _bus.Publish<IAccountDeleted>(new
+                await _bus.Publish<IUserDeleted>(new
                 {
                     CommandId = Guid.NewGuid(),
-                    AccountId = accountId,
+                    ProfileId = userDTO.ProfileId,
+                    AccountId = userDTO.AccountId,
                     CreationDate = DateTime.Now,
                 });
             }

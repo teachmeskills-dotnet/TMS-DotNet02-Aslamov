@@ -1,4 +1,8 @@
-﻿using GreenPipes;
+﻿using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
+using EventBus.Contracts.Events;
+using GreenPipes;
+using Identity.API.EventBus.Produsers;
 using MassTransit;
 using MassTransit.OpenTracing;
 using Microsoft.Extensions.Configuration;
@@ -61,7 +65,7 @@ namespace Profile.API.Common.Extensions
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
 
-            //services.AddScoped(typeof(ICommandProducer<IRegisterReport,IReportDTO>),typeof(RegisterReportProducer));
+            services.AddScoped(typeof(IEventProducer<IUserDeleted, IUserDTO>), typeof(UserDeletedProducer));
 
             return services;
         }

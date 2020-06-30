@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
+using EventBus.Contracts.Events;
 using Microsoft.EntityFrameworkCore;
 using Profile.API.Common.Constants;
 using Profile.API.Common.Interfaces;
@@ -20,6 +23,7 @@ namespace Profile.API.Services
         private readonly IProfileContext _profileContext;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
+        private readonly IEventProducer<IUserDeleted, IUserDTO> _userDeletedEventProducer;
 
         /// <summary>
         /// Constructor of profile service.
@@ -27,13 +31,16 @@ namespace Profile.API.Services
         /// <param name="profileContext">Profile context.</param>
         /// <param name="mapper">Automapper.</param>
         /// <param name="logger">Logging service.</param>
+        /// <param name="userDeletedEventProducer">Producer of the "user deleted" events.</param>
         public ProfileService(IProfileContext profileContext,
                              IMapper mapper,
-                             ILogger logger)
+                             ILogger logger,
+                             IEventProducer<IUserDeleted, IUserDTO> userDeletedEventProducer)
         {
             _profileContext = profileContext ?? throw new ArgumentNullException(nameof(profileContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _userDeletedEventProducer = userDeletedEventProducer ?? throw new ArgumentNullException(nameof(userDeletedEventProducer));
         }
 
         /// <inheritdoc/>
@@ -115,6 +122,13 @@ namespace Profile.API.Services
             _profileContext.Remove(profileFound);
             await _profileContext.SaveChangesAsync(new CancellationToken());
 
+            // Publish event on user deleted (profile + account).
+            await _userDeletedEventProducer.Publish(new UserDTO
+            {
+                ProfileId = profileFound.Id,
+                AccountId = profileFound.AccountId,
+            });
+
             return true;
         }
 
@@ -131,12 +145,12 @@ namespace Profile.API.Services
             _profileContext.Remove(profileFound);
             await _profileContext.SaveChangesAsync(new CancellationToken());
 
-
-            // TODO: Publish event on successful profile deletion.
-            //await context.Publish<IProfileDeleted>(new
-            //{
-            //    ProfileId = profileFound.Id;
-            //});
+            // Publish event on user deleted (profile + account).
+            await _userDeletedEventProducer.Publish(new UserDTO 
+                {
+                    ProfileId = profileFound.Id,
+                    AccountId = profileFound.AccountId,
+                });
 
             return true;
         }

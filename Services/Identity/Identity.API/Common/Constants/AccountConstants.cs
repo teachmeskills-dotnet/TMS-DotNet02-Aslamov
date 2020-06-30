@@ -59,5 +59,20 @@
         /// Accound deletion success.
         /// </summary>
         public const string DELETE_ACCOUNT_SUCCESS = "Account deletion success!";
+
+        /// <summary>
+        /// Event bus consumer error.
+        /// </summary>
+        public const string EVENT_BUS_CONSUMER_ERROR = "Event bus consumer error!";
+
+        /// <summary>
+        /// Event identifier.
+        /// </summary>
+        public const string EVENT_ID = "Event ID!";
+
+        /// <summary>
+        /// Command identifier.
+        /// </summary>
+        public const string COMMAND_ID = "Command ID!";
     }
 }

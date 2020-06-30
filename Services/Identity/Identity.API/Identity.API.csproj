@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EventBus\Consumers\" />
     <Folder Include="Infrastructure\Migrations\" />
   </ItemGroup>
 

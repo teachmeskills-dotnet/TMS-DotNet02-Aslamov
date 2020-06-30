@@ -28,11 +28,6 @@ namespace Profile.API.Models
         public string MiddleName { get; set; }
 
         /// <summary>
-        /// Passport serial.
-        /// </summary>
-        public string Passport { get; set; }
-
-        /// <summary>
         /// Birth data.
         /// </summary>
         public DateTime BirthDate { get; set; }
@@ -51,5 +46,11 @@ namespace Profile.API.Models
         /// Weight [kg].
         /// </summary>
         public int Weight { get; set; }
+
+
+        /// <summary>
+        /// Account Identifier.
+        /// </summary>
+        public Guid AccountId { get; set; }
     }
 }

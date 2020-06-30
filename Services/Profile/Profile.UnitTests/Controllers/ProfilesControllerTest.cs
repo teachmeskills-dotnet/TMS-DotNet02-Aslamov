@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Moq;
 using Profile.API.Common.Interfaces;
 using Profile.API.Controllers;
@@ -141,7 +142,6 @@ namespace Profile.UnitTests.Controllers
 
             // Assert
             var conflictObjectResult = Assert.IsType<ConflictObjectResult>(result);
-            Assert.IsAssignableFrom<Guid>(conflictObjectResult.Value);
         }
 
         [Fact]

@@ -40,7 +40,7 @@ namespace Profile.API.Services
         public async Task<(Guid id, bool success)> RegisterNewProfileAsync(ProfileDTO profileDTO)
         {
             var profile = _mapper.Map<ProfileDTO, ProfileModel>(profileDTO);
-            var profileFound = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.Passport == profileDTO.Passport);
+            var profileFound = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.AccountId == profileDTO.AccountId);
 
             if (profileFound != null)
             {
@@ -92,7 +92,6 @@ namespace Profile.API.Services
             profile.FirstName = profileDTO.FirstName;
             profile.LastName = profileDTO.LastName;
             profile.MiddleName = profileDTO.MiddleName;
-            profile.Passport = profileDTO.Passport;
             profile.Gender = profileDTO.Gender;
             profile.Height = profileDTO.Height;
             profile.Weight = profileDTO.Weight;

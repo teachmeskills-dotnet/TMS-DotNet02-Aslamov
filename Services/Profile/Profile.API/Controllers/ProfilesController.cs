@@ -65,7 +65,8 @@ namespace Profile.API.Controllers
         }
 
         // POST: api/profiles
-        [Authorize(Roles ="User, Admin")]
+        //[Authorize(Roles ="User, Admin")]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> RegisterNewProfile([FromBody] ProfileDTO profileDTO)
         {
@@ -78,7 +79,7 @@ namespace Profile.API.Controllers
             if (!success)
             {
                 _logger.Warning($"{id} {ProfileConstants.ADD_PROFILE_CONFLICT}");
-                return Conflict(id);
+                return Conflict(new { Message = ProfileConstants.PROFILE_ALREADY_EXIST });
             }
 
             profileDTO.Id = id;

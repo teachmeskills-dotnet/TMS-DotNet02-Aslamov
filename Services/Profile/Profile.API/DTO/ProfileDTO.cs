@@ -31,12 +31,6 @@ namespace Profile.API.DTO
         public string MiddleName { get; set; }
 
         /// <summary>
-        /// Passport serial.
-        /// </summary>
-        [Required]
-        public string Passport { get; set; }
-
-        /// <summary>
         /// Birth data.
         /// </summary>
         [Required]
@@ -56,5 +50,12 @@ namespace Profile.API.DTO
         /// Weight [kg].
         /// </summary>
         public int Weight { get; set; }
+
+
+        /// <summary>
+        /// Account Identifier.
+        /// </summary>
+        [Required]
+        public Guid AccountId { get; set; }
     }
 }

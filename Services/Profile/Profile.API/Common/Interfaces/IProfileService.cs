@@ -43,5 +43,12 @@ namespace Profile.API.Common.Interfaces
         /// <param name="id">Profile identifier.</param>
         /// <returns>Operation status.</returns>
         Task<bool> DeleteProfileByIdAsync(Guid id);
+
+        /// <summary>
+        /// Delete profile from application by account id.
+        /// </summary>
+        /// <param name="accountId">Account identifier.</param>
+        /// <returns>Operation status.</returns>
+        Task<bool> DeleteProfileByAccountIdAsync(Guid accountId);
     }
 }

@@ -32,6 +32,7 @@ namespace Profile.API
             services.AddSwaggerService();
 
             services.AddJwtService(Configuration);
+            services.AddEventBusService(Configuration, Environment);
 
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);

@@ -117,5 +117,28 @@ namespace Profile.API.Services
 
             return true;
         }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteProfileByAccountIdAsync(Guid accountId)
+        {
+            var profileFound = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.AccountId == accountId);
+            if (profileFound == null)
+            {
+                _logger.Error(ProfileConstants.PROFILE_NOT_FOUND);
+                return false;
+            }
+
+            _profileContext.Remove(profileFound);
+            await _profileContext.SaveChangesAsync(new CancellationToken());
+
+
+            // TODO: Publish event on successful profile deletion.
+            //await context.Publish<IProfileDeleted>(new
+            //{
+            //    ProfileId = profileFound.Id;
+            //});
+
+            return true;
+        }
     }
 }

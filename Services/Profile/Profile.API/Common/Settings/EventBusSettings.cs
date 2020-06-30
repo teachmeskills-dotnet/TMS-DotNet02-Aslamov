@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Common.Settings
+﻿namespace Profile.API.Common.Settings
 {
     /// <summary>
     /// RabbitMQ event bus settings.
@@ -6,7 +6,7 @@
     public class EventBusSettings
     {
         /// <summary>
-        /// RabbitMQ host name.
+        /// Event bus host name.
         /// </summary>
         public string HostName { get; set; }
 
@@ -16,7 +16,7 @@
         public string DockerHostName { get; set; }
 
         /// <summary>
-        /// Event bus (RabbitMQ-based) virtual host name.
+        /// RabbitMQ virtual host name.
         /// </summary>
         public string VirtualHostName { get; set; }
 

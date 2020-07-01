@@ -160,7 +160,7 @@ namespace Identity.API.Controllers
         // DELETE: api/accounts/{id}
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProfile([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {

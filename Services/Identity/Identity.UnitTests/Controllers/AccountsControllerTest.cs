@@ -329,5 +329,56 @@ namespace Identity.UnitTests.Controllers
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.IsAssignableFrom<AccountDTO>(okResult.Value);
         }
+
+
+        [Fact]
+        public void DeleteAccount_WithInvalidModelId_Returns_NotFoundResult()
+        {
+            // Arrange
+            var accountServiceMock = new Mock<IAccountService>();
+            accountServiceMock.Setup(service => service
+                .DeleteAccountByIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(false));
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new AccountsController(accountServiceMock.Object, loggerMock.Object);
+            var accountDTO = new AccountDTO();
+            var id = new Guid();
+
+            // Act
+            var result = controller.DeleteAccount(id).GetAwaiter().GetResult();
+
+            // Assert
+            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsAssignableFrom<Guid>(notFoundObjectResult.Value);
+        }
+
+        [Fact]
+        public void DeleteAccount_Returns_OkResult()
+        {
+            // Arrange
+            var accountServiceMock = new Mock<IAccountService>();
+
+            accountServiceMock.Setup(service => service
+                .GetAccountByIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(GetAccount()));
+
+            accountServiceMock.Setup(service => service
+                .DeleteAccountByIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(true));
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new AccountsController(accountServiceMock.Object, loggerMock.Object);
+            var id = new Guid();
+
+            // Act
+            var result = controller.DeleteAccount(id).GetAwaiter().GetResult();
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.IsAssignableFrom<Guid>(okObjectResult.Value);
+        }
     }
 }

@@ -88,12 +88,25 @@ namespace Identity.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<(Guid id, bool result)> RegisterAsync(AccountDTO accountDTO)
+        public async Task<(Guid id, bool result, string message)> RegisterAsync(AccountDTO accountDTO)
         {
-            var user = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Email == accountDTO.Email);
+            var user = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Email == accountDTO.Email &&
+                                                                                a.Username == accountDTO.Username);
             if (user != null)
             {
-                return (Guid.Empty, false);
+                return (Guid.Empty, false, IdentityConstants.USER_ALREADY_EXIST );
+            }
+
+            user = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Email == accountDTO.Email);
+            if (user != null)
+            {
+                return (Guid.Empty, false, IdentityConstants.EMAIL_ALREADY_EXIST);
+            }
+
+            user = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Username == accountDTO.Username);
+            if (user != null)
+            {
+                return (Guid.Empty, false, IdentityConstants.USERNAME_ALREADY_EXIST);
             }
 
             var account = _mapper.Map<AccountDTO, AccountModel>(accountDTO);
@@ -102,7 +115,16 @@ namespace Identity.API.Services
             await _identityContext.SaveChangesAsync(new CancellationToken());
 
             var id = account.Id;
-            return (id, true);
+            return (id, true, IdentityConstants.REGISTRATION_SUCCESS);
+        }
+
+        /// <inheritdoc/>
+        public async Task<AccountDTO> GetAccountByIdAsync(Guid accoundId)
+        {
+            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Id == accoundId);
+            var accountDTO = _mapper.Map<AccountModel, AccountDTO>(account);
+
+            return accountDTO;
         }
 
         /// <inheritdoc/>
@@ -115,9 +137,9 @@ namespace Identity.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<AccountDTO> GetAccountByIdAsync(Guid accoundId)
+        public async Task<AccountDTO> GetAccountByUsernameAsync(string username)
         {
-            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Id == accoundId);
+            var account = await _identityContext.Accounts.FirstOrDefaultAsync(a => a.Username == username);
             var accountDTO = _mapper.Map<AccountModel, AccountDTO>(account);
 
             return accountDTO;

@@ -44,7 +44,7 @@ namespace Identity.API.Controllers
 
         // GET: api/accounts/{id}
         [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetAccount([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -57,6 +57,27 @@ namespace Identity.API.Controllers
             {
                 _logger.Warning($"{id} {AccountConstants.ACCOUNT_NOT_FOUND}");
                 return NotFound(id);
+            }
+
+            _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
+            return Ok(account);
+        }
+
+        // GET: api/accounts/{username}
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetAccount([FromRoute] string username)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var account = await _accountService.GetAccountByUsernameAsync(username);
+            if (account == null)
+            {
+                _logger.Warning($"{username} {AccountConstants.ACCOUNT_NOT_FOUND}");
+                return NotFound(username);
             }
 
             _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -96,11 +117,11 @@ namespace Identity.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var (id, success) = await _accountService.RegisterAsync(accountDTO);
+            var (id, success, message) = await _accountService.RegisterAsync(accountDTO);
             if (!success)
             {
                 _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_ALREADY_EXIST}");
-                return Conflict(new { Message = AccountConstants.ACCOUNT_ALREADY_EXIST });
+                return Conflict(new { message });
             }
 
             _logger.Information($"{accountDTO.Email} {AccountConstants.REGISTRATION_SUCCESS}");

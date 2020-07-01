@@ -26,6 +26,16 @@
         public static readonly string USER_ALREADY_EXIST = "User already exists!";
 
         /// <summary>
+        /// Email already exists.
+        /// </summary>
+        public static readonly string EMAIL_ALREADY_EXIST = "Email already exists!";
+
+        /// <summary>
+        /// Username already exists.
+        /// </summary>
+        public static readonly string USERNAME_ALREADY_EXIST = "Username already exists!";
+
+        /// <summary>
         /// User has been successfully registered.
         /// </summary>
         public static readonly string REGISTRATION_SUCCESS = "User has been successfully registered!";

@@ -196,7 +196,7 @@ namespace Identity.UnitTests.Controllers
             var accountServiceMock = new Mock<IAccountService>();
             accountServiceMock.Setup(service => service
                 .RegisterAsync(It.IsAny<AccountDTO>()))
-                .Returns(Task.FromResult((Guid.NewGuid(), false)));
+                .Returns(Task.FromResult((Guid.NewGuid(), false, "Conflict")));
 
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
@@ -218,7 +218,7 @@ namespace Identity.UnitTests.Controllers
             var accountServiceMock = new Mock<IAccountService>();
             accountServiceMock.Setup(service => service
                 .RegisterAsync(It.IsAny<AccountDTO>()))
-                .Returns(Task.FromResult((Guid.NewGuid(), true)));
+                .Returns(Task.FromResult((Guid.NewGuid(), true, "Success")));
 
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));

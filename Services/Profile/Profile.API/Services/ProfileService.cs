@@ -78,6 +78,20 @@ namespace Profile.API.Services
         }
 
         /// <inheritdoc/>
+        public async Task<ProfileDTO> GetProfileByAccountIdAsync(Guid accountId)
+        {
+            var profile = await _profileContext.Profiles.FirstOrDefaultAsync(p => p.AccountId == accountId);
+            if (profile == null)
+            {
+                return null;
+            }
+
+            var profileDTO = _mapper.Map<ProfileModel, ProfileDTO>(profile);
+
+            return profileDTO;
+        }
+
+        /// <inheritdoc/>
         public async Task<ICollection<ProfileDTO>> GetAllProfilesAsync()
         {
             var profiles = await _profileContext.Profiles.ToListAsync();
@@ -99,6 +113,7 @@ namespace Profile.API.Services
             profile.FirstName = profileDTO.FirstName;
             profile.LastName = profileDTO.LastName;
             profile.MiddleName = profileDTO.MiddleName;
+            profile.BirthDate = profileDTO.BirthDate;
             profile.Gender = profileDTO.Gender;
             profile.Height = profileDTO.Height;
             profile.Weight = profileDTO.Weight;

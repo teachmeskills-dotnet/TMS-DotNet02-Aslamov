@@ -82,7 +82,7 @@ namespace Profile.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetProfile_WithValidModelAndInvalidId_Returns_NotFoundResult()
+        public void GetProfile_WithValidModelAndInvalidId_Returns_NoContentResult()
         {
             // Arrange
             var profileServiceMock = new Mock<IProfileService>();
@@ -100,8 +100,7 @@ namespace Profile.UnitTests.Controllers
             var result = controller.GetProfile(id).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<Guid>(notFoundObjectResult.Value);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]

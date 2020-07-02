@@ -1,10 +1,17 @@
-﻿namespace Identity.API.DTO
+﻿using System;
+
+namespace Identity.API.DTO
 {
     /// <summary>
     /// User authentication token DTO.
     /// </summary>
     public class TokenDTO
     {
+        /// <summary>
+        /// Account Identifier.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// User name.
         /// </summary>

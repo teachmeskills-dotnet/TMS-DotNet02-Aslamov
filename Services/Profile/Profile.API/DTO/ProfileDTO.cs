@@ -39,16 +39,19 @@ namespace Profile.API.DTO
         /// <summary>
         /// Gender.
         /// </summary>
+        [Required]
         public string Gender { get; set; }
 
         /// <summary>
         /// Height [sm].
         /// </summary>
+        [Required]
         public int Height { get; set; }
 
         /// <summary>
         /// Weight [kg].
         /// </summary>
+        [Required]
         public int Weight { get; set; }
 
 

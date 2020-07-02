@@ -84,7 +84,7 @@ namespace Identity.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetAccount_WithValidModelAndInvalidId_Returns_NotFoundResult()
+        public void GetAccount_WithValidModelAndInvalidId_Returns_NoContentResult()
         {
             // Arrange
             var accountServiceMock = new Mock<IAccountService>();
@@ -102,8 +102,7 @@ namespace Identity.UnitTests.Controllers
             var result = controller.GetAccount(id).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<Guid>(notFoundObjectResult.Value);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
@@ -125,7 +124,7 @@ namespace Identity.UnitTests.Controllers
         }
 
         [Fact]
-        public void Login_WhenAccountDoesNotExist_Returns_NotFoundResult()
+        public void Login_WhenAccountDoesNotExist_Returns_NoContentResult()
         {
             // Arrange
             var accountServiceMock = new Mock<IAccountService>();
@@ -143,7 +142,7 @@ namespace Identity.UnitTests.Controllers
             var result = controller.Login(loginDTO).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]

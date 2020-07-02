@@ -79,6 +79,7 @@ namespace Identity.API.Services
 
             var accountToken = new TokenDTO
             {
+                Id = account.Id,
                 Username = account.Username,
                 Role = account.Role.ConvertRole(),
                 Token = jwtSecurityToken

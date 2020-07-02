@@ -24,6 +24,14 @@ namespace Profile.API.Common.Interfaces
         /// <returns>Profile object.</returns>
         Task<ProfileDTO> GetProfileByIdAsync(Guid id);
 
+
+        /// <summary>
+        /// Get profile by account identifier.
+        /// </summary>
+        /// <param name="accountId">Account identifier.</param>
+        /// <returns>Profile object.</returns>
+        Task<ProfileDTO> GetProfileByAccountIdAsync(Guid accountId);
+
         /// <summary>
         /// Get all registered profiles.
         /// </summary>

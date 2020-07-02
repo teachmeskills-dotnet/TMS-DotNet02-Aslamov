@@ -56,7 +56,7 @@ namespace Identity.API.Controllers
             if (account == null)
             {
                 _logger.Warning($"{id} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound(id);
+                return NoContent();
             }
 
             _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -77,7 +77,7 @@ namespace Identity.API.Controllers
             if (account == null)
             {
                 _logger.Warning($"{username} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound(username);
+                return NoContent();
             }
 
             _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -98,7 +98,8 @@ namespace Identity.API.Controllers
             if (token == null)
             {
                 _logger.Warning($"{data.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound(new { Message = AccountConstants.INCORRECT_USER_LOGIN });
+                //return NotFound(new { Message = AccountConstants.INCORRECT_USER_LOGIN });
+                return NoContent();
             }
 
             _logger.Information($"{data.Email} {AccountConstants.GET_FOUND_ACCOUNT}");

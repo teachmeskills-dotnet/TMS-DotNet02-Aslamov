@@ -42,5 +42,11 @@ namespace Identity.API.Infrastructure
         {
             return base.Update(entity);
         }
+
+        /// <inheritdoc/>
+        public override EntityEntry Remove(object entity)
+        {
+            return base.Remove(entity);
+        }
     }
 }

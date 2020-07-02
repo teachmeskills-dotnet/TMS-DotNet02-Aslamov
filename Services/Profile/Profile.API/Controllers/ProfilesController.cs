@@ -57,7 +57,28 @@ namespace Profile.API.Controllers
             if (profile == null)
             {
                 _logger.Warning($"{id} {ProfileConstants.PROFILE_NOT_FOUND}");
-                return NotFound(id);
+                return NoContent();
+            }
+
+            _logger.Information($"{profile.Id} {ProfileConstants.GET_FOUND_PROFILE}");
+            return Ok(profile);
+        }
+
+        // GET: api/profiles/{id}
+        [Authorize(Roles = "User, Admin")]
+        [HttpGet("accountId/{accountId}")]
+        public async Task<IActionResult> GetProfileByAccountId([FromRoute] Guid accountId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var profile = await _profileService.GetProfileByAccountIdAsync(accountId);
+            if (profile == null)
+            {
+                _logger.Warning($"{accountId} {ProfileConstants.PROFILE_NOT_FOUND}");
+                return NoContent();
             }
 
             _logger.Information($"{profile.Id} {ProfileConstants.GET_FOUND_PROFILE}");
@@ -66,6 +87,7 @@ namespace Profile.API.Controllers
 
         // POST: api/profiles
         [Authorize(Roles ="User, Admin")]
+        //[AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> RegisterNewProfile([FromBody] ProfileDTO profileDTO)
         {
@@ -78,7 +100,7 @@ namespace Profile.API.Controllers
             if (!success)
             {
                 _logger.Warning($"{id} {ProfileConstants.ADD_PROFILE_CONFLICT}");
-                return Conflict(id);
+                return Conflict(new { Message = ProfileConstants.PROFILE_ALREADY_EXIST });
             }
 
             profileDTO.Id = id;
@@ -88,7 +110,7 @@ namespace Profile.API.Controllers
         }
 
         // PUT: api/profiles/{id}
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="User,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfile([FromBody] ProfileDTO profileDTO)
         {
@@ -121,7 +143,7 @@ namespace Profile.API.Controllers
         }
 
         // DELETE: api/profiles/{id}
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfile([FromRoute] Guid id)
         {

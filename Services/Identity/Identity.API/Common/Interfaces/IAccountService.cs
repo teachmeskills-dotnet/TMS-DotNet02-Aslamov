@@ -22,7 +22,7 @@ namespace Identity.API.Common.Interfaces
         /// </summary>
         /// <param name="accountDTO">User account data.</param>
         /// <returns>Uperation result.</returns>
-        Task<(bool result, string message)> RegisterAsync(AccountDTO accountDTO);
+        Task<(Guid id, bool result, string message)> RegisterAsync(AccountDTO accountDTO);
 
         /// <summary>
         /// Get account by email address.
@@ -39,6 +39,13 @@ namespace Identity.API.Common.Interfaces
         Task<AccountDTO> GetAccountByIdAsync(Guid accoundId);
 
         /// <summary>
+        /// Get account by username.
+        /// </summary>
+        /// <param name="username">Username.</param>
+        /// <returns>Account DTO.</returns>
+        Task<AccountDTO> GetAccountByUsernameAsync(string username);
+
+        /// <summary>
         /// Get all user accounts.
         /// </summary>
         /// <returns>Collection of user account DTO.</returns>
@@ -47,8 +54,15 @@ namespace Identity.API.Common.Interfaces
         /// <summary>
         /// Update user account.
         /// </summary>
-        /// <param name="accountDTO">User account DTO..</param>
+        /// <param name="accountDTO">User account DTO.</param>
         /// <returns>Operation result.</returns>
         Task<bool> UpdateAccountAsync(AccountDTO accountDTO);
+
+        /// <summary>
+        /// Delete user account.
+        /// </summary>
+        /// <param name="accountId">Account identifier.</param>
+        /// <returns>Operation result.</returns>
+        Task<bool> DeleteAccountByIdAsync(Guid accountId);
     }
 }

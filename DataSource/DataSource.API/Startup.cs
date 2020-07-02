@@ -23,13 +23,15 @@ namespace DataSource.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHealthChecks();
 
             services.AddDataSourceService(Configuration, Environment);
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);
 
             services.AddInfrastructureServices();
+
+            services.AddCors();
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,6 +42,10 @@ namespace DataSource.API
             }
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyOrigin()
+                              .AllowAnyHeader()
+                              .AllowAnyMethod());
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Data Source API version 1"));

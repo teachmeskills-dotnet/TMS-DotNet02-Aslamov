@@ -32,10 +32,12 @@ namespace Identity.API
             services.AddAutoMapper(typeof(Startup));
 
             services.AddJwtService(Configuration);
+            services.AddEventBusService(Configuration, Environment);
 
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);
 
+            services.AddCors();
             services.AddHealthChecks();
         }
 
@@ -47,6 +49,10 @@ namespace Identity.API
             }
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyOrigin()
+                                          .AllowAnyHeader()
+                                          .AllowAnyMethod());
 
             app.UseAuthentication();
             app.UseAuthorization();

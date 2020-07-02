@@ -5,17 +5,17 @@ using MassTransit;
 using System;
 using System.Threading.Tasks;
 
-namespace DataProcessor.API.EventBus.Produsers
+namespace Sensor.API.EventBus.Produsers
 {
     /// <summary>
-    /// Define 
+    /// Define producer of commands to process telemetry data (records).
     /// </summary>
     public class ProcessDataProducer : ICommandProducer<IProcessData, IRecordDTO> 
     {
         private readonly IBusControl _bus;
 
         /// <summary>
-        /// Constructor of command producer.
+        /// Constructor of "process data" commands producer.
         /// </summary>
         /// <param name="bus">Event bus.</param>
         /// <exception cref="ArgumentNullException"></exception>

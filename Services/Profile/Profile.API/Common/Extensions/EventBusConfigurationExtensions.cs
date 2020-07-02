@@ -1,17 +1,17 @@
-﻿using EventBus.Contracts.Commands;
-using EventBus.Contracts.Common;
+﻿using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
+using EventBus.Contracts.Events;
+using GreenPipes;
+using Identity.API.EventBus.Produsers;
 using MassTransit;
 using MassTransit.OpenTracing;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sensor.API.Common.Settings;
-using Sensor.API.EventBus.Produsers;
-using System;
+using Profile.API.Common.Settings;
+using Profile.API.EventBus.Consumers;
 
-namespace Sensor.API.Common.Extensions
+namespace Profile.API.Common.Extensions
 {
     /// <summary>
     /// Define extensions to configure event bus.
@@ -25,35 +25,47 @@ namespace Sensor.API.Common.Extensions
         /// <param name="configuration">Application configuration.</param>
         /// <param name="environment">Hosting environment.</param>
         /// <returns>Configured event bus service.</returns>
-        public static IServiceCollection AddEventBusService(this IServiceCollection services, 
+        public static IServiceCollection AddEventBusService(this IServiceCollection services,
                                                             IConfiguration configuration,
                                                             IHostEnvironment environment)
         {
             var eventBusSettingsSection = configuration.GetSection("EventBusSettings");
             var eventBusSettings = eventBusSettingsSection.Get<EventBusSettings>();
 
-            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+            services.AddMassTransit(x =>
             {
-                var hostName = environment.IsProduction() ? eventBusSettings.DockerHostName : eventBusSettings.HostName;
-                cfg.Host(hostName, eventBusSettings.VirtualHostName, host =>
+                x.AddConsumer<AccountDeletedConsumer>();
+
+                x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
-                    host.Username(eventBusSettings.UserName);
-                    host.Password(eventBusSettings.Password);
-                });
+                    cfg.UseHealthCheck(context);
 
-                cfg.PropagateOpenTracingContext();
+                    var hostName = environment.IsProduction() ? eventBusSettings.DockerHostName : eventBusSettings.HostName;
+                    cfg.Host(hostName, eventBusSettings.VirtualHostName, host =>
+                    {
+                        host.Username(eventBusSettings.UserName);
+                        host.Password(eventBusSettings.Password);
+                    });
 
-                var queueUri = new Uri(string.Concat("queue:", eventBusSettings.DataProcessingQueue));
-                EndpointConvention.Map<IProcessData>(queueUri);
+                    cfg.PropagateOpenTracingContext();
+
+                    cfg.ReceiveEndpoint("account-events", ep =>
+                    {
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(r => r.Interval(2, 100));
+
+                        ep.ConfigureConsumer<AccountDeletedConsumer>(context);
+                    });
+                }));
             });
 
-            services.AddSingleton(busControl);
+            services.AddMassTransitHostedService();
 
             services.AddSingleton<IPublishEndpoint>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
             services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
 
-            services.AddScoped(typeof(ICommandProducer<IProcessData, IRecordDTO>), typeof(ProcessDataProducer));
+            services.AddScoped(typeof(IEventProducer<IUserDeleted, IUserDTO>), typeof(UserDeletedProducer));
 
             return services;
         }

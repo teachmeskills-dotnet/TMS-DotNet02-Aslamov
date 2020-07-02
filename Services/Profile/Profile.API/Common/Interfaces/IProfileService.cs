@@ -24,6 +24,14 @@ namespace Profile.API.Common.Interfaces
         /// <returns>Profile object.</returns>
         Task<ProfileDTO> GetProfileByIdAsync(Guid id);
 
+
+        /// <summary>
+        /// Get profile by account identifier.
+        /// </summary>
+        /// <param name="accountId">Account identifier.</param>
+        /// <returns>Profile object.</returns>
+        Task<ProfileDTO> GetProfileByAccountIdAsync(Guid accountId);
+
         /// <summary>
         /// Get all registered profiles.
         /// </summary>
@@ -43,5 +51,12 @@ namespace Profile.API.Common.Interfaces
         /// <param name="id">Profile identifier.</param>
         /// <returns>Operation status.</returns>
         Task<bool> DeleteProfileByIdAsync(Guid id);
+
+        /// <summary>
+        /// Delete profile from application by account id.
+        /// </summary>
+        /// <param name="accountId">Account identifier.</param>
+        /// <returns>Operation status.</returns>
+        Task<bool> DeleteProfileByAccountIdAsync(Guid accountId);
     }
 }

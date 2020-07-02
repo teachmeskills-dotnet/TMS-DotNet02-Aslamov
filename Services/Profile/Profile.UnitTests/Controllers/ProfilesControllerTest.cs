@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Moq;
 using Profile.API.Common.Interfaces;
 using Profile.API.Controllers;
@@ -81,7 +82,7 @@ namespace Profile.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetProfile_WithValidModelAndInvalidId_Returns_NotFoundResult()
+        public void GetProfile_WithValidModelAndInvalidId_Returns_NoContentResult()
         {
             // Arrange
             var profileServiceMock = new Mock<IProfileService>();
@@ -99,8 +100,7 @@ namespace Profile.UnitTests.Controllers
             var result = controller.GetProfile(id).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<Guid>(notFoundObjectResult.Value);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
@@ -141,7 +141,6 @@ namespace Profile.UnitTests.Controllers
 
             // Assert
             var conflictObjectResult = Assert.IsType<ConflictObjectResult>(result);
-            Assert.IsAssignableFrom<Guid>(conflictObjectResult.Value);
         }
 
         [Fact]

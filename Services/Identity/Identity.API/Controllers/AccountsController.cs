@@ -44,7 +44,7 @@ namespace Identity.API.Controllers
 
         // GET: api/accounts/{id}
         [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetAccount([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -56,7 +56,28 @@ namespace Identity.API.Controllers
             if (account == null)
             {
                 _logger.Warning($"{id} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound(id);
+                return NoContent();
+            }
+
+            _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
+            return Ok(account);
+        }
+
+        // GET: api/accounts/{username}
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetAccount([FromRoute] string username)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var account = await _accountService.GetAccountByUsernameAsync(username);
+            if (account == null)
+            {
+                _logger.Warning($"{username} {AccountConstants.ACCOUNT_NOT_FOUND}");
+                return NoContent();
             }
 
             _logger.Information($"{account.Username} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -77,7 +98,8 @@ namespace Identity.API.Controllers
             if (token == null)
             {
                 _logger.Warning($"{data.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                return NotFound(AccountConstants.INCORRECT_USER_LOGIN);
+                //return NotFound(new { Message = AccountConstants.INCORRECT_USER_LOGIN });
+                return NoContent();
             }
 
             _logger.Information($"{data.Email} {AccountConstants.GET_FOUND_ACCOUNT}");
@@ -96,14 +118,15 @@ namespace Identity.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var (success, message) = await _accountService.RegisterAsync(accountDTO);
+            var (id, success, message) = await _accountService.RegisterAsync(accountDTO);
             if (!success)
             {
                 _logger.Warning($"{accountDTO.Email} {AccountConstants.ACCOUNT_ALREADY_EXIST}");
-                return Conflict(message);
+                return Conflict(new { message });
             }
 
             _logger.Information($"{accountDTO.Email} {AccountConstants.REGISTRATION_SUCCESS}");
+            accountDTO.Id = id;
             return CreatedAtAction(nameof(RegisterNewAccount), accountDTO);
         }
 
@@ -133,6 +156,27 @@ namespace Identity.API.Controllers
 
             _logger.Information($"{accountDTO.Email} {AccountConstants.UPDATE_ACCOUNT_SUCCESS}");
             return Ok(accountDTO);
+        }
+
+        // DELETE: api/accounts/{id}
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var success = await _accountService.DeleteAccountByIdAsync(id);
+            if (!success)
+            {
+                _logger.Warning($"{id} {AccountConstants.ACCOUNT_NOT_FOUND}");
+                return NotFound(id);
+            }
+
+            _logger.Information($"{id} {AccountConstants.DELETE_ACCOUNT_SUCCESS}");
+            return Ok(id);
         }
     }
 }

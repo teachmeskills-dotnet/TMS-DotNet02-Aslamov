@@ -65,11 +65,11 @@ namespace Profile.API.Infrastructure
                     FirstName = "FirstName_One",
                     LastName = "LastName_One",
                     MiddleName = "MiddleName_One",
-                    Passport = "123456789",
                     BirthDate = DateTime.Parse("01-01-1984"),
                     Gender = "Male",
                     Height = 180,
                     Weight = 80,
+                    AccountId = Guid.Parse("4c704d36-7c29-4a33-7fda-08d811bd62ef"),
                 },
 
                 new ProfileModel()
@@ -78,11 +78,11 @@ namespace Profile.API.Infrastructure
                     FirstName = "FirstName_Two",
                     LastName = "LastName_Two",
                     MiddleName = "MiddleName_Two",
-                    Passport = "987654321",
                     BirthDate = DateTime.Parse("01-01-1974"),
                     Gender = "Female",
                     Height = 165,
                     Weight = 50,
+                    AccountId = Guid.Parse("892ee6da-d6af-4cf0-7fdb-08d811bd62ef"),
                 },
             };
         }

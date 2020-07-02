@@ -32,10 +32,12 @@ namespace Profile.API
             services.AddSwaggerService();
 
             services.AddJwtService(Configuration);
+            services.AddEventBusService(Configuration, Environment);
 
             services.AddOpenTracing();
             services.AddJaegerService(Configuration, Environment);
 
+            services.AddCors();
             services.AddHealthChecks();
         }
 
@@ -47,6 +49,10 @@ namespace Profile.API
             }
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyOrigin()
+                              .AllowAnyHeader()
+                              .AllowAnyMethod());
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Profile API version 1"));

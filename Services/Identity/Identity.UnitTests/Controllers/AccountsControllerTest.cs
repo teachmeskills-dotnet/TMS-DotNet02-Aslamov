@@ -84,7 +84,7 @@ namespace Identity.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetAccount_WithValidModelAndInvalidId_Returns_NotFoundResult()
+        public void GetAccount_WithValidModelAndInvalidId_Returns_NoContentResult()
         {
             // Arrange
             var accountServiceMock = new Mock<IAccountService>();
@@ -102,8 +102,7 @@ namespace Identity.UnitTests.Controllers
             var result = controller.GetAccount(id).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<Guid>(notFoundObjectResult.Value);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
@@ -125,7 +124,7 @@ namespace Identity.UnitTests.Controllers
         }
 
         [Fact]
-        public void Login_WhenAccountDoesNotExist_Returns_NotFoundResult()
+        public void Login_WhenAccountDoesNotExist_Returns_NoContentResult()
         {
             // Arrange
             var accountServiceMock = new Mock<IAccountService>();
@@ -143,8 +142,7 @@ namespace Identity.UnitTests.Controllers
             var result = controller.Login(loginDTO).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<string>(notFoundObjectResult.Value);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
@@ -197,7 +195,7 @@ namespace Identity.UnitTests.Controllers
             var accountServiceMock = new Mock<IAccountService>();
             accountServiceMock.Setup(service => service
                 .RegisterAsync(It.IsAny<AccountDTO>()))
-                .Returns(Task.FromResult((false, "Error!")));
+                .Returns(Task.FromResult((Guid.NewGuid(), false, "Conflict")));
 
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Warning(It.IsAny<string>()));
@@ -210,7 +208,6 @@ namespace Identity.UnitTests.Controllers
 
             // Assert
             var conflictObjectResult = Assert.IsType<ConflictObjectResult>(result);
-            Assert.IsAssignableFrom<string>(conflictObjectResult.Value);
         }
 
         [Fact]
@@ -220,7 +217,7 @@ namespace Identity.UnitTests.Controllers
             var accountServiceMock = new Mock<IAccountService>();
             accountServiceMock.Setup(service => service
                 .RegisterAsync(It.IsAny<AccountDTO>()))
-                .Returns(Task.FromResult((true, "Success!")));
+                .Returns(Task.FromResult((Guid.NewGuid(), true, "Success")));
 
             var loggerMock = new Mock<ILogger>();
             loggerMock.Setup(c => c.Information(It.IsAny<string>()));
@@ -330,6 +327,57 @@ namespace Identity.UnitTests.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.IsAssignableFrom<AccountDTO>(okResult.Value);
+        }
+
+
+        [Fact]
+        public void DeleteAccount_WithInvalidModelId_Returns_NotFoundResult()
+        {
+            // Arrange
+            var accountServiceMock = new Mock<IAccountService>();
+            accountServiceMock.Setup(service => service
+                .DeleteAccountByIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(false));
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new AccountsController(accountServiceMock.Object, loggerMock.Object);
+            var accountDTO = new AccountDTO();
+            var id = new Guid();
+
+            // Act
+            var result = controller.DeleteAccount(id).GetAwaiter().GetResult();
+
+            // Assert
+            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsAssignableFrom<Guid>(notFoundObjectResult.Value);
+        }
+
+        [Fact]
+        public void DeleteAccount_Returns_OkResult()
+        {
+            // Arrange
+            var accountServiceMock = new Mock<IAccountService>();
+
+            accountServiceMock.Setup(service => service
+                .GetAccountByIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(GetAccount()));
+
+            accountServiceMock.Setup(service => service
+                .DeleteAccountByIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(true));
+
+            var loggerMock = new Mock<ILogger>();
+
+            var controller = new AccountsController(accountServiceMock.Object, loggerMock.Object);
+            var id = new Guid();
+
+            // Act
+            var result = controller.DeleteAccount(id).GetAwaiter().GetResult();
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.IsAssignableFrom<Guid>(okObjectResult.Value);
         }
     }
 }

@@ -4,6 +4,7 @@ using Moq;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.Controllers;
 using Sensor.API.DTO;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -27,6 +28,27 @@ namespace Sensor.UnitTests.Controllers
 
             // Act
             var result = controller.GetSensors().GetAwaiter().GetResult();
+
+            // Assert
+            Assert.IsType<List<SensorDTO>>(result);
+        }
+
+        [Fact]
+        public void GetSensorsByProfileId_Returns_CollectionOfSensorDTO()
+        {
+            // Arrange
+            var sensorServiceMock = new Mock<ISensorService>();
+            sensorServiceMock.Setup(service => service
+                .GetAllSensorsByProfileIdAsync(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(GetAllSensors()));
+
+            var loggerMock = new Mock<ILogger<SensorsController>>();
+
+            var controller = new SensorsController(sensorServiceMock.Object, loggerMock.Object);
+            var profileId = Guid.NewGuid();
+
+            // Act
+            var result = controller.GetSensors(profileId).GetAwaiter().GetResult();
 
             // Assert
             Assert.IsType<List<SensorDTO>>(result);
@@ -78,7 +100,7 @@ namespace Sensor.UnitTests.Controllers
         }
 
         [Fact]
-        public void GetSensor_WithValidModelAndInvalidId_Returns_NotFoundResult()
+        public void GetSensor_WithValidModelAndInvalidId_Returns_NoContentResult()
         {
             // Arrange
             var sensorServiceMock = new Mock<ISensorService>();
@@ -95,8 +117,7 @@ namespace Sensor.UnitTests.Controllers
             var result = controller.GetSensor(id).GetAwaiter().GetResult();
 
             // Assert
-            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsAssignableFrom<int>(notFoundObjectResult.Value);
+            var noContentResult = Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]

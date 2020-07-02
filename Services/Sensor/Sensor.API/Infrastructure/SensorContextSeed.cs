@@ -85,12 +85,14 @@ namespace Sensor.API.Infrastructure
                     Serial = "123456789",
                     SensorTypeId = sensorTypes.ElementAt(0).Id,
                     SensorType = sensorTypes.ElementAt(0),
+                    ProfileId = Guid.Parse("456a723f-6c03-4bc1-d059-08d81cd4eb75"),
                 },
                 new SensorDevice()
                 {
                     Serial = "987654321",
                     SensorTypeId = sensorTypes.ElementAt(1).Id,
                     SensorType = sensorTypes.ElementAt(1),
+                    ProfileId = Guid.Parse("6e5fd66e-9854-4599-d05a-08d81cd4eb75"),
                 },
             };
         }

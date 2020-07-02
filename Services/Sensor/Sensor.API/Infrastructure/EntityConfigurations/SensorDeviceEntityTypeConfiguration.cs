@@ -24,6 +24,8 @@ namespace Sensor.API.Infrastructure.EntityConfigurations
             builder.HasOne(sd => sd.SensorType)
                 .WithMany()
                 .HasForeignKey(sd => sd.SensorTypeId);
+
+            builder.Property(sd => sd.ProfileId).IsRequired();
         }
     }
 }

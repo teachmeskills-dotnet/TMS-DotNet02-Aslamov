@@ -33,6 +33,13 @@ namespace Sensor.API.Common.Interfaces
         Task<ICollection<SensorDTO>> GetAllSensorsAsync();
 
         /// <summary>
+        /// Get all registered sensors of specific profile.
+        /// </summary>
+        /// <param name="profileId">User profile identifier.</param>
+        /// <returns>Sensors collection.</returns>
+        Task<ICollection<SensorDTO>> GetAllSensorsByProfileIdAsync(Guid profileId);
+
+        /// <summary>
         /// Update sensor information.
         /// </summary>
         /// <param name="sensor">Sensor object.</param>

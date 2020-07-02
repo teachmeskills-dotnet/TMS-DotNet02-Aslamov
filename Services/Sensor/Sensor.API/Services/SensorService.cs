@@ -8,6 +8,7 @@ using Sensor.API.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -93,6 +94,21 @@ namespace Sensor.API.Services
             var collectionOfSensorDTO = _mapper.Map<ICollection<SensorDevice>, ICollection<SensorDTO>>(sensors);
 
             foreach(var sensor in collectionOfSensorDTO)
+            {
+                var type = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensor.SensorTypeId);
+                sensor.SensorType = type.Type;
+            }
+
+            return collectionOfSensorDTO;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ICollection<SensorDTO>> GetAllSensorsByProfileIdAsync(Guid profileId)
+        {
+            var sensors = await _sensorContext.Sensors.Where(s => s.ProfileId == profileId).ToListAsync();
+            var collectionOfSensorDTO = _mapper.Map<ICollection<SensorDevice>, ICollection<SensorDTO>>(sensors);
+
+            foreach (var sensor in collectionOfSensorDTO)
             {
                 var type = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensor.SensorTypeId);
                 sensor.SensorType = type.Type;

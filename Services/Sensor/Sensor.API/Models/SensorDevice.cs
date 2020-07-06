@@ -1,4 +1,6 @@
-﻿namespace Sensor.API.Models
+﻿using System;
+
+namespace Sensor.API.Models
 {
     /// <summary>
     /// Sensor entity.
@@ -24,5 +26,10 @@
         /// Sensor type.
         /// </summary>
         public SensorType SensorType { get; set; }
+
+        /// <summary>
+        /// User profile identifier.
+        /// </summary>
+        public Guid ProfileId { get; set; }
     }
 }

@@ -98,7 +98,6 @@ namespace Identity.API.Controllers
             if (token == null)
             {
                 _logger.Warning($"{data.Email} {AccountConstants.ACCOUNT_NOT_FOUND}");
-                //return NotFound(new { Message = AccountConstants.INCORRECT_USER_LOGIN });
                 return NoContent();
             }
 

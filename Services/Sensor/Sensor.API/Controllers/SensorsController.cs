@@ -25,7 +25,7 @@ namespace Sensor.API.Controllers
         /// <param name="sensorService">Service to manage sensors.</param>
         /// <param name="logger">Logging service.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public SensorsController(ISensorService sensorService, ILogger<SensorsController> logger) 
+        public SensorsController(ISensorService sensorService, ILogger<SensorsController> logger)
         {
             _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -37,16 +37,29 @@ namespace Sensor.API.Controllers
         public async Task<ICollection<SensorDTO>> GetSensors()
         {
             var sensors = await _sensorService.GetAllSensorsAsync();
-            var count = sensors.ToList().Count;
+            var count = sensors.Count;
 
             _logger.LogInformation($"{count} {SensorsConstants.GET_SENSORS}");
 
             return sensors;
         }
 
+        // GET: api/sensors
+        [Authorize(Roles = "User, Admin")]
+        [HttpGet("{profileId:guid}")]
+        public async Task<ICollection<SensorDTO>> GetSensors([FromRoute] Guid profileId)
+        {
+            var sensors = await _sensorService.GetAllSensorsByProfileIdAsync(profileId);
+
+            var count = sensors.Count;
+            _logger.LogInformation($"{count} {SensorsConstants.GET_PROFILE_SENSORS} {profileId}");
+
+            return sensors;
+        }
+
         // GET: api/sensors/{id}
         [Authorize(Roles = "User, Admin")]
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetSensor([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -58,7 +71,7 @@ namespace Sensor.API.Controllers
             if (sensor == null)
             {
                 _logger.LogWarning($"{id} {SensorsConstants.SENSOR_NOT_FOUND}");
-                return NotFound(id);
+                return NoContent();
             }
 
             _logger.LogInformation($"{sensor.Id} {SensorsConstants.GET_FOUND_SENSOR}");
@@ -89,7 +102,7 @@ namespace Sensor.API.Controllers
         }
 
         // PUT: api/sensors/{id}
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSensor([FromBody] SensorDTO sensor)
         {
@@ -122,7 +135,7 @@ namespace Sensor.API.Controllers
         }
 
         // DELETE: api/sensors/{id}
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSensor([FromRoute] int id)
         {

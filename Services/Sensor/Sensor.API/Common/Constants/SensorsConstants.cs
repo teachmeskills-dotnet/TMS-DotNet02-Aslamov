@@ -36,6 +36,11 @@
         public const string GET_SENSORS = "Sensors recieved.";
 
         /// <summary>
+        /// Sensor recieved.
+        /// </summary>
+        public const string GET_PROFILE_SENSORS = "Profile sensors recieved.";
+
+        /// <summary>
         /// Sensor registration conflict.
         /// </summary>
         public const string ADD_SENSOR_CONFLICT = "New sensor registration conflict!";

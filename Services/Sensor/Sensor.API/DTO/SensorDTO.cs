@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sensor.API.DTO
 {
@@ -28,5 +29,11 @@ namespace Sensor.API.DTO
         /// </summary>
         [Required]
         public string SensorType { get; set; }
+
+        /// <summary>
+        /// User profile identifier.
+        /// </summary>
+        [Required]
+        public Guid ProfileId {get; set;}
     }
 }

@@ -102,7 +102,7 @@ namespace Sensor.API.Controllers
         }
 
         // PUT: api/sensors/{id}
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSensor([FromBody] SensorDTO sensor)
         {
@@ -135,7 +135,7 @@ namespace Sensor.API.Controllers
         }
 
         // DELETE: api/sensors/{id}
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSensor([FromRoute] int id)
         {

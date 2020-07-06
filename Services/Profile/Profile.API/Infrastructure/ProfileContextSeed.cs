@@ -61,7 +61,7 @@ namespace Profile.API.Infrastructure
             {
                 new ProfileModel()
                 {
-                    Id = new Guid(),
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     FirstName = "FirstName_One",
                     LastName = "LastName_One",
                     MiddleName = "MiddleName_One",
@@ -74,7 +74,7 @@ namespace Profile.API.Infrastructure
 
                 new ProfileModel()
                 {
-                    Id = new Guid(),
+                    Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
                     FirstName = "FirstName_Two",
                     LastName = "LastName_Two",
                     MiddleName = "MiddleName_Two",

@@ -103,6 +103,12 @@ namespace Sensor.API.Services
             {
                 recordDTO.SensorDeviceId = sensorDevice.Id;
                 recordDTO.SensorDeviceSerial = sensorDevice.Serial;
+
+                var sensorType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensorDevice.SensorTypeId);
+                if (sensorType != null)
+                {
+                    recordDTO.SensorDeviceType = sensorType.Type;
+                }
             }
 
             return recordDTO;
@@ -122,13 +128,18 @@ namespace Sensor.API.Services
 
             var collectionOfRecordDTO = _mapper.Map<ICollection<SensorRecord>, ICollection<RecordDTO>> (records);
 
+            var sensorTypes = await _sensorContext.Types.ToArrayAsync();
+
             foreach (var recordDTO in collectionOfRecordDTO)
             {
                 var sensorDevice = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == recordDTO.SensorDeviceId);
                 if (sensorDevice != null)
                 {
+                    var dataType = sensorTypes.FirstOrDefault(t => t.Id == sensorDevice.SensorTypeId).Type;
+
                     recordDTO.SensorDeviceId = sensorDevice.Id;
                     recordDTO.SensorDeviceSerial = sensorDevice.Serial;
+                    recordDTO.SensorDeviceType = dataType;
                 }
             }
 

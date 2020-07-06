@@ -85,14 +85,21 @@ namespace Sensor.API.Infrastructure
                     Serial = "123456789",
                     SensorTypeId = sensorTypes.ElementAt(0).Id,
                     SensorType = sensorTypes.ElementAt(0),
-                    ProfileId = Guid.Parse("456a723f-6c03-4bc1-d059-08d81cd4eb75"),
+                    ProfileId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 },
                 new SensorDevice()
                 {
                     Serial = "987654321",
                     SensorTypeId = sensorTypes.ElementAt(1).Id,
                     SensorType = sensorTypes.ElementAt(1),
-                    ProfileId = Guid.Parse("6e5fd66e-9854-4599-d05a-08d81cd4eb75"),
+                    ProfileId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                },
+                new SensorDevice()
+                {
+                    Serial = "123456788",
+                    SensorTypeId = sensorTypes.ElementAt(1).Id,
+                    SensorType = sensorTypes.ElementAt(1),
+                    ProfileId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 },
             };
         }
@@ -151,10 +158,28 @@ namespace Sensor.API.Infrastructure
                 new SensorRecord()
                 {
                     IsDeleted = false,
+                    Date = DateTime.Parse("04-01-2018"),
+                    SensorDeviceId = sensorDevices.ElementAt(2).Id,
+                    SensorDevice = sensorDevices.ElementAt(2),
+                    Value = new byte[] { 0, 1},
+                },
+
+                new SensorRecord()
+                {
+                    IsDeleted = false,
                     Date = DateTime.Parse("01-01-2019"),
                     SensorDeviceId = sensorDevices.ElementAt(1).Id,
                     SensorDevice = sensorDevices.ElementAt(1),
                     Value = new byte[] { 255, 255, 255, 255, 254, 254, 254, 254, 254},
+                },
+
+                new SensorRecord()
+                {
+                    IsDeleted = false,
+                    Date = DateTime.Parse("02-01-2019"),
+                    SensorDeviceId = sensorDevices.ElementAt(1).Id,
+                    SensorDevice = sensorDevices.ElementAt(1),
+                    Value = new byte[] { 255, 255, 250, 255, 254, 254, 254, 254, 254},
                 },
             };
         }

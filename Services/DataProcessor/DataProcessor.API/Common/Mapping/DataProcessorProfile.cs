@@ -20,6 +20,16 @@ namespace DataProcessor.API.Common.Mapping
                .ReverseMap()
                .ForMember(data => data.Value, opt => opt.Ignore())
                .ForMember(data => data.SensorDeviceType, opt => opt.MapFrom(report => report.DataType));
+
+            CreateMap<IRecordDTO, ReportDTO>()
+               .ForMember(report => report.HealthStatus, opt => opt.Ignore())
+               .ForMember(report => report.RecordId, opt => opt.MapFrom(data => data.Id))
+               .ForMember(report => report.DataType, opt => opt.MapFrom(data => data.SensorDeviceType))
+               .ReverseMap()
+               .ForMember(data => data.Value, opt => opt.Ignore())
+               .ForMember(data => data.SensorDeviceType, opt => opt.MapFrom(report => report.DataType))
+               .ForMember(data => data.Id, opt => opt.MapFrom(report => report.RecordId))
+               .ForMember(data => data.IsDeleted, opt => opt.Ignore());
         }
     }
 }

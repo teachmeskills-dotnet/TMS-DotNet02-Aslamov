@@ -38,8 +38,8 @@ namespace DataProcessor.API.EventBus.Consumers
         {
             try
             {
-                var dataDTO = context.Message.Record;
-                var (reportDTO, success) = await _dataProcessorService.ProcessData(dataDTO);
+                var recordTO = context.Message.Record;
+                var (reportDTO, success) = await _dataProcessorService.ProcessData(recordTO);
 
                 // Publish event on successful data processing.
                 await context.Publish<IRecordProcessed>(new

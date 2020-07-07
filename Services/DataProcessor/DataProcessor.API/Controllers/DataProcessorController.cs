@@ -32,14 +32,14 @@ namespace DataProcessor.API.Controllers
         // Post: api/dataprocessor
         [Authorize(Roles = "User, Admin")]
         [HttpPost]
-        public async Task<IActionResult> ProcessData([FromBody] DataDTO data)
+        public async Task<IActionResult> ProcessData([FromBody] RecordDTO record)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var (report, success) = await _dataProcessorService.ProcessData(data);
+            var (report, success) = await _dataProcessorService.ProcessData(record);
             if (!success)
             {
                 _logger.LogWarning(DataProcessorConstants.DATA_PROCESSING_CONFLICT);

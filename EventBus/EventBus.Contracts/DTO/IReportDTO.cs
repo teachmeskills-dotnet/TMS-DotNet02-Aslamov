@@ -8,9 +8,9 @@ namespace EventBus.Contracts.DTO
     public interface IReportDTO
     {
         /// <summary>
-        /// Sensor identifier.
+        /// Data record identifier.
         /// </summary>
-        int SensorDeviceId { get; set; }
+        int RecordId { get; set; }
 
         /// <summary>
         /// Data acquisition date.

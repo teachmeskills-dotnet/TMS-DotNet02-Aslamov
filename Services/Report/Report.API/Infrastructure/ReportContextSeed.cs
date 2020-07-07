@@ -61,8 +61,8 @@ namespace Report.API.Infrastructure
             {
                 new ReportModel()
                 {
+                    RecordId = 1,
                     Date = DateTime.Parse("01-01-2020"),
-                    SensorDeviceId = 1,
                     HealthStatus = "Healthy",
                     HealthDescription = "You are totally healthy",
                     DataType = "Temperature",
@@ -72,8 +72,8 @@ namespace Report.API.Infrastructure
 
                 new ReportModel()
                 {
+                    RecordId = 2,
                     Date = DateTime.Parse("01-02-2020"),
-                    SensorDeviceId = 2,
                     HealthStatus = "Diseased",
                     HealthDescription = "Several health problems have been recognized...",
                     DataType = "Acoustic",

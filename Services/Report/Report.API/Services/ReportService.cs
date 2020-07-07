@@ -41,7 +41,7 @@ namespace Report.API.Services
         public async Task<(int id, bool success)> RegisterNewReportAsync(IReportDTO reportDTO)
         {
             var report = _mapper.Map<IReportDTO, ReportModel>(reportDTO);
-            var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Date == reportDTO.Date && r.SensorDeviceId == reportDTO.SensorDeviceId);
+            var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Date == reportDTO.Date && r.RecordId == reportDTO.RecordId);
 
             if (reportFound != null)
             {
@@ -90,7 +90,7 @@ namespace Report.API.Services
                 return false;
             }
 
-            report.SensorDeviceId = reportDTO.SensorDeviceId;
+            report.RecordId = reportDTO.RecordId;
             report.Date = reportDTO.Date;
             report.DataType = reportDTO.DataType;
             report.HealthStatus = reportDTO.HealthStatus;

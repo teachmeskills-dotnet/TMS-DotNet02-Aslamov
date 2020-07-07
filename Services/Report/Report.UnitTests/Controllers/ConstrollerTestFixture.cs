@@ -21,7 +21,7 @@ namespace Report.UnitTests.Controllers
                 {
                     Id = 1,
                     Date = DateTime.Parse("01-01-2020"),
-                    SensorDeviceId = 1,
+                    RecordId = 1,
                     HealthStatus = "Healthy",
                     HealthDescription = "You are totally healthy",
                     DataType = "Temperature",
@@ -33,7 +33,7 @@ namespace Report.UnitTests.Controllers
                 {
                     Id = 2,
                     Date = DateTime.Parse("01-02-2020"),
-                    SensorDeviceId = 2,
+                    RecordId = 2,
                     HealthStatus = "Diseased",
                     HealthDescription = "Several health problems have been recognized...",
                     DataType = "Acoustic",
@@ -53,7 +53,7 @@ namespace Report.UnitTests.Controllers
             {
                 Id = 1,
                 Date = DateTime.Parse("01-01-2020"),
-                SensorDeviceId = 1,
+                RecordId = 1,
                 HealthStatus = "Healthy",
                 HealthDescription = "You are totally healthy",
                 DataType = "Temperature",

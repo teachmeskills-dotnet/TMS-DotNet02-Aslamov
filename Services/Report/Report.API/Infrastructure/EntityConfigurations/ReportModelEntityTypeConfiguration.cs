@@ -17,7 +17,7 @@ namespace Report.API.Infrastructure.EntityConfigurations
         {
             builder.HasKey(r => r.Id);
 
-            builder.Property(r => r.SensorDeviceId).IsRequired();
+            builder.Property(r => r.RecordId).IsRequired();
             builder.Property(r => r.Date).IsRequired();
 
             builder.Property(r => r.DataType)

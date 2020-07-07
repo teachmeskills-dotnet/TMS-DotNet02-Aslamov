@@ -25,10 +25,11 @@ namespace Report.API.Common.Interfaces
         Task<ReportDTO> GetReportByIdAsync(int id);
 
         /// <summary>
-        /// Get all registered reports.
+        /// Get all registered reports or reports for specific data record.
         /// </summary>
+        /// <param name="recordId">Data record identifier.</param>
         /// <returns>Reports collection.</returns>
-        Task<ICollection<ReportDTO>> GetAllReportsAsync();
+        Task<ICollection<ReportDTO>> GetAllReportsAsync(int? recordId);
 
         /// <summary>
         /// Update report information.

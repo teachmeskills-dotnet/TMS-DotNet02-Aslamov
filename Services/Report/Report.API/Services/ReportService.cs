@@ -8,6 +8,7 @@ using Report.API.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -72,9 +73,16 @@ namespace Report.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<ICollection<ReportDTO>> GetAllReportsAsync()
+        public async Task<ICollection<ReportDTO>> GetAllReportsAsync(int? recordId)
         {
-            var reports = await _reportContext.Reports.ToListAsync();
+            var queriableCollectionOfReports = _reportContext.Reports.Select(r => r);
+
+            if (recordId != null && recordId >= 0)
+            {
+                queriableCollectionOfReports = queriableCollectionOfReports.Where(r => r.RecordId == (int)recordId);
+            }
+
+            var reports = await queriableCollectionOfReports.ToListAsync();
             var collectionOfReportDTO = _mapper.Map<ICollection<ReportModel>, ICollection<ReportDTO>>(reports);
 
             return collectionOfReportDTO;

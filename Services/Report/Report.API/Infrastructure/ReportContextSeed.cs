@@ -62,10 +62,10 @@ namespace Report.API.Infrastructure
                 new ReportModel()
                 {
                     RecordId = 1,
-                    Date = DateTime.Parse("01-01-2020"),
+                    Date = DateTime.Parse("04-01-2018"),
                     HealthStatus = "Healthy",
                     HealthDescription = "You are totally healthy",
-                    DataType = "Temperature",
+                    DataType = "Acoustic",
                     Diseases = string.Empty,
                     Accuracy = 97,
                 },
@@ -73,12 +73,45 @@ namespace Report.API.Infrastructure
                 new ReportModel()
                 {
                     RecordId = 2,
-                    Date = DateTime.Parse("01-02-2020"),
+                    Date = DateTime.Parse("02-01-2018"),
                     HealthStatus = "Diseased",
                     HealthDescription = "Several health problems have been recognized...",
                     DataType = "Acoustic",
                     Diseases = "Mitral valve prolapse",
                     Accuracy = 76,
+                },
+
+                new ReportModel()
+                {
+                    RecordId = 3,
+                    Date = DateTime.Parse("01-01-2018"),
+                    HealthStatus = "Diseased",
+                    HealthDescription = "Several health problems have been recognized...",
+                    DataType = "Acoustic",
+                    Diseases = "Mitral valve prolapse",
+                    Accuracy = 76,
+                },
+
+                new ReportModel()
+                {
+                    RecordId = 4,
+                    Date = DateTime.Parse("01-01-2019"),
+                    HealthStatus = "Unknown",
+                    HealthDescription = "There are some problems with data processing... Try again later, please.",
+                    DataType = "Temperature",
+                    Diseases = string.Empty,
+                    Accuracy = 57,
+                },
+
+                new ReportModel()
+                {
+                    RecordId = 5,
+                    Date = DateTime.Parse("02-01-2019"),
+                    HealthStatus = "Healthy",
+                    HealthDescription = "No health problem have been recognized. You are totally healthy!",
+                    DataType = "Temperature",
+                    Diseases = string.Empty,
+                    Accuracy = 81,
                 },
             };
         }

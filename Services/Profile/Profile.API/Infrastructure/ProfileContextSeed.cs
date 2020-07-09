@@ -62,10 +62,10 @@ namespace Profile.API.Infrastructure
                 new ProfileModel()
                 {
                     Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                    FirstName = "FirstName_One",
-                    LastName = "LastName_One",
-                    MiddleName = "MiddleName_One",
-                    BirthDate = DateTime.Parse("01-01-1984"),
+                    FirstName = "Sherlock ",
+                    LastName = "Holmes",
+                    MiddleName = string.Empty,
+                    BirthDate = DateTime.Parse("01-01-1850"),
                     Gender = "Male",
                     Height = 180,
                     Weight = 80,
@@ -75,10 +75,10 @@ namespace Profile.API.Infrastructure
                 new ProfileModel()
                 {
                     Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                    FirstName = "FirstName_Two",
-                    LastName = "LastName_Two",
-                    MiddleName = "MiddleName_Two",
-                    BirthDate = DateTime.Parse("01-01-1974"),
+                    FirstName = "John",
+                    LastName = "Watson",
+                    MiddleName = string.Empty,
+                    BirthDate = DateTime.Parse("01-01-1849"),
                     Gender = "Female",
                     Height = 165,
                     Weight = 50,

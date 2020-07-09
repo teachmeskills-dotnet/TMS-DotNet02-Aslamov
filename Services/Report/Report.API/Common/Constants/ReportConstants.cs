@@ -48,7 +48,7 @@
         /// <summary>
         /// Report deletion success.
         /// </summary>
-        public const string DELETE_REPORT_SUCCESS = "Report deletion success!";
+        public const string DELETE_REPORT_SUCCESS = "Report was successfully deleted!";
 
         /// <summary>
         /// Event bus consumer error.

@@ -6,7 +6,6 @@ In addition, each microservice has an external port and can be accessed from out
 
 | Microservice         | Container name      | Port    |
 |----------------------|---------------------|---------|
-| SQL Server           | sqldata             | 1433:80 |
 | Gateway.API          | gateway.api         | 3000:80 |
 | Sensor.API           | sensor.api          | 3001:80 |
 | Report.API           | report.api          | 3002:80 |

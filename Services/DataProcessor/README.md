@@ -2,6 +2,9 @@
 
 DataProcessor microservice is designed to process data received from telemetry sensors.
 
-## Author
+The following telemetry data is available:
 
-[Yury Aslamov](https://aslamovyura.github.io/)
+- Temperature - for general patient health check.
+- Acoustic - for recognizing heart diseaseds.
+
+The health report is generating as a result of processing. Health reports are stored in Report.API microservice (transferring by EventBus).

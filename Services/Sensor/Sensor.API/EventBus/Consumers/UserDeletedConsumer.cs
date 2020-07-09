@@ -25,7 +25,7 @@ namespace Sensor.API.EventBus.Consumers
         public UserDeletedConsumer(ISensorService sensorService,
                                    ILogger<UserDeletedConsumer> logger)
         {
-            _sensorService = _sensorService ?? throw new ArgumentNullException(nameof(sensorService));
+            _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 

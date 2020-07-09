@@ -75,7 +75,7 @@ namespace Report.API.Services
         /// <inheritdoc/>
         public async Task<ICollection<ReportDTO>> GetAllReportsAsync(int? recordId)
         {
-            var queriableCollectionOfReports = _reportContext.Reports.Select(r => r);
+            var queriableCollectionOfReports = _reportContext.Reports.OrderByDescending(r => r.Date).Select(r => r);
 
             if (recordId != null && recordId >= 0)
             {
@@ -123,6 +123,25 @@ namespace Report.API.Services
             }
 
             _reportContext.Remove(reportFound);
+            await _reportContext.SaveChangesAsync(new CancellationToken());
+
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAllReportsByRecordIdAsync(int recordId)
+        {
+            var reportsFound = await _reportContext.Reports.Where(r => r.RecordId == recordId).ToListAsync();
+            if (reportsFound == null)
+            {
+                _logger.Error(ReportConstants.REPORT_NOT_FOUND);
+                return false;
+            }
+
+            foreach(var report in reportsFound)
+            {
+                _reportContext.Remove(report);
+            }
             await _reportContext.SaveChangesAsync(new CancellationToken());
 
             return true;

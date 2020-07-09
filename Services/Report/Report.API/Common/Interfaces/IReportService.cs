@@ -35,14 +35,21 @@ namespace Report.API.Common.Interfaces
         /// Update report information.
         /// </summary>
         /// <param name="reportDTO">Report object.</param>
-        /// <returns>Operation status.</returns>
+        /// <returns>Operation result.</returns>
         Task<bool> UpdateReportAsync(ReportDTO reportDTO);
 
         /// <summary>
         /// Delete report from application.
         /// </summary>
         /// <param name="id">Report identifier.</param>
-        /// <returns>Operation status.</returns>
+        /// <returns>Operation result.</returns>
         Task<bool> DeleteReportByIdAsync(int id);
+
+        /// <summary>
+        /// Delete all records for the specific record.
+        /// </summary>
+        /// <param name="recordId">Record identifier.</param>
+        /// <returns>Operation result.</returns>
+        Task<bool> DeleteAllReportsByRecordIdAsync(int recordId);
     }
 }

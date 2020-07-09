@@ -31,6 +31,7 @@ namespace Report.API.Common.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<RegisterReportConsumer>();
+                x.AddConsumer<RecordDeletedConsumer>();
 
                 x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -49,8 +50,14 @@ namespace Report.API.Common.Extensions
                     {
                         ep.PrefetchCount = 16;
                         ep.UseMessageRetry(r => r.Interval(2, 100));
-
                         ep.ConfigureConsumer<RegisterReportConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint("record-events", ep =>
+                    {
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(r => r.Interval(2, 100));
+                        ep.ConfigureConsumer<RecordDeletedConsumer>(context);
                     });
                 }));
             });

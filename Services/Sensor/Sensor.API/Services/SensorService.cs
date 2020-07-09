@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using EventBus.Contracts.Common;
+using EventBus.Contracts.DTO;
+using EventBus.Contracts.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Sensor.API.Common.Constants;
 using Sensor.API.Common.Interfaces;
 using Sensor.API.DTO;
 using Sensor.API.Models;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,8 @@ namespace Sensor.API.Services
     {
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
+        private readonly IEventProducer<ISensorDeleted, int> _sensorDeletedEventProducer;
+        private readonly IRecordService _recordService;
         private readonly ILogger<SensorService> _logger;
 
         /// <summary>
@@ -30,11 +34,15 @@ namespace Sensor.API.Services
         /// <param name="mapper">Automapper.</param>
         public SensorService(ISensorContext sensorContext,
                              IMapper mapper,
+                             IEventProducer<ISensorDeleted, int> sensorDeletedEventProducer,
+                             IRecordService recordService,
                              ILogger<SensorService> logger)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _sensorDeletedEventProducer = sensorDeletedEventProducer ?? throw new ArgumentNullException(nameof(sensorDeletedEventProducer));
+            _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
         }
 
         /// <inheritdoc/>
@@ -160,8 +168,37 @@ namespace Sensor.API.Services
             }
 
             _sensorContext.Remove(sensorFound);
+            await _recordService.DeleteAllRecordsBySensorIdAsync(sensorFound.Id);
             await _sensorContext.SaveChangesAsync(new CancellationToken());
 
+            await _sensorDeletedEventProducer.Publish(sensorFound.Id);
+
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAllSensorsByProfileIdAsync(Guid profileId)
+        {
+            var sensorListFound = await _sensorContext.Sensors.Where(s => s.ProfileId == profileId).ToListAsync();
+            if (sensorListFound == null)
+            {
+                _logger.LogError(SensorsConstants.SENSOR_NOT_FOUND);
+                return false;
+            }
+
+            // Remove sensors from local DB.
+            foreach(var sensor in sensorListFound)
+            {
+                _sensorContext.Remove(sensor);
+                await _recordService.DeleteAllRecordsBySensorIdAsync(sensor.Id);
+            }
+            await _sensorContext.SaveChangesAsync(new CancellationToken());
+
+            // Publish event on sensors deleting.
+            foreach(var sensor in sensorListFound)
+            {
+                await _sensorDeletedEventProducer.Publish(sensor.Id);
+            }
             return true;
         }
     }

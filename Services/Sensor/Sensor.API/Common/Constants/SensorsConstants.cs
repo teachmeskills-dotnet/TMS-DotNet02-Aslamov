@@ -64,5 +64,10 @@
         /// Sensor deletion success.
         /// </summary>
         public const string DELETE_SENSOR_SUCCESS = "Sensor deletion success!";
+
+        /// <summary>
+        /// Event bus consumer error.
+        /// </summary>
+        public const string EVENT_BUS_CONSUMER_ERROR = "Event bus consumer error!";
     }
 }

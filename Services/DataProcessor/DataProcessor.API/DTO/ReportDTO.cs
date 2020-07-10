@@ -8,10 +8,8 @@ namespace DataProcessor.API.DTO
     /// </summary>
     public class ReportDTO : IReportDTO
     {
-        /// <summary>
-        /// Sensor identifier.
-        /// </summary>
-        public int SensorDeviceId { get; set; }
+        /// <inheritdoc/>
+        public int RecordId { get; set; }
 
         /// <summary>
         /// Data acquisition date.

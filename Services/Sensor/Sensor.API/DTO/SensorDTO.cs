@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventBus.Contracts.DTO;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sensor.API.DTO
@@ -6,7 +7,7 @@ namespace Sensor.API.DTO
     /// <summary>
     /// Sensor data trasfer object.
     /// </summary>
-    public class SensorDTO
+    public class SensorDTO : ISensorDTO
     {
         /// <summary>
         /// Sensor Identifier.

@@ -61,7 +61,7 @@ namespace Identity.API.Infrastructure
             {
                 new AccountModel()
                 {
-                    Id = new Guid(),
+                    Id = Guid.Parse("4c704d36-7c29-4a33-7fda-08d811bd62ef"),
                     Email = "user@gmail.com",
                     Password = "passw@rd123",
                     Username = "user",
@@ -71,7 +71,7 @@ namespace Identity.API.Infrastructure
 
                 new AccountModel()
                 {
-                    Id = new Guid(),
+                    Id = Guid.Parse("892ee6da-d6af-4cf0-7fdb-08d811bd62ef"),
                     Email = "admin@gmail.com",
                     Password = "passw@rd123",
                     Username = "admin",

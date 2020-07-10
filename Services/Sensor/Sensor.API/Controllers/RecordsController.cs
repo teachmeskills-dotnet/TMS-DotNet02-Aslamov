@@ -33,7 +33,7 @@ namespace Sensor.API.Controllers
         // GET: api/records
         [Authorize(Roles = "User, Admin")]
         [HttpGet]
-        public async Task<ICollection<RecordDTO>> GetRecords(int? sensorId)
+        public async Task<ICollection<RecordDTO>> GetRecords([FromQuery] int? sensorId)
         {
             var records = await _recordService.GetAllRecordsAsync(sensorId);
             var count = records.Count;

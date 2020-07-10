@@ -33,9 +33,9 @@ namespace DataProcessor.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<(ReportDTO report, bool success)> ProcessData(IDataDTO dataDTO)
+        public async Task<(ReportDTO report, bool success)> ProcessData(IRecordDTO recordDTO)
         {
-            if(dataDTO == null)
+            if(recordDTO == null)
             {
                 return (null, false);
             }
@@ -43,7 +43,7 @@ namespace DataProcessor.API.Services
             ReportDTO healthReport;
             try
             {
-                healthReport = await GetHealthReport(dataDTO);
+                healthReport = await GetHealthReport(recordDTO);
                 await _registerReportCommandProducer.Send(healthReport);
             }
             catch
@@ -54,7 +54,7 @@ namespace DataProcessor.API.Services
         }
         
         // Randomly generate health status of the patient.
-        private Task<ReportDTO> GetHealthReport(IDataDTO dataDTO)
+        private Task<ReportDTO> GetHealthReport(IRecordDTO recordDTO)
         {
             var generator = new Random();
 
@@ -66,7 +66,7 @@ namespace DataProcessor.API.Services
             string diseases = null;
             if (healthStatus == HealthStatus.Diseased)
             {
-                switch(dataDTO.SensorDeviceType)
+                switch(recordDTO.SensorDeviceType)
                 {
                     case "Temperature":
                         diseases = RecognizeDiseasesByTemperature();
@@ -81,7 +81,7 @@ namespace DataProcessor.API.Services
                 }
             }
 
-            var healthReport = _mapper.Map<IDataDTO, ReportDTO>(dataDTO);
+            var healthReport = _mapper.Map<IRecordDTO, ReportDTO>(recordDTO);
 
             healthReport.HealthStatus = healthStatus.ToString();
             healthReport.HealthDescription = DataProcessorDictionary.GetHealthDescription(healthStatus);

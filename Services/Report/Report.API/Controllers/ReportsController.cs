@@ -33,9 +33,9 @@ namespace Report.API.Controllers
         // GET: api/reports
         [Authorize(Roles = "User, Admin")]
         [HttpGet]
-        public async Task<ICollection<ReportDTO>> GetReports()
+        public async Task<ICollection<ReportDTO>> GetReports([FromQuery] int? recordId)
         {
-            var reports = await _reportService.GetAllReportsAsync();
+            var reports = await _reportService.GetAllReportsAsync(recordId);
             var count = reports.Count;
 
             _logger.Information($"{count} {ReportConstants.GET_REPORTS}");

@@ -8,6 +8,7 @@ using Report.API.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace Report.API.Services
         public async Task<(int id, bool success)> RegisterNewReportAsync(IReportDTO reportDTO)
         {
             var report = _mapper.Map<IReportDTO, ReportModel>(reportDTO);
-            var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Date == reportDTO.Date && r.SensorDeviceId == reportDTO.SensorDeviceId);
+            var reportFound = await _reportContext.Reports.FirstOrDefaultAsync(r => r.Date == reportDTO.Date && r.RecordId == reportDTO.RecordId);
 
             if (reportFound != null)
             {
@@ -72,9 +73,16 @@ namespace Report.API.Services
         }
 
         /// <inheritdoc/>
-        public async Task<ICollection<ReportDTO>> GetAllReportsAsync()
+        public async Task<ICollection<ReportDTO>> GetAllReportsAsync(int? recordId)
         {
-            var reports = await _reportContext.Reports.ToListAsync();
+            var queriableCollectionOfReports = _reportContext.Reports.OrderByDescending(r => r.Date).Select(r => r);
+
+            if (recordId != null && recordId >= 0)
+            {
+                queriableCollectionOfReports = queriableCollectionOfReports.Where(r => r.RecordId == (int)recordId);
+            }
+
+            var reports = await queriableCollectionOfReports.ToListAsync();
             var collectionOfReportDTO = _mapper.Map<ICollection<ReportModel>, ICollection<ReportDTO>>(reports);
 
             return collectionOfReportDTO;
@@ -90,7 +98,7 @@ namespace Report.API.Services
                 return false;
             }
 
-            report.SensorDeviceId = reportDTO.SensorDeviceId;
+            report.RecordId = reportDTO.RecordId;
             report.Date = reportDTO.Date;
             report.DataType = reportDTO.DataType;
             report.HealthStatus = reportDTO.HealthStatus;
@@ -115,6 +123,25 @@ namespace Report.API.Services
             }
 
             _reportContext.Remove(reportFound);
+            await _reportContext.SaveChangesAsync(new CancellationToken());
+
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAllReportsByRecordIdAsync(int recordId)
+        {
+            var reportsFound = await _reportContext.Reports.Where(r => r.RecordId == recordId).ToListAsync();
+            if (reportsFound == null)
+            {
+                _logger.Error(ReportConstants.REPORT_NOT_FOUND);
+                return false;
+            }
+
+            foreach(var report in reportsFound)
+            {
+                _reportContext.Remove(report);
+            }
             await _reportContext.SaveChangesAsync(new CancellationToken());
 
             return true;

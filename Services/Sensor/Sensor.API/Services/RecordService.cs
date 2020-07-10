@@ -2,6 +2,7 @@
 using EventBus.Contracts.Commands;
 using EventBus.Contracts.Common;
 using EventBus.Contracts.DTO;
+using EventBus.Contracts.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Sensor.API.Common.Constants;
@@ -24,6 +25,7 @@ namespace Sensor.API.Services
         private readonly ISensorContext _sensorContext;
         private readonly IMapper _mapper;
         private readonly ICommandProducer<IProcessData, IRecordDTO> _processDataCommandProducer;
+        private readonly IEventProducer<IRecordDeleted, int> _recordDeletedEventProducer;
         private readonly ILogger<RecordService> _logger;
 
         /// <summary>
@@ -34,11 +36,13 @@ namespace Sensor.API.Services
         public RecordService(ISensorContext sensorContext,
                              IMapper mapper,
                              ICommandProducer<IProcessData, IRecordDTO> processDataCommandProducer,
+                             IEventProducer<IRecordDeleted, int> recordDeletedEventProducer,
                              ILogger<RecordService> logger)
         {
             _sensorContext = sensorContext ?? throw new ArgumentNullException(nameof(sensorContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _processDataCommandProducer = processDataCommandProducer ?? throw new ArgumentNullException(nameof(processDataCommandProducer));
+            _recordDeletedEventProducer = recordDeletedEventProducer ?? throw new ArgumentNullException(nameof(recordDeletedEventProducer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -103,6 +107,12 @@ namespace Sensor.API.Services
             {
                 recordDTO.SensorDeviceId = sensorDevice.Id;
                 recordDTO.SensorDeviceSerial = sensorDevice.Serial;
+
+                var sensorType = await _sensorContext.Types.FirstOrDefaultAsync(t => t.Id == sensorDevice.SensorTypeId);
+                if (sensorType != null)
+                {
+                    recordDTO.SensorDeviceType = sensorType.Type;
+                }
             }
 
             return recordDTO;
@@ -122,13 +132,18 @@ namespace Sensor.API.Services
 
             var collectionOfRecordDTO = _mapper.Map<ICollection<SensorRecord>, ICollection<RecordDTO>> (records);
 
+            var sensorTypes = await _sensorContext.Types.ToArrayAsync();
+
             foreach (var recordDTO in collectionOfRecordDTO)
             {
                 var sensorDevice = await _sensorContext.Sensors.FirstOrDefaultAsync(s => s.Id == recordDTO.SensorDeviceId);
                 if (sensorDevice != null)
                 {
+                    var dataType = sensorTypes.FirstOrDefault(t => t.Id == sensorDevice.SensorTypeId).Type;
+
                     recordDTO.SensorDeviceId = sensorDevice.Id;
                     recordDTO.SensorDeviceSerial = sensorDevice.Serial;
+                    recordDTO.SensorDeviceType = dataType;
                 }
             }
 
@@ -188,6 +203,8 @@ namespace Sensor.API.Services
             _sensorContext.Remove(recordFound);
             await _sensorContext.SaveChangesAsync(new CancellationToken());
 
+            await _recordDeletedEventProducer.Publish(recordFound.Id);
+
             return true;
         }
 
@@ -200,8 +217,34 @@ namespace Sensor.API.Services
             {
                 _sensorContext.Remove(record);
             }
-            
             await _sensorContext.SaveChangesAsync(new CancellationToken());
+
+            foreach (var record in recordsFound)
+            {
+                var recordDTO = _mapper.Map<SensorRecord, RecordDTO>(record);
+                await _recordDeletedEventProducer.Publish(record.Id);
+            }
+
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> DeleteAllRecordsBySensorIdAsync(int sensorId)
+        {
+            var recordsFound = await _sensorContext.Records.Where(r => r.SensorDeviceId == sensorId).ToListAsync();
+
+            foreach (var record in recordsFound)
+            {
+                _sensorContext.Remove(record);
+            }
+            await _sensorContext.SaveChangesAsync(new CancellationToken());
+
+            foreach (var record in recordsFound)
+            {
+                var recordDTO = _mapper.Map<SensorRecord, RecordDTO>(record);
+                await _recordDeletedEventProducer.Publish(record.Id);
+            }
+
             return true;
         }
     }

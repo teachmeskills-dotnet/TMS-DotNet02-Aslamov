@@ -1,6 +1,9 @@
 # Data Source Microservive
 
-A data source is a microservice for simulating telemetry data collection with a specific time interval and sending data to a specified API (Sensor.API).
+A data source is a microservice for modeling the colletion and transmission of medical telemetry (temperature/acoustic).
+
+Data collection time interval can be configured through the microservice API.
+The collected data is transferred to the application API Gateway (and routing to Sensor.API for storage).
 
 ## Get Started
 
@@ -41,8 +44,3 @@ Use Jaeger tracing service to verify that the generated data is sent to microser
 ```
 http://localhost:16686
 ```
-
-
-## Author
-
-[Yury Aslamov](https://aslamovyura.github.io/)

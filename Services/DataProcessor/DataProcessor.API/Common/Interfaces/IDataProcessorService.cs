@@ -12,8 +12,8 @@ namespace DataProcessor.API.Common.Interfaces
         /// <summary>
         /// Process sensor data and generate report.
         /// </summary>
-        /// <param name="dataDTO">Sensor data.</param>
+        /// <param name="recordDTO">Sensor data.</param>
         /// <returns>Processing report.</returns>
-        Task<(ReportDTO report, bool success)> ProcessData(IDataDTO dataDTO);
+        Task<(ReportDTO report, bool success)> ProcessData(IRecordDTO recordDTO);
     }
 }

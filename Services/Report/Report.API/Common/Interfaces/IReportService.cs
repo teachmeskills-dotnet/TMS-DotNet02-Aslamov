@@ -25,23 +25,31 @@ namespace Report.API.Common.Interfaces
         Task<ReportDTO> GetReportByIdAsync(int id);
 
         /// <summary>
-        /// Get all registered reports.
+        /// Get all registered reports or reports for specific data record.
         /// </summary>
+        /// <param name="recordId">Data record identifier.</param>
         /// <returns>Reports collection.</returns>
-        Task<ICollection<ReportDTO>> GetAllReportsAsync();
+        Task<ICollection<ReportDTO>> GetAllReportsAsync(int? recordId);
 
         /// <summary>
         /// Update report information.
         /// </summary>
         /// <param name="reportDTO">Report object.</param>
-        /// <returns>Operation status.</returns>
+        /// <returns>Operation result.</returns>
         Task<bool> UpdateReportAsync(ReportDTO reportDTO);
 
         /// <summary>
         /// Delete report from application.
         /// </summary>
         /// <param name="id">Report identifier.</param>
-        /// <returns>Operation status.</returns>
+        /// <returns>Operation result.</returns>
         Task<bool> DeleteReportByIdAsync(int id);
+
+        /// <summary>
+        /// Delete all records for the specific record.
+        /// </summary>
+        /// <param name="recordId">Record identifier.</param>
+        /// <returns>Operation result.</returns>
+        Task<bool> DeleteAllReportsByRecordIdAsync(int recordId);
     }
 }

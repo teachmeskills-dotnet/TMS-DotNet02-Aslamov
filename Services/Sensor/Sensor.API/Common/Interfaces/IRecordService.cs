@@ -48,5 +48,12 @@ namespace Sensor.API.Common.Interfaces
         /// </summary>
         /// <returns>Operation status.</returns>
         Task<bool> DeleteAllRecordsAsync();
+
+        /// <summary>
+        /// Delete all sensor records.
+        /// </summary>
+        /// <param name="sensorId">Sensor identifier.</param>
+        /// <returns>Operation status.</returns>
+        Task<bool> DeleteAllRecordsBySensorIdAsync(int sensorId);
     }
 }

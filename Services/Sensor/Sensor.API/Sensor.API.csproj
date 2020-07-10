@@ -39,10 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EventBus\Consumers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\EventBus\EventBus.Contracts\EventBus.Contracts.csproj" />
   </ItemGroup>
 

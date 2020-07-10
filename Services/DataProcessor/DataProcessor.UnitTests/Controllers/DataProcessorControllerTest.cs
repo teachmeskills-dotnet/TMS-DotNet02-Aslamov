@@ -25,7 +25,7 @@ namespace DataProcessor.UnitTests.Controllers
             var controller = new DataProcessorController(dataProcessorServiceMock.Object, loggerMock.Object);
             controller.ModelState.AddModelError("Model", "SomeError");
 
-            var model = new DataDTO();
+            var model = new RecordDTO();
 
             // Act
             var result = controller.ProcessData(model).GetAwaiter().GetResult();
@@ -40,7 +40,7 @@ namespace DataProcessor.UnitTests.Controllers
             // Arrange
             var dataProcessorServiceMock = new Mock<IDataProcessorService>();
             dataProcessorServiceMock.Setup(service => service
-                .ProcessData(It.IsAny<DataDTO>()))
+                .ProcessData(It.IsAny<RecordDTO>()))
                 .Returns(Task.FromResult<(ReportDTO, bool)>((null, false)));
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();
@@ -61,7 +61,7 @@ namespace DataProcessor.UnitTests.Controllers
             // Arrange
             var dataProcessorServiceMock = new Mock<IDataProcessorService>();
             dataProcessorServiceMock.Setup(service => service
-                .ProcessData(It.IsAny<DataDTO>()))
+                .ProcessData(It.IsAny<RecordDTO>()))
                 .Returns(Task.FromResult<(ReportDTO, bool)>((GetReport(), true)));
 
             var loggerMock = new Mock<ILogger<DataProcessorController>>();

@@ -14,11 +14,8 @@ namespace Report.API.DTO
         /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Sensor identifier.
-        /// </summary>
-        [Required]
-        public int SensorDeviceId { get; set; }
+        /// <inheritdoc/>
+        public int RecordId { get; set; }
 
         /// <summary>
         /// Data acquisition date.

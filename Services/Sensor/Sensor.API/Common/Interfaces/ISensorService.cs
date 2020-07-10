@@ -1,8 +1,6 @@
 ﻿using Sensor.API.DTO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sensor.API.Common.Interfaces
@@ -33,7 +31,7 @@ namespace Sensor.API.Common.Interfaces
         Task<ICollection<SensorDTO>> GetAllSensorsAsync();
 
         /// <summary>
-        /// Get all registered sensors of specific profile.
+        /// Get all registered sensors of a specific profile.
         /// </summary>
         /// <param name="profileId">User profile identifier.</param>
         /// <returns>Sensors collection.</returns>
@@ -52,5 +50,12 @@ namespace Sensor.API.Common.Interfaces
         /// <param name="id">Sensor identifier.</param>
         /// <returns>Operation status.</returns>
         Task<bool> DeleteSensorByIdAsync(int id);
+
+        /// <summary>
+        /// Delete all sensors of a specific profile.
+        /// </summary>
+        /// <param name="profileId">Profile identifier.</param>
+        /// <returns>Operation result.</returns>
+        Task<bool> DeleteAllSensorsByProfileIdAsync(Guid profileId);
     }
 }

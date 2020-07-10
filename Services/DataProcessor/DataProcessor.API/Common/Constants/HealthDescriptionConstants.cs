@@ -13,7 +13,7 @@
         /// <summary>
         /// No health problem have been redognized.
         /// </summary>
-        public const string HEALTY_DESCRIPTION = "No health problem have been redognized. You are totally healthy!";
+        public const string HEALTY_DESCRIPTION = "No health problems have been recognized. You are totally healthy!";
 
         /// <summary>
         /// Several health problems have been recognized

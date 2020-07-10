@@ -13,9 +13,9 @@ namespace Report.API.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Sensor identifier.
+        /// Data record identifier.
         /// </summary>
-        public int SensorDeviceId { get; set; }
+        public int RecordId { get; set; }
 
         /// <summary>
         /// Data acquisition date.

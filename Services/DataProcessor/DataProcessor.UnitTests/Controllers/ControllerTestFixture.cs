@@ -17,9 +17,9 @@ namespace DataProcessor.UnitTests.Controllers
         {
             return new ReportDTO()
             {
+                RecordId = 1,
                 Date = DateTime.Now,
                 HealthStatus = "Healthy",
-                SensorDeviceId = 1,
                 DataType = "Acoustic",
                 Accuracy = 100,
                 Diseases = string.Empty,
@@ -31,10 +31,11 @@ namespace DataProcessor.UnitTests.Controllers
         /// Generate single Data DTO.
         /// </summary>
         /// <returns>Data DTO.</returns>
-        public DataDTO GetData()
+        public RecordDTO GetData()
         {
-            return new DataDTO()
+            return new RecordDTO()
             {
+                Id = 1,
                 Date = DateTime.Now,
                 SensorDeviceId = 1,
                 SensorDeviceSerial = "123456789",

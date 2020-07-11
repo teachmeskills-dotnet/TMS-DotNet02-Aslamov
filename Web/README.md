@@ -1,9 +1,5 @@
-# Wep Application Microservice
+# iCare Wep App
 
-Microservice is a single-page web application designed to control the process of collecting and processing data to monitor the health condition of the patient.
+Single-page application (SPA) designed as a UI part of the IoT platform for patient health monitoring.
 
-The Web Application implementation is presented in a separate [repository](https://github.com/aslamovyura/iCare-single-page-app).
-
-## Author
-
-[Yury Aslamov](https://aslamovyura.github.io/)
+Application is located in a separate [repository](https://github.com/aslamovyura/iCare-single-page-app).

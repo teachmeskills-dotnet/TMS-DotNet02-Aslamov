@@ -28,6 +28,7 @@ namespace Identity.API
             services.AddApplicationDbContext(Configuration, Environment);
 
             services.AddScopedServices();
+            services.AddSwaggerService();
             services.AddSerilogService();
             services.AddAutoMapper(typeof(Startup));
 
@@ -49,10 +50,12 @@ namespace Identity.API
             }
 
             app.UseRouting();
-
             app.UseCors(options => options.AllowAnyOrigin()
                                           .AllowAnyHeader()
                                           .AllowAnyMethod());
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "iCare Identity API version 1"));
 
             app.UseAuthentication();
             app.UseAuthorization();

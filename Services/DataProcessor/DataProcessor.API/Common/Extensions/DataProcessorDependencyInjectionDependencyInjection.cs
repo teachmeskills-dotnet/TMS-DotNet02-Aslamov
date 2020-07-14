@@ -54,7 +54,7 @@ namespace DataProcessor.API.Common.Extensions
                 {
                     Title = "iCare DataProcessor API",
                     Version = "v1",
-                    Description = "The DataProcessor Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                    Description = "The DataProcessor Microservice HTTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
         }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
 using System.Text;
@@ -73,6 +74,23 @@ namespace Identity.API.Common.Extensions
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });
+        }
+
+        /// <summary>
+        /// Add Swagger Service.
+        /// </summary>
+        /// <param name="services">DI container.</param>
+        public static void AddSwaggerService(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "iCare Identity API",
+                    Version = "v1",
+                    Description = "The Identity Microservice HTTP API. This is a Data-Driven/CRUD microservice."
+                });
             });
         }
     }

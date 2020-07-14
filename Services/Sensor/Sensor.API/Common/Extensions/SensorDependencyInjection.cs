@@ -59,7 +59,7 @@ namespace Sensor.API.Common.Extensions
                 { 
                     Title = "iCare Sensor API", 
                     Version = "v1",
-                    Description = "The Sensor Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                    Description = "The Sensor Microservice HTTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
         }

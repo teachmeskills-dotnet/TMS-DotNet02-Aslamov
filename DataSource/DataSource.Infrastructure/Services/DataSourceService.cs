@@ -167,7 +167,7 @@ namespace DataSource.Infrastructure.Services
             return false;
         }
 
-        // Generate data and send it to specific API.
+        // Generate data and send it to a specific API.
         private async Task GenerateAndSend(CancellationToken token)
         {
             while (true)

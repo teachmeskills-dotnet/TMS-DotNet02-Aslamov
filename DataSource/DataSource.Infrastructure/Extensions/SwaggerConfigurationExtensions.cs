@@ -20,7 +20,7 @@ namespace DataSource.Infrastructure.Extensions
                 {
                     Title = "iCare Data Source API",
                     Version = "v1",
-                    Description = "The Data Source Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                    Description = "The Data Source Microservice HTTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
         }

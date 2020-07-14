@@ -26,9 +26,9 @@ Body of the POST request in this case can be the following:
 }
 ```
 
-### 2. Start/stop data generation
+### 2. Start/stop/check data generation
 
-To start data generation, send the following POST request (with empty body):
+To start data generation, send the following POST request with empty body (port 3010 is given just for axample):
 
 ```
 http://localhost:3010/api/datasource/start

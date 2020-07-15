@@ -13,8 +13,11 @@ namespace DataSource.Infrastructure.Services
     /// <summary>
     /// Define class to send generated data to specified API.
     /// </summary>
-    public class Transmitter : ITransmitter
+    public class Transmitter : ITransmitter, IDisposable
     {
+        // Disposing status.
+        private bool _disposed = false;
+
         // Http client.
         private static HttpClient _client;
 
@@ -36,6 +39,8 @@ namespace DataSource.Infrastructure.Services
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        ~Transmitter() => Dispose(false);
+
         /// <inheritdoc/>
         public async Task<bool> SendDataRecord(RecordDTO record)
         {
@@ -53,6 +58,32 @@ namespace DataSource.Infrastructure.Services
                 Console.WriteLine($"Transmitter exception! {ex.Message}");
                 return false;
             }   
+        }
+
+        /// <summary>
+        /// Release the unmanaged resources and dispose managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                // TODO: dispose managed state (managed objects).
+            }
+
+            _client.Dispose();
+            _disposed = true;
         }
     }
 }

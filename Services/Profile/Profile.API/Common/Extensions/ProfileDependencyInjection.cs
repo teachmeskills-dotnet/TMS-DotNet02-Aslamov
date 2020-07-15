@@ -58,7 +58,7 @@ namespace Profile.API.Common.Extensions
                 {
                     Title = "iCare Profile API",
                     Version = "v1",
-                    Description = "The Profile Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                    Description = "The Profile Microservice HTTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
         }

@@ -30,7 +30,7 @@ namespace DataSource.Application.Interfaces
         int GenerationTimeInterval { get; }
 
         /// <summary>
-        /// Start data generation with defaul generation time interval.
+        /// Start data generation with default generation time interval.
         /// </summary>
         /// <returns>Operation result.</returns>
         bool Start();

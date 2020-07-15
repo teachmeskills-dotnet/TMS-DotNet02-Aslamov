@@ -42,6 +42,17 @@ Use Jaeger tracing service to verify that the generated data is sent to microser
 http://localhost:16686
 ```
 
+### 5. Authentication
+
+JWT authentication is used to managed access to application resources. For login/register, use iCare UI interface or the following POST requests:
+
+```
+http://localhost:3000/accounts/login
+http://localhost:3000/accounts/register
+```
+
+For more details, see [documentation](./Services/Identity/README.md) of Identity microservice.
+
 ## Architecture overview
 
 The reference application is cross-platform and can run on Windows, Linux or macOS. A microservice-oriented architecture with multiple standalone microservices (simple CRUD) is used.
@@ -57,7 +68,7 @@ Each microservice is completely independent and doesn't know about existence of 
 iCare application consists of the following microservices:
 
 - [x] [iCare Web App](./Web/README.md) - A single-page web application (based on Angular), that provides user interface for managing patient health.
-- [x] [DataSource](./DataSource/README.md) - Number of services (currently 2) for modeling the collection & transmission of telemetry data (temperature/acoustic) to a specific API.
+- [x] [DataSource](./DataSource/README.md) - Number of services (currently 2) for modeling the acquisition & transmission of telemetry data (temperature/acoustic) to a specific API.
 - [x] [Identity.API](./Services/Identity/README.md) - Microservice for managing user access to application (producer of JW tokens).
 - [x] [Profile.API](./Services/Profile/README.md) - Microsrvice for store and managing patients profiles.
 - [x] [API Gateway](./ApiGateway/README.md) - An entry point for the application, used only for routing.
@@ -68,7 +79,21 @@ iCare application consists of the following microservices:
 
 ## Database model overview
 
+Each microservice has a separate database to store the list of entities. The figure below briefly describes the relationship between microservices at the database level. 
+
 ![Database model](./resources/batabase_model.png)
+
+## Events & Commands overview
+
+The iCare application has an event-driven architecture, therefore, each CRUD action on the application entities (account, profile, sensor, record, report, etc.) will produce a chain of commands and events between microservices. The figure bolow briefly describes the events chain for the following user actions:
+
+- Register new telemetry data;
+- Delete account/profile;
+- Delete sensor.
+
+![iCare events](./resources/icare_events.png)
+
+For more details, see [documentation](./EventBus/README.md) of Event Bus microservice.
 
 ## Docker containers overview
 

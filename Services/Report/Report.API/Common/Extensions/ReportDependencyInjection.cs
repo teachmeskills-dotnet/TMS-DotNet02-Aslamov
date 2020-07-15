@@ -52,7 +52,7 @@ namespace Report.API.Common.Extensions
                 {
                     Title = "iCare Report API",
                     Version = "v1",
-                    Description = "The Report Microservice HHTP API. This is a Data-Driven/CRUD microservice."
+                    Description = "The Report Microservice HTTP API. This is a Data-Driven/CRUD microservice."
                 });
             });
         }

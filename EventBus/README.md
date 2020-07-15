@@ -33,13 +33,13 @@ The commands and events used by each microservice are presented below.
 |                   |                     | RecordDeleted         |
 |                   |                     | RegisterReport        |
 
-### Identity.API
+### Profile.API
 
 | Publish Events    | Send Commands       | Subcribed             |
 |-------------------|---------------------|-----------------------|
 | UserDeleted       |                     | AccountDeleted        |
 
-### Profile.API
+### Identity.API
 
 | Publish Events    | Send Commands       | Subcribed             |
 |-------------------|---------------------|-----------------------|

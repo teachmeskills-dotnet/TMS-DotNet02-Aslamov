@@ -25,7 +25,7 @@
     <PackageReference Include="MassTransit.Extensions.Logging" Version="5.5.6" />
     <PackageReference Include="MassTransit.OpenTracing" Version="0.0.3" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="6.3.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.2" />
